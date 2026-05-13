@@ -19,23 +19,24 @@ const navItems = [
 
 function VarsalLogo() {
   return (
-    <Link href="/" className="flex items-center gap-2.5 group">
-      <div className="relative w-8 h-8 rounded-lg overflow-hidden bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center">
-        <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+    <Link href="/" className="flex items-center gap-2.5 group shrink-0">
+      <div className="relative w-9 h-9 rounded-[10px] overflow-hidden bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center">
+        <svg viewBox="0 0 24 24" className="w-[18px] h-[18px]" fill="none">
           <path
-            d="M4 6L10 18M14 18L20 6M8 12H16"
+            d="M4 5L10 19M14 19L20 5"
             stroke="white"
-            strokeWidth="2.4"
+            strokeWidth="2.6"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
+          <circle cx="12" cy="12" r="1.6" fill="white" />
         </svg>
-        <div className="absolute inset-0 rounded-lg ring-1 ring-inset ring-white/20" />
+        <div className="absolute inset-0 rounded-[10px] ring-1 ring-inset ring-white/15" />
       </div>
-      <span className="font-semibold text-[15px] tracking-tight text-slate-100">
-        VARSAL
-        <span className="font-normal text-slate-400"> Systems</span>
-      </span>
+      <div className="flex flex-col leading-none">
+        <span className="font-bold text-[15px] tracking-tight text-slate-50">VARSAL</span>
+        <span className="text-[10px] text-slate-500 tracking-[0.18em] uppercase mt-0.5">Systems</span>
+      </div>
     </Link>
   )
 }
@@ -70,17 +71,30 @@ export default function Navbar() {
             : 'bg-transparent border-b border-transparent'
         )}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+          <div className="flex items-center justify-between h-[68px] gap-6">
             <VarsalLogo />
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-0.5">
+            <nav className="hidden xl:flex items-center gap-1">
               {navItems.map((item) => (
                 <button
                   key={item.label}
                   onClick={() => handleNav(item.href)}
-                  className="px-3 py-2 text-[13.5px] text-slate-300 hover:text-white rounded-md hover:bg-white/[0.05] transition-colors duration-150 cursor-pointer"
+                  className="px-3.5 py-2 text-[13.5px] font-medium text-slate-400 hover:text-white rounded-md hover:bg-white/[0.04] transition-colors duration-150 cursor-pointer"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+
+            {/* Compact nav for lg */}
+            <nav className="hidden lg:flex xl:hidden items-center gap-1">
+              {navItems.slice(0, 5).map((item) => (
+                <button
+                  key={item.label}
+                  onClick={() => handleNav(item.href)}
+                  className="px-2.5 py-2 text-[13px] font-medium text-slate-400 hover:text-white rounded-md hover:bg-white/[0.04] transition-colors duration-150 cursor-pointer"
                 >
                   {item.label}
                 </button>
@@ -88,10 +102,10 @@ export default function Navbar() {
             </nav>
 
             {/* CTA */}
-            <div className="hidden lg:flex items-center gap-2">
+            <div className="hidden lg:flex items-center gap-2 shrink-0">
               <button
                 onClick={() => handleNav('#contacto')}
-                className="px-2.5 py-2 text-[13.5px] text-slate-300 hover:text-white rounded-md hover:bg-white/[0.05] transition-colors cursor-pointer"
+                className="px-3 py-2 text-[13px] font-medium text-slate-400 hover:text-white rounded-md hover:bg-white/[0.04] transition-colors cursor-pointer"
               >
                 Iniciar sesión
               </button>
@@ -99,11 +113,11 @@ export default function Navbar() {
                 whileHover={{ y: -1 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleNav('#contacto')}
-                className="px-4 py-2 rounded-lg text-[13.5px] font-semibold text-white
+                className="px-4 py-2 rounded-lg text-[13px] font-semibold text-white
                   bg-gradient-to-r from-blue-600 to-blue-500
                   hover:from-blue-500 hover:to-blue-400
-                  shadow-[0_4px_14px_-2px_rgba(37,99,235,0.5)]
-                  transition-all duration-200 cursor-pointer"
+                  shadow-[0_4px_16px_-4px_rgba(37,99,235,0.6)]
+                  transition-all duration-200 cursor-pointer whitespace-nowrap"
               >
                 Agenda una reunión
               </motion.button>
@@ -129,9 +143,9 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-16 left-0 right-0 z-40 glass-strong border-b border-white/10 lg:hidden"
+            className="fixed top-[68px] left-0 right-0 z-40 glass-strong border-b border-white/10 lg:hidden"
           >
-            <nav className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1">
+            <nav className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1">
               {navItems.map((item, i) => (
                 <motion.button
                   key={item.label}

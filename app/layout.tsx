@@ -53,7 +53,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" suppressHydrationWarning className={`${inter.variable} h-full antialiased scroll-smooth`}>
-      <body className="min-h-full flex flex-col bg-[#0F172A] text-[#F8FAFC]">
+      <body className="min-h-full flex flex-col bg-[#0B1220] text-[#F1F5F9] font-sans">
         {children}
       </body>
     </html>

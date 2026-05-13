@@ -7,7 +7,7 @@ import AnimatedCounter from '@/components/ui/AnimatedCounter'
 const stats = [
   { icon: Code2, value: 80, suffix: '+', label: 'Proyectos entregados' },
   { icon: Users, value: 50, suffix: '+', label: 'Clientes activos' },
-  { icon: TrendingUp, value: 98, suffix: '%', label: 'Satisfacción del cliente' },
+  { icon: TrendingUp, value: 98, suffix: '%', label: 'Satisfacción cliente' },
   { icon: ShieldCheck, value: 99, suffix: '.9%', label: 'Uptime garantizado' },
 ]
 
@@ -36,18 +36,18 @@ export default function HeroSection() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex flex-col justify-center px-4 sm:px-6 lg:px-8 overflow-hidden"
-      style={{ paddingTop: '112px', paddingBottom: '64px' }}
+      className="relative overflow-hidden"
+      style={{ paddingTop: 'clamp(96px, 12vw, 144px)', paddingBottom: 'clamp(48px, 6vw, 96px)' }}
     >
       {/* Background layers */}
       <div className="absolute inset-0 dots-bg opacity-20" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0B1220] via-[#0B1220]/60 to-[#0B1220]" />
-      <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[1100px] h-[600px] bg-blue-600/[0.08] rounded-full blur-[160px] pointer-events-none" />
-      <div className="absolute top-[35%] right-[10%] w-[400px] h-[400px] bg-cyan-500/[0.06] rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0B1220] via-[#0B1220]/40 to-[#0B1220]" />
+      <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[1100px] max-w-[100vw] h-[600px] bg-blue-600/[0.07] rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-[35%] right-[5%] w-[400px] h-[400px] bg-cyan-500/[0.05] rounded-full blur-[120px] pointer-events-none" />
 
       {/* Subtle grid */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <svg className="absolute w-full h-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
+        <svg className="absolute w-full h-full opacity-[0.022]" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
               <path d="M 56 0 L 0 0 0 56" fill="none" stroke="white" strokeWidth="1" />
@@ -57,18 +57,21 @@ export default function HeroSection() {
         </svg>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto w-full">
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+      <div className="relative z-10 mx-auto max-w-[1400px] px-6 lg:px-10">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-16 items-center">
           {/* Left — Copy */}
-          <div className="lg:col-span-6 flex flex-col">
+          <div className="lg:col-span-6 xl:col-span-7 flex flex-col">
             {/* Eyebrow */}
             <motion.div
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="eyebrow mb-7"
+              className="inline-flex w-fit items-center gap-2.5 mb-6 lg:mb-8"
             >
-              Soluciones tecnológicas empresariales
+              <span className="block w-6 h-px bg-cyan-400/60" />
+              <span className="text-[11px] font-semibold tracking-[0.16em] uppercase text-cyan-300">
+                Soluciones tecnológicas empresariales
+              </span>
             </motion.div>
 
             {/* Title */}
@@ -77,15 +80,14 @@ export default function HeroSection() {
               initial="hidden"
               animate="show"
               variants={fadeUp}
-              className="text-[2.5rem] sm:text-[3rem] lg:text-[3.5rem] xl:text-[3.75rem] font-bold leading-[1.05] mb-6 text-slate-50"
+              className="font-bold leading-[1.05] mb-6 text-slate-50"
+              style={{ fontSize: 'clamp(2.25rem, 4.5vw, 4rem)' }}
             >
               Transformamos{' '}
-              <span className="grad-text">ideas</span> en
-              <br className="hidden sm:block" />
-              <span className="block sm:inline"> soluciones </span>
+              <span className="grad-text">ideas</span>
+              {' '}en soluciones{' '}
               <span className="grad-text">digitales</span>
-              <br className="hidden sm:block" />
-              <span className="block sm:inline"> escalables.</span>
+              {' '}escalables.
             </motion.h1>
 
             {/* Subtitle */}
@@ -94,7 +96,8 @@ export default function HeroSection() {
               initial="hidden"
               animate="show"
               variants={fadeUp}
-              className="text-base sm:text-[17px] text-slate-400 leading-[1.65] mb-8 max-w-xl"
+              className="text-slate-400 leading-[1.65] mb-8 max-w-[560px]"
+              style={{ fontSize: 'clamp(0.95rem, 1.1vw, 1.0625rem)' }}
             >
               Diseñamos y desarrollamos sistemas web empresariales, software a medida,
               plataformas SaaS y arquitecturas cloud que impulsan la transformación
@@ -113,11 +116,11 @@ export default function HeroSection() {
                 whileHover={{ y: -1 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => scrollTo('#contacto')}
-                className="group flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white text-sm
+                className="group flex items-center gap-2 px-5 py-3 rounded-lg font-semibold text-white text-sm
                   bg-gradient-to-r from-blue-600 to-blue-500
                   hover:from-blue-500 hover:to-blue-400
-                  shadow-[0_8px_24px_-8px_rgba(37,99,235,0.6)]
-                  hover:shadow-[0_12px_32px_-8px_rgba(37,99,235,0.8)]
+                  shadow-[0_8px_24px_-8px_rgba(37,99,235,0.7)]
+                  hover:shadow-[0_12px_32px_-8px_rgba(37,99,235,0.9)]
                   transition-all duration-200 cursor-pointer"
               >
                 Solicitar cotización
@@ -128,7 +131,7 @@ export default function HeroSection() {
                 whileHover={{ y: -1 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => scrollTo('#servicios')}
-                className="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm
+                className="flex items-center gap-2 px-5 py-3 rounded-lg font-semibold text-sm
                   text-slate-200 border border-white/[0.12] hover:border-white/25
                   bg-white/[0.03] hover:bg-white/[0.06] transition-all duration-200 cursor-pointer"
               >
@@ -147,8 +150,8 @@ export default function HeroSection() {
             >
               {trustBullets.map((bullet) => (
                 <div key={bullet} className="flex items-center gap-1.5 text-xs text-slate-500">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500/80" />
-                  {bullet}
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500/80 shrink-0" />
+                  <span>{bullet}</span>
                 </div>
               ))}
             </motion.div>
@@ -159,22 +162,22 @@ export default function HeroSection() {
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.7, ease: 'easeOut' }}
-            className="lg:col-span-6 relative hidden lg:flex items-center justify-center"
+            className="lg:col-span-6 xl:col-span-5 relative hidden lg:flex items-center justify-center"
           >
             {/* Glow */}
-            <div className="absolute inset-8 bg-gradient-to-br from-blue-600/15 to-cyan-500/8 rounded-3xl blur-3xl pointer-events-none" />
+            <div className="absolute inset-4 bg-gradient-to-br from-blue-600/15 to-cyan-500/8 rounded-3xl blur-3xl pointer-events-none" />
 
             {/* Mockup card */}
-            <div className="relative w-full max-w-xl glass-strong rounded-xl overflow-hidden shadow-[0_24px_64px_-12px_rgba(0,0,0,0.7)]">
+            <div className="relative w-full max-w-[520px] glass-strong rounded-xl overflow-hidden shadow-[0_24px_64px_-12px_rgba(0,0,0,0.7)]">
               {/* Titlebar */}
               <div className="flex items-center gap-2 px-4 py-3 border-b border-white/[0.06] bg-white/[0.02]">
                 <span className="w-2.5 h-2.5 rounded-full bg-red-400/60" />
                 <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/60" />
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/60" />
-                <span className="ml-3 text-[11px] text-slate-500 font-mono tracking-tight">
-                  varsal.systems — Enterprise Dashboard
+                <span className="ml-3 text-[11px] text-slate-500 font-mono tracking-tight truncate">
+                  varsal.systems — Dashboard
                 </span>
-                <span className="ml-auto flex items-center gap-1.5 text-[10px] text-emerald-400/90">
+                <span className="ml-auto flex items-center gap-1.5 text-[10px] text-emerald-400/90 shrink-0">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   live
                 </span>
@@ -194,7 +197,7 @@ export default function HeroSection() {
                     >
                       <div className={`absolute left-0 top-0 bottom-0 w-[3px] ${kpi.bar}`} />
                       <p className="text-[9px] text-slate-500 tracking-widest font-medium mb-1">{kpi.label}</p>
-                      <p className="text-base font-bold text-white tabular-nums">{kpi.value}</p>
+                      <p className="text-[15px] font-bold text-white tabular-nums">{kpi.value}</p>
                       <p className={`text-[10px] mt-0.5 ${kpi.text} tabular-nums`}>{kpi.trend}</p>
                     </div>
                   ))}
@@ -215,7 +218,7 @@ export default function HeroSection() {
                         transition={{ delay: 0.6 + i * 0.04, duration: 0.5, ease: 'easeOut' }}
                         className="flex-1 rounded-t-[2px]"
                         style={{
-                          background: 'linear-gradient(to top, rgba(37,99,235,0.9), rgba(6,182,212,0.6))',
+                          background: 'linear-gradient(to top, rgba(37,99,235,0.9), rgba(6,182,212,0.55))',
                         }}
                       />
                     ))}
@@ -228,14 +231,14 @@ export default function HeroSection() {
                   {[
                     { label: 'API Gateway', status: 'Operativo', dot: 'bg-emerald-400' },
                     { label: 'Base de datos PostgreSQL', status: 'Sincronizado', dot: 'bg-blue-400' },
-                    { label: 'Procesamiento de facturación', status: '243 procesadas', dot: 'bg-cyan-400' },
+                    { label: 'Procesamiento facturación', status: '243 procesadas', dot: 'bg-cyan-400' },
                   ].map((item) => (
                     <div key={item.label} className="flex items-center justify-between py-1">
-                      <div className="flex items-center gap-2">
-                        <span className={`w-1.5 h-1.5 rounded-full ${item.dot}`} />
-                        <span className="text-[11px] text-slate-300">{item.label}</span>
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className={`w-1.5 h-1.5 rounded-full ${item.dot} shrink-0`} />
+                        <span className="text-[11px] text-slate-300 truncate">{item.label}</span>
                       </div>
-                      <span className="text-[10px] text-slate-500">{item.status}</span>
+                      <span className="text-[10px] text-slate-500 shrink-0 ml-2">{item.status}</span>
                     </div>
                   ))}
                 </div>
@@ -246,10 +249,10 @@ export default function HeroSection() {
             <motion.div
               animate={{ y: [0, -6, 0] }}
               transition={{ repeat: Infinity, duration: 3.2, ease: 'easeInOut' }}
-              className="absolute -top-3 -right-3 glass-strong rounded-lg px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.4)]"
+              className="absolute -top-3 -right-3 xl:-right-6 glass-strong rounded-lg px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.4)]"
             >
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
                 <div>
                   <p className="text-[11px] font-semibold text-white leading-tight">SOC 2 Compliant</p>
                   <p className="text-[9px] text-slate-400 leading-tight">Seguridad enterprise</p>
@@ -260,10 +263,10 @@ export default function HeroSection() {
             <motion.div
               animate={{ y: [0, 6, 0] }}
               transition={{ repeat: Infinity, duration: 3.6, ease: 'easeInOut', delay: 0.4 }}
-              className="absolute -bottom-3 -left-3 glass-strong rounded-lg px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.4)]"
+              className="absolute -bottom-3 -left-3 xl:-left-6 glass-strong rounded-lg px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.4)]"
             >
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-md bg-blue-500/15 border border-blue-500/20 flex items-center justify-center">
+                <div className="w-7 h-7 rounded-md bg-blue-500/15 border border-blue-500/20 flex items-center justify-center shrink-0">
                   <TrendingUp className="w-3.5 h-3.5 text-blue-400" />
                 </div>
                 <div>
@@ -280,16 +283,16 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.6 }}
-          className="mt-16 lg:mt-20 pt-8 border-t border-white/[0.06]"
+          className="mt-16 lg:mt-24 pt-10 border-t border-white/[0.06]"
         >
-          <p className="text-center text-[11px] text-slate-500 tracking-widest uppercase mb-5">
+          <p className="text-center text-[11px] text-slate-500 tracking-[0.2em] uppercase mb-6">
             Construimos con tecnologías de clase mundial
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 opacity-70">
+          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
             {techLogos.map((tech) => (
               <span
                 key={tech}
-                className="text-sm font-semibold text-slate-400 hover:text-slate-200 transition-colors cursor-default tracking-tight"
+                className="text-[15px] font-semibold text-slate-500 hover:text-slate-200 transition-colors cursor-default tracking-tight"
               >
                 {tech}
               </span>
@@ -302,15 +305,15 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.6 }}
-          className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.06] rounded-xl overflow-hidden border border-white/[0.06]"
+          className="mt-12 lg:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.06] rounded-xl overflow-hidden border border-white/[0.06]"
         >
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="group bg-[#0B1220] p-6 hover:bg-white/[0.02] transition-colors duration-300"
+              className="group bg-[#0B1220] p-6 lg:p-7 hover:bg-white/[0.02] transition-colors duration-300"
             >
               <stat.icon className="w-4 h-4 text-blue-400 mb-3 group-hover:text-cyan-400 transition-colors" />
-              <div className="text-3xl lg:text-4xl font-bold mb-1 tracking-tight">
+              <div className="font-bold mb-1 tracking-tight" style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)' }}>
                 <AnimatedCounter
                   end={stat.value}
                   suffix={stat.suffix}
@@ -322,16 +325,6 @@ export default function HeroSection() {
           ))}
         </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        animate={{ y: [0, 6, 0] }}
-        transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-1.5 text-slate-600"
-      >
-        <span className="text-[10px] tracking-[0.2em] uppercase">Scroll</span>
-        <div className="w-px h-6 bg-gradient-to-b from-slate-600 to-transparent" />
-      </motion.div>
     </section>
   )
 }
