@@ -1,15 +1,17 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { TrendingUp, Clock, Zap, DollarSign } from 'lucide-react'
+import { TrendingUp, Clock, Zap, DollarSign, Activity, Truck, Landmark } from 'lucide-react'
 import SectionWrapper from '@/components/ui/SectionWrapper'
 import Badge from '@/components/ui/Badge'
 
 const cases = [
   {
     company: 'Clínica MedSalud',
-    industry: 'Salud',
-    logo: '🏥',
+    industry: 'Sector Salud',
+    industryIcon: Activity,
+    iconBg: 'bg-blue-500/15',
+    iconColor: 'text-blue-400',
     challenge: 'Procesos manuales de facturación que tardaban 3 días y generaban errores constantes.',
     solution: 'Sistema de facturación electrónica automatizado integrado con el SGSS y las EPS.',
     results: [
@@ -18,12 +20,14 @@ const cases = [
       { icon: TrendingUp, metric: '3x', label: 'Más facturas procesadas por día' },
     ],
     tech: ['Java', 'React', 'PostgreSQL', 'AWS'],
-    accent: 'border-blue-500/30',
+    accent: 'border-blue-500/20',
   },
   {
     company: 'LogiTrans S.A.',
-    industry: 'Logística',
-    logo: '🚛',
+    industry: 'Logística & Transporte',
+    industryIcon: Truck,
+    iconBg: 'bg-emerald-500/15',
+    iconColor: 'text-emerald-400',
     challenge: 'Falta de trazabilidad en entregas y comunicación ineficiente entre bodegas.',
     solution: 'Plataforma de gestión logística en tiempo real con app móvil para conductores.',
     results: [
@@ -32,12 +36,14 @@ const cases = [
       { icon: DollarSign, metric: '25%', label: 'Reducción de costos operativos' },
     ],
     tech: ['Next.js', 'Node.js', 'MongoDB', 'Docker'],
-    accent: 'border-emerald-500/30',
+    accent: 'border-emerald-500/20',
   },
   {
     company: 'FinCorp Group',
-    industry: 'Finanzas',
-    logo: '🏦',
+    industry: 'Servicios Financieros',
+    industryIcon: Landmark,
+    iconBg: 'bg-violet-500/15',
+    iconColor: 'text-violet-400',
     challenge: 'Procesos de conciliación bancaria manuales con alto riesgo de error y fraude.',
     solution: 'Sistema de conciliación automatizada con alertas inteligentes y dashboard ejecutivo.',
     results: [
@@ -46,7 +52,7 @@ const cases = [
       { icon: Clock, metric: '70%', label: 'Reducción de tiempo operativo' },
     ],
     tech: ['Python', 'React', 'PostgreSQL', 'AWS'],
-    accent: 'border-violet-500/30',
+    accent: 'border-violet-500/20',
   },
 ]
 
@@ -79,11 +85,13 @@ export default function CasesSection() {
               <div className="grid lg:grid-cols-3 gap-8">
                 {/* Left */}
                 <div className="lg:col-span-1">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-3xl">{c.logo}</span>
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className={`w-11 h-11 rounded-xl ${c.iconBg} border border-white/[0.06] flex items-center justify-center flex-shrink-0`}>
+                      <c.industryIcon className={`w-5 h-5 ${c.iconColor}`} />
+                    </div>
                     <div>
-                      <h3 className="font-bold text-lg">{c.company}</h3>
-                      <span className="text-xs text-slate-500">{c.industry}</span>
+                      <h3 className="font-bold text-lg leading-tight">{c.company}</h3>
+                      <span className="text-xs text-slate-500 uppercase tracking-wider">{c.industry}</span>
                     </div>
                   </div>
                   <div className="mb-4">
