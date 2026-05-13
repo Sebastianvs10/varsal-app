@@ -30,13 +30,14 @@ export default function HeroSection() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex flex-col justify-center pt-16 px-4 sm:px-6 lg:px-8 overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center px-4 sm:px-6 lg:px-8 overflow-hidden"
+      style={{ paddingTop: '96px', paddingBottom: '48px' }}
     >
       {/* Background */}
-      <div className="absolute inset-0 dots-bg opacity-30" />
-      <div className="absolute inset-0 bg-gradient-to-b from-blue-950/20 via-transparent to-[#0F172A]" />
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-cyan-500/8 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute inset-0 dots-bg opacity-25" />
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-950/30 via-transparent to-[#0F172A]" />
+      <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-blue-600/12 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-[30%] right-[15%] w-[350px] h-[350px] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
 
       {/* Floating grid lines */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -51,17 +52,17 @@ export default function HeroSection() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto w-full">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center min-h-[calc(100vh-144px)]">
           {/* Left */}
-          <div>
+          <div className="flex flex-col justify-center py-8 lg:py-0">
             {/* Badge */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full
-                bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-medium
-                uppercase tracking-widest mb-6"
+              className="inline-flex w-fit items-center gap-2 px-4 py-1.5 rounded-full
+                bg-blue-500/10 border border-blue-500/20 text-blue-300 text-[11px] font-medium
+                uppercase tracking-[0.12em] mb-7"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
               Soluciones Tecnológicas Empresariales
@@ -73,15 +74,16 @@ export default function HeroSection() {
               initial="hidden"
               animate="show"
               variants={fadeUp}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight mb-6"
+              className="text-[2.6rem] sm:text-5xl lg:text-[3.5rem] xl:text-[4rem] font-bold leading-[1.08] tracking-tight mb-6"
             >
               Transformamos{' '}
-              <span className="grad-text">ideas</span> en
-              <br />
-              soluciones{' '}
+              <span className="grad-text">ideas</span>
+              {' '}en
+              <br className="hidden sm:block" />
+              {' '}soluciones{' '}
               <span className="grad-text">digitales</span>
-              <br />
-              escalables.
+              <br className="hidden sm:block" />
+              {' '}escalables.
             </motion.h1>
 
             {/* Subtitle */}
@@ -90,7 +92,7 @@ export default function HeroSection() {
               initial="hidden"
               animate="show"
               variants={fadeUp}
-              className="text-lg text-slate-400 leading-relaxed mb-8 max-w-xl"
+              className="text-base sm:text-lg text-slate-400 leading-relaxed mb-8 max-w-lg"
             >
               Desarrollamos sistemas web empresariales, software a medida,
               plataformas SaaS y soluciones cloud que impulsan la transformación
@@ -103,13 +105,13 @@ export default function HeroSection() {
               initial="hidden"
               animate="show"
               variants={fadeUp}
-              className="flex flex-wrap gap-3 mb-12"
+              className="flex flex-wrap gap-3 mb-10"
             >
               <motion.button
                 whileHover={{ scale: 1.03, boxShadow: '0 0 32px rgba(37,99,235,0.5)' }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => scrollTo('#contacto')}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white
+                className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white text-sm
                   bg-gradient-to-r from-blue-600 to-cyan-500
                   shadow-[0_0_20px_rgba(37,99,235,0.4)]
                   transition-all duration-200 cursor-pointer"
@@ -122,34 +124,36 @@ export default function HeroSection() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => scrollTo('#servicios')}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold
-                  text-slate-200 border border-white/10 hover:border-white/20
-                  bg-white/5 hover:bg-white/8 transition-all duration-200 cursor-pointer"
+                className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
+                  text-slate-200 border border-white/10 hover:border-white/25
+                  bg-white/5 hover:bg-white/[0.08] transition-all duration-200 cursor-pointer"
               >
                 <Play className="w-4 h-4 fill-current" />
                 Ver servicios
               </motion.button>
             </motion.div>
 
-            {/* Tech logos */}
+            {/* Trust row */}
             <motion.div
               custom={3}
               initial="hidden"
               animate="show"
               variants={fadeUp}
-              className="flex flex-wrap gap-2"
+              className="flex flex-col gap-3"
             >
-              <span className="text-xs text-slate-500 self-center mr-1">Stack:</span>
-              {techLogos.map((tech) => (
-                <span
-                  key={tech}
-                  className="px-2.5 py-1 rounded-md bg-white/5 border border-white/8
-                    text-xs text-slate-400 hover:text-slate-200 hover:bg-white/8
-                    transition-all duration-150 cursor-default"
-                >
-                  {tech}
-                </span>
-              ))}
+              <span className="text-[11px] text-slate-500 uppercase tracking-widest">Stack tecnológico</span>
+              <div className="flex flex-wrap gap-2">
+                {techLogos.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-2.5 py-1 rounded-md bg-white/[0.05] border border-white/[0.08]
+                      text-xs text-slate-400 hover:text-slate-200 hover:bg-white/[0.09]
+                      transition-all duration-150 cursor-default"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
             </motion.div>
           </div>
 
@@ -157,14 +161,14 @@ export default function HeroSection() {
           <motion.div
             initial={{ opacity: 0, x: 40, scale: 0.96 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.8, ease: [0.2, 0, 0, 1] }}
-            className="relative hidden lg:block"
+            transition={{ delay: 0.3, duration: 0.8, ease: 'easeOut' }}
+            className="relative hidden lg:flex items-center justify-center py-8"
           >
             {/* Glow */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-cyan-500/10 rounded-2xl blur-2xl" />
 
             {/* Mockup card */}
-            <div className="relative glass rounded-2xl p-1 shadow-[0_8px_48px_rgba(0,0,0,0.6)]">
+            <div className="relative w-full glass rounded-2xl p-1 shadow-[0_8px_48px_rgba(0,0,0,0.6)]">
               {/* Titlebar */}
               <div className="flex items-center gap-1.5 px-3 py-2 border-b border-white/5">
                 <span className="w-2.5 h-2.5 rounded-full bg-red-400/70" />
@@ -261,7 +265,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.6 }}
-          className="mt-20 grid grid-cols-2 lg:grid-cols-4 gap-4"
+          className="mt-12 lg:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4"
         >
           {stats.map((stat, i) => (
             <div
