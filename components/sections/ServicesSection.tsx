@@ -1,150 +1,94 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import {
-  Globe, Cpu, Settings, Plug, Cloud, Palette, BarChart3,
-  Headphones, Database, ArrowRight
-} from 'lucide-react'
+import { Code2, Cloud, Bot, Compass, ArrowRight } from 'lucide-react'
 import SectionWrapper from '@/components/ui/SectionWrapper'
 import Badge from '@/components/ui/Badge'
 
 const services = [
   {
-    icon: Globe,
-    title: 'Desarrollo Web Empresarial',
-    desc: 'Aplicaciones web robustas, escalables y de alto rendimiento diseñadas para operación crítica.',
-    benefits: ['SPAs y PWAs', 'Arquitectura modular', 'Performance optimizado'],
-    color: 'from-blue-500/20 to-blue-600/5',
-    iconColor: 'text-blue-400',
-    borderHover: 'hover:border-blue-500/30',
-  },
-  {
-    icon: Cpu,
-    title: 'Software a Medida',
-    desc: 'Sistemas desarrollados 100% a la medida de sus procesos de negocio y requerimientos específicos.',
-    benefits: ['Análisis de requerimientos', 'Metodología ágil', 'Documentación técnica'],
-    color: 'from-violet-500/20 to-violet-600/5',
-    iconColor: 'text-violet-400',
-    borderHover: 'hover:border-violet-500/30',
-  },
-  {
-    icon: Settings,
-    title: 'Automatización de Procesos',
-    desc: 'Eliminamos tareas manuales repetitivas con flujos automatizados inteligentes y RPA.',
-    benefits: ['RPA y workflows', 'Reducción de errores', 'Ahorro de tiempo'],
-    color: 'from-emerald-500/20 to-emerald-600/5',
-    iconColor: 'text-emerald-400',
-    borderHover: 'hover:border-emerald-500/30',
-  },
-  {
-    icon: Plug,
-    title: 'Integraciones API',
-    desc: 'Conectamos sus sistemas existentes con plataformas externas mediante APIs robustas y seguras.',
-    benefits: ['REST & GraphQL', 'Webhooks', 'Middleware empresarial'],
-    color: 'from-orange-500/20 to-orange-600/5',
-    iconColor: 'text-orange-400',
-    borderHover: 'hover:border-orange-500/30',
+    icon: Code2,
+    title: 'Software y apps a medida',
+    desc: 'Aplicaciones web y móviles diseñadas para su operación real, no para una plantilla genérica.',
+    accent: 'accent',
   },
   {
     icon: Cloud,
-    title: 'Cloud Solutions',
-    desc: 'Arquitecturas cloud-native en AWS, GCP o Azure con alta disponibilidad y escalabilidad automática.',
-    benefits: ['Infraestructura como código', 'Auto-scaling', 'Disaster recovery'],
-    color: 'from-cyan-500/20 to-cyan-600/5',
-    iconColor: 'text-cyan-400',
-    borderHover: 'hover:border-cyan-500/30',
+    title: 'Cloud e infraestructura / DevOps',
+    desc: 'Infraestructura que escala sola y no se cae en el peor momento: AWS, GCP, Docker y Kubernetes.',
+    accent: 'navy',
   },
   {
-    icon: Palette,
-    title: 'Diseño UX/UI',
-    desc: 'Interfaces que combinan estética premium con usabilidad operativa de clase mundial.',
-    benefits: ['Design system', 'Prototipado', 'Testing de usuario'],
-    color: 'from-pink-500/20 to-pink-600/5',
-    iconColor: 'text-pink-400',
-    borderHover: 'hover:border-pink-500/30',
+    icon: Bot,
+    title: 'Automatización e integraciones',
+    desc: 'Flujos y procesos automáticos que eliminan tareas manuales y le devuelven horas de operación.',
+    accent: 'accent-2',
   },
   {
-    icon: BarChart3,
-    title: 'Consultoría Tecnológica',
-    desc: 'Asesoramos en arquitectura, stack tecnológico y hoja de ruta digital con criterio experto.',
-    benefits: ['Assessment técnico', 'Roadmap digital', 'Auditoría de sistemas'],
-    color: 'from-amber-500/20 to-amber-600/5',
-    iconColor: 'text-amber-400',
-    borderHover: 'hover:border-amber-500/30',
+    icon: Compass,
+    title: 'Consultoría y transformación digital',
+    desc: 'Estrategia, arquitectura y hoja de ruta tecnológica con criterio experto, sin humo.',
+    accent: 'success',
   },
-  {
-    icon: Database,
-    title: 'Sistemas Administrativos',
-    desc: 'ERPs, CRMs y plataformas de gestión adaptadas a la realidad de su empresa.',
-    benefits: ['Multi-módulo', 'Reportería avanzada', 'Multi-sede'],
-    color: 'from-indigo-500/20 to-indigo-600/5',
-    iconColor: 'text-indigo-400',
-    borderHover: 'hover:border-indigo-500/30',
-  },
-  {
-    icon: Headphones,
-    title: 'Soporte y Mantenimiento',
-    desc: 'SLA garantizado, monitoreo proactivo y soporte técnico especializado 24/5.',
-    benefits: ['SLA 99.9%', 'Monitoreo 24/7', 'Actualizaciones continuas'],
-    color: 'from-teal-500/20 to-teal-600/5',
-    iconColor: 'text-teal-400',
-    borderHover: 'hover:border-teal-500/30',
-  },
-]
+] as const
+
+const accentClasses = {
+  accent: { bar: 'bg-accent', bg: 'bg-accent/15', border: 'border-accent/25', icon: 'text-accent', link: 'text-accent hover:text-accent-light' },
+  navy: { bar: 'bg-navy-2', bg: 'bg-navy/15', border: 'border-navy/25', icon: 'text-navy-2', link: 'text-navy hover:text-navy-2' },
+  'accent-2': { bar: 'bg-accent-2', bg: 'bg-accent-2/15', border: 'border-accent-2/25', icon: 'text-accent-2', link: 'text-accent-2 hover:brightness-110' },
+  success: { bar: 'bg-success', bg: 'bg-success/15', border: 'border-success/25', icon: 'text-success', link: 'text-success hover:brightness-110' },
+}
 
 export default function ServicesSection() {
   return (
-    <SectionWrapper id="servicios" className="bg-[#0F172A]/50">
-      <div className="max-w-7xl mx-auto">
+    <SectionWrapper id="servicios" className="bg-bg-alt">
+      <div className="max-w-5xl mx-auto">
         <div className="text-center mb-16">
-          <Badge variant="cyan" className="mb-4">Nuestros servicios</Badge>
-          <h2 className="text-4xl lg:text-5xl font-bold mb-5">
-            Todo lo que necesita para{' '}
-            <span className="grad-text">crecer digitalmente</span>
+          <Badge variant="accent" className="mb-4">Qué hacemos</Badge>
+          <h2 className="text-4xl lg:text-5xl font-bold mb-5 text-foreground text-balance">
+            Cuatro formas de impulsar su <span className="text-brand">negocio</span>
           </h2>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Ofrecemos un portafolio completo de servicios tecnológicos para acompañar
-            cada etapa de la transformación digital de su empresa.
-          </p>
+          <div className="flex justify-center">
+            <p className="text-subtle text-lg max-w-xl text-center leading-relaxed">
+              Desarrollo, infraestructura y estrategia: un servicio o todo el
+              conjunto, con un solo aliado.
+            </p>
+          </div>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {services.map((svc, i) => (
-            <motion.div
-              key={svc.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.07, duration: 0.5 }}
-              whileHover={{ y: -6 }}
-              className={`group relative glass rounded-2xl p-6 border border-white/5 ${svc.borderHover} transition-all duration-300 cursor-pointer overflow-hidden`}
-            >
-              {/* Background gradient */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${svc.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl`} />
+        <div className="grid sm:grid-cols-2 gap-5">
+          {services.map((svc, i) => {
+            const a = accentClasses[svc.accent]
+            return (
+              <motion.div
+                key={svc.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.4 }}
+                whileHover={{ y: -3 }}
+                className="group relative bg-surface rounded-lg p-7 border border-line shadow-[var(--vs-shadow-sm)] hover:border-line-strong hover:shadow-[var(--vs-shadow-md)] transition-all duration-200 overflow-hidden"
+              >
+                <span
+                  className={`absolute top-0 left-0 h-[3px] w-full ${a.bar} origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out`}
+                />
 
-              <div className="relative z-10">
-                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <svc.icon className={`w-5 h-5 ${svc.iconColor}`} />
+                <div className={`w-11 h-11 rounded-md ${a.bg} border ${a.border} flex items-center justify-center mb-5`}>
+                  <svc.icon className={`w-5 h-5 ${a.icon}`} />
                 </div>
 
-                <h3 className="font-bold text-lg mb-2">{svc.title}</h3>
-                <p className="text-sm text-slate-400 mb-4 leading-relaxed">{svc.desc}</p>
+                <h3 className="font-bold text-lg mb-2 text-foreground">{svc.title}</h3>
+                <p className="text-sm text-subtle mb-5 leading-relaxed">{svc.desc}</p>
 
-                <ul className="space-y-1.5 mb-5">
-                  {svc.benefits.map((b) => (
-                    <li key={b} className="flex items-center gap-2 text-xs text-slate-400">
-                      <span className="w-1 h-1 rounded-full bg-blue-400 flex-shrink-0" />
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="flex items-center gap-1 text-xs font-medium text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  Solicitar servicio <ArrowRight className="w-3 h-3" />
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                <button
+                  onClick={() => document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' })}
+                  className={`flex items-center gap-1 text-xs font-semibold transition-colors cursor-pointer ${a.link}`}
+                >
+                  Ver servicio <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                </button>
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </SectionWrapper>

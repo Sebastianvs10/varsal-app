@@ -11,7 +11,26 @@ export const metadata: Metadata = {
 
 const categories = ['Todos', 'Desarrollo Web', 'Cloud', 'Automatización', 'IA', 'Ciberseguridad', 'Tecnología Empresarial']
 
-const posts = [
+const tones = ['navy', 'accent', 'accent-2'] as const
+type Tone = typeof tones[number]
+
+const toneBg: Record<Tone, string> = {
+  navy: 'bg-navy',
+  accent: 'bg-accent',
+  'accent-2': 'bg-accent-2',
+}
+
+const posts: {
+  slug: string
+  title: string
+  excerpt: string
+  category: string
+  author: string
+  date: string
+  readTime: string
+  tone: Tone
+  featured: boolean
+}[] = [
   {
     slug: 'arquitectura-saas-multitenancy',
     title: 'Arquitectura SaaS multi-tenant: guía completa para 2024',
@@ -20,7 +39,7 @@ const posts = [
     author: 'Equipo VARSAL',
     date: '28 Nov 2024',
     readTime: '8 min',
-    gradient: 'from-blue-600/30 to-cyan-600/20',
+    tone: 'navy',
     featured: true,
   },
   {
@@ -31,7 +50,7 @@ const posts = [
     author: 'Ing. Sebastián Vargas',
     date: '15 Nov 2024',
     readTime: '6 min',
-    gradient: 'from-emerald-600/30 to-teal-600/20',
+    tone: 'accent',
     featured: false,
   },
   {
@@ -42,7 +61,7 @@ const posts = [
     author: 'Equipo VARSAL',
     date: '2 Nov 2024',
     readTime: '5 min',
-    gradient: 'from-violet-600/30 to-purple-600/20',
+    tone: 'accent-2',
     featured: false,
   },
   {
@@ -53,7 +72,7 @@ const posts = [
     author: 'Equipo VARSAL',
     date: '18 Oct 2024',
     readTime: '7 min',
-    gradient: 'from-orange-600/30 to-red-600/20',
+    tone: 'navy',
     featured: false,
   },
   {
@@ -64,7 +83,7 @@ const posts = [
     author: 'Ing. Sebastián Vargas',
     date: '5 Oct 2024',
     readTime: '9 min',
-    gradient: 'from-red-600/30 to-pink-600/20',
+    tone: 'accent',
     featured: false,
   },
   {
@@ -75,7 +94,7 @@ const posts = [
     author: 'Equipo VARSAL',
     date: '20 Sep 2024',
     readTime: '6 min',
-    gradient: 'from-amber-600/30 to-yellow-600/20',
+    tone: 'accent-2',
     featured: false,
   },
 ]
@@ -84,27 +103,25 @@ export default function BlogPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 min-h-screen">
+      <main className="pt-24 min-h-screen bg-background">
         {/* Hero */}
-        <div className="relative py-16 px-4 sm:px-6 lg:px-8 border-b border-white/5">
-          <div className="absolute inset-0 dots-bg opacity-20" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-64 bg-blue-600/10 rounded-full blur-[80px] pointer-events-none" />
+        <div className="relative py-16 px-4 sm:px-6 lg:px-8 border-b border-line bg-bg-alt">
           <div className="relative max-w-7xl mx-auto">
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-white transition-colors mb-8 group"
+              className="inline-flex items-center gap-1.5 text-sm text-faint hover:text-foreground transition-colors mb-8 group"
             >
               <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
               Volver al inicio
             </Link>
             <div className="text-center">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs uppercase tracking-widest mb-4">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/25 text-accent text-xs font-semibold uppercase tracking-widest mb-4">
                 Blog
               </span>
-              <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-                Conocimiento que <span className="grad-text">genera valor</span>
+              <h1 className="text-4xl lg:text-5xl font-bold mb-4 text-foreground">
+                Conocimiento que <span className="text-brand">genera valor</span>
               </h1>
-              <p className="text-slate-400 max-w-xl mx-auto">
+              <p className="text-subtle max-w-xl mx-auto">
                 Artículos técnicos y estratégicos sobre desarrollo de software, cloud, automatización y transformación digital.
               </p>
             </div>
@@ -117,10 +134,10 @@ export default function BlogPage() {
             {categories.map((cat) => (
               <button
                 key={cat}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all cursor-pointer ${
+                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer ${
                   cat === 'Todos'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white/5 border border-white/8 text-slate-400 hover:text-white hover:bg-white/10'
+                    ? 'bg-navy text-white'
+                    : 'bg-surface border border-line text-subtle hover:text-foreground hover:border-line-strong'
                 }`}
               >
                 {cat}
@@ -133,23 +150,24 @@ export default function BlogPage() {
             {posts.filter(p => p.featured).map((post) => (
               <div
                 key={post.slug}
-                className={`rounded-2xl overflow-hidden border border-white/5 hover:border-blue-500/20 transition-all duration-300 bg-gradient-to-br ${post.gradient} group`}
+                className="relative rounded-lg overflow-hidden border border-line shadow-[var(--vs-shadow-sm)] hover:border-line-strong hover:shadow-[var(--vs-shadow-md)] transition-all duration-200 bg-surface group"
               >
+                <div className={`absolute left-0 top-0 bottom-0 w-1 ${toneBg[post.tone]}`} />
                 <div className="p-8 lg:p-10">
                   <div className="flex items-center gap-3 mb-4">
-                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-500/20 border border-blue-500/30 text-blue-300">
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-accent-2/10 border border-accent-2/25 text-accent-2">
                       Destacado
                     </span>
-                    <span className="px-2.5 py-1 rounded-full text-xs bg-white/10 border border-white/10 text-white">
+                    <span className="px-2.5 py-1 rounded-full text-xs bg-surface-2 border border-line text-subtle">
                       {post.category}
                     </span>
                   </div>
-                  <h2 className="text-2xl lg:text-3xl font-bold mb-3 group-hover:text-blue-300 transition-colors max-w-2xl">
+                  <h2 className="text-2xl lg:text-3xl font-bold mb-3 text-foreground group-hover:text-navy transition-colors max-w-2xl">
                     {post.title}
                   </h2>
-                  <p className="text-slate-400 mb-6 max-w-xl leading-relaxed">{post.excerpt}</p>
+                  <p className="text-subtle mb-6 max-w-xl leading-relaxed">{post.excerpt}</p>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4 text-sm text-slate-500">
+                    <div className="flex items-center gap-4 text-sm text-faint">
                       <span className="flex items-center gap-1.5">
                         <Calendar className="w-3.5 h-3.5" /> {post.date}
                       </span>
@@ -159,7 +177,7 @@ export default function BlogPage() {
                     </div>
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-semibold bg-white/10 hover:bg-white/20 transition-all border border-white/10"
+                      className="flex items-center gap-2 px-5 py-2 rounded-md text-sm font-semibold bg-navy text-white hover:bg-navy-2 transition-colors"
                     >
                       Leer artículo <ArrowRight className="w-4 h-4" />
                     </Link>
@@ -174,31 +192,31 @@ export default function BlogPage() {
             {posts.filter(p => !p.featured).map((post) => (
               <article
                 key={post.slug}
-                className="group glass rounded-2xl overflow-hidden border border-white/5 hover:border-blue-500/20 transition-all duration-300 hover:-translate-y-1"
+                className="group bg-surface rounded-lg overflow-hidden border border-line shadow-[var(--vs-shadow-sm)] hover:border-line-strong hover:shadow-[var(--vs-shadow-md)] transition-all duration-200"
               >
-                <div className={`h-36 bg-gradient-to-br ${post.gradient} relative`}>
-                  <div className="absolute inset-0 dots-bg opacity-30" />
+                <div className={`h-32 relative ${toneBg[post.tone]}`}>
+                  <div className="absolute inset-0 grid-texture opacity-[0.15]" />
                   <div className="absolute top-3 left-3">
-                    <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-white/10 border border-white/10 text-white backdrop-blur-sm">
+                    <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-white/15 border border-white/20 text-white">
                       {post.category}
                     </span>
                   </div>
-                  <div className="absolute bottom-3 right-3 text-xs text-white/50">
+                  <div className="absolute bottom-3 right-3 text-xs text-white/70">
                     {post.readTime} lectura
                   </div>
                 </div>
                 <div className="p-5">
-                  <h3 className="font-bold text-base leading-snug mb-2 group-hover:text-blue-300 transition-colors line-clamp-2">
+                  <h3 className="font-bold text-base leading-snug mb-2 text-foreground group-hover:text-navy transition-colors line-clamp-2">
                     {post.title}
                   </h3>
-                  <p className="text-sm text-slate-400 mb-4 line-clamp-2 leading-relaxed">{post.excerpt}</p>
+                  <p className="text-sm text-subtle mb-4 line-clamp-2 leading-relaxed">{post.excerpt}</p>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                    <div className="flex items-center gap-1.5 text-xs text-faint">
                       <Calendar className="w-3 h-3" /> {post.date}
                     </div>
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="flex items-center gap-1 text-xs text-blue-400 hover:text-blue-300 transition-colors group/link"
+                      className="flex items-center gap-1 text-xs font-medium text-navy hover:text-navy-2 transition-colors group/link"
                     >
                       Leer más <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
                     </Link>

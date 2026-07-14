@@ -1,116 +1,70 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, Calendar } from 'lucide-react'
-import SectionWrapper from '@/components/ui/SectionWrapper'
+import { Mail, Clock, ShieldCheck } from 'lucide-react'
+import ContactForm from '@/components/ContactForm'
+
+const perks = [
+  { icon: Clock, title: 'Respuesta en 24h', desc: 'Le contactamos al siguiente día hábil.' },
+  { icon: ShieldCheck, title: 'Sin compromiso', desc: 'Diagnóstico inicial gratuito y honesto.' },
+  { icon: Mail, title: 'Trato directo', desc: 'Habla con ingenieros, no con un bot.' },
+]
 
 export default function CTASection() {
-  const scrollTo = (id: string) => {
-    document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
-    <SectionWrapper className="relative overflow-hidden">
-      {/* Animated background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-[#0F172A] to-cyan-900/20" />
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-cyan-500/15 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute inset-0 dots-bg opacity-20" />
-      </div>
+    <section id="contacto" className="relative overflow-hidden navy-gradient py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 grid-texture opacity-[0.08]" />
+      <div
+        className="absolute inset-0"
+        style={{ background: 'radial-gradient(60% 90% at 50% 0%, color-mix(in oklab, var(--vs-accent) 22%, transparent) 0%, transparent 70%)' }}
+      />
 
-      <div className="relative z-10 max-w-4xl mx-auto text-center">
-        {/* Badge */}
+      <div className="relative z-10 max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        {/* Columna texto */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full
-            bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-medium
-            uppercase tracking-widest mb-6"
+          transition={{ duration: 0.5 }}
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-          Hablemos de su proyecto
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-white/90 text-xs font-semibold uppercase tracking-widest mb-6">
+            Da el siguiente paso
+          </span>
+
+          <h2 className="text-4xl lg:text-5xl font-bold leading-tight mb-5 text-white text-balance">
+            Hablemos de lo que quiere construir.
+          </h2>
+
+          <p className="text-lg text-white/75 leading-relaxed mb-8 max-w-md">
+            Cuéntenos su reto y le respondemos con un diagnóstico claro y los
+            próximos pasos. Sin costo ni compromiso.
+          </p>
+
+          <ul className="space-y-4">
+            {perks.map((p) => (
+              <li key={p.title} className="flex items-start gap-3">
+                <span className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center shrink-0">
+                  <p.icon className="w-[18px] h-[18px] text-white" strokeWidth={1.75} />
+                </span>
+                <div>
+                  <p className="text-white font-semibold text-sm">{p.title}</p>
+                  <p className="text-white/60 text-sm">{p.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </motion.div>
 
-        {/* Title */}
-        <motion.h2
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1, duration: 0.6 }}
-          className="text-4xl lg:text-6xl font-bold leading-tight mb-6"
-        >
-          Impulse la{' '}
-          <span className="grad-text">transformación digital</span>
-          <br />
-          de su empresa.
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-xl text-slate-400 mb-10 max-w-2xl mx-auto"
-        >
-          Únase a las empresas líderes que confían en VARSAL Systems para escalar
-          con tecnología de clase mundial. Primera consultoría sin costo.
-        </motion.p>
-
+        {/* Columna formulario */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="flex flex-wrap items-center justify-center gap-4"
+          transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <motion.button
-            whileHover={{ scale: 1.04, boxShadow: '0 0 48px rgba(37,99,235,0.6)' }}
-            whileTap={{ scale: 0.97 }}
-            onClick={() => scrollTo('#contacto')}
-            className="flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-white text-base
-              bg-gradient-to-r from-blue-600 to-cyan-500
-              shadow-[0_0_30px_rgba(37,99,235,0.4)]
-              transition-all duration-200 cursor-pointer"
-          >
-            <Calendar className="w-5 h-5" />
-            Agenda una llamada
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={() => scrollTo('#contacto')}
-            className="flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-base
-              text-white border border-white/15 hover:border-white/30
-              bg-white/5 hover:bg-white/10
-              transition-all duration-200 cursor-pointer"
-          >
-            Solicitar una demo
-            <ArrowRight className="w-5 h-5" />
-          </motion.button>
-        </motion.div>
-
-        {/* Trust signals */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="flex flex-wrap items-center justify-center gap-6 mt-10 text-sm text-slate-500"
-        >
-          <span className="flex items-center gap-1.5">
-            <span className="text-emerald-400">✓</span> Sin compromiso inicial
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="text-emerald-400">✓</span> Respuesta en 24 horas
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="text-emerald-400">✓</span> Confidencialidad garantizada
-          </span>
+          <ContactForm />
         </motion.div>
       </div>
-    </SectionWrapper>
+    </section>
   )
 }
