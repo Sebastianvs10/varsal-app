@@ -64,6 +64,20 @@ export function ensureSchema(): Promise<void> {
         `CREATE INDEX IF NOT EXISTS idx_contact_requests_estado
            ON contact_requests (estado)`
       )
+
+      // Notas internas de seguimiento (una solicitud puede tener varias).
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS contact_notes (
+          id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          contact_id   UUID NOT NULL REFERENCES contact_requests(id) ON DELETE CASCADE,
+          texto        TEXT NOT NULL,
+          created_at   TIMESTAMPTZ NOT NULL DEFAULT now()
+        )
+      `)
+      await pool.query(
+        `CREATE INDEX IF NOT EXISTS idx_contact_notes_contact_id
+           ON contact_notes (contact_id, created_at DESC)`
+      )
     })().catch((err) => {
       // Si falla, permite reintentar en la próxima llamada.
       global.__varsalSchemaReady = undefined

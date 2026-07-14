@@ -14,9 +14,13 @@ export default function ThemeToggle({ className }: ThemeToggleProps) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const current = document.documentElement.getAttribute('data-theme') as Theme | null
-    setTheme(current === 'dark' ? 'dark' : 'light')
-    setMounted(true)
+    // Se agenda como microtarea para no disparar setState de forma síncrona
+    // en el cuerpo del efecto (evita el warning de cascading renders).
+    queueMicrotask(() => {
+      const current = document.documentElement.getAttribute('data-theme') as Theme | null
+      setTheme(current === 'dark' ? 'dark' : 'light')
+      setMounted(true)
+    })
   }, [])
 
   const toggle = () => {

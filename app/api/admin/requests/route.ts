@@ -18,9 +18,11 @@ export async function GET(req: NextRequest) {
     const pageSize = Number(sp.get('pageSize') ?? '20')
     const estado = sp.get('estado') ?? undefined
     const search = sp.get('search') ?? undefined
+    const dateFrom = sp.get('dateFrom') ?? undefined
+    const dateTo = sp.get('dateTo') ?? undefined
 
     const [data, stats] = await Promise.all([
-      listContactRequests({ page, pageSize, estado, search }),
+      listContactRequests({ page, pageSize, estado, search, dateFrom, dateTo }),
       getStats(),
     ])
 

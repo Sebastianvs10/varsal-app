@@ -52,6 +52,16 @@ export interface ContactRequest extends ContactInput {
   updated_at: string
 }
 
+/** Ventana de gracia del SLA de respuesta prometido en el sitio público. */
+export const SLA_HOURS = 24
+
+export interface ContactNote {
+  id: string
+  contact_id: string
+  texto: string
+  created_at: string
+}
+
 export function labelOf(
   list: ReadonlyArray<{ value: string; label: string }>,
   v?: string | null

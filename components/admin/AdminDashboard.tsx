@@ -9,21 +9,31 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Search, RefreshCw, LogOut, Inbox, X, Trash2, Mail, Phone,
   Building2, Calendar, Loader2, Filter, ChevronLeft, ChevronRight, Layers,
+  AlertTriangle, Download, Sparkles,
 } from 'lucide-react'
 import {
-  ESTADOS, PRESUPUESTOS, SERVICIOS, labelOf,
+  ESTADOS, PRESUPUESTOS, SERVICIOS, SLA_HOURS, labelOf,
   type ContactRequest, type Estado,
 } from '@/lib/catalog'
+import type { DailyPoint } from '@/lib/contact'
 import { estadoStyle } from './estado-style'
 import { cn } from '@/lib/utils'
+import CopyButton from './CopyButton'
+import DateRangeFilter, { type DateRangeValue } from './DateRangeFilter'
+import TrendChart from './TrendChart'
+import BulkActionBar from './BulkActionBar'
+import NotesPanel from './NotesPanel'
 
 interface Stats {
   total: number
   porEstado: Record<string, number>
   ultimos7dias: number
+  vencidas: number
+  serie30d: DailyPoint[]
 }
 
 const PAGE_SIZE = 20
+const POLL_INTERVAL_MS = 20000
 
 function formatDate(iso: string): string {
   try {
@@ -35,12 +45,29 @@ function formatDate(iso: string): string {
   }
 }
 
+function isOverdue(item: ContactRequest): boolean {
+  if (item.estado !== 'nuevo') return false
+  const ageMs = Date.now() - new Date(item.created_at).getTime()
+  return ageMs > SLA_HOURS * 3600 * 1000
+}
+
 function EstadoPill({ estado }: { estado: string }) {
   const s = estadoStyle(estado)
   return (
     <span className={cn('inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold border whitespace-nowrap', s.pill)}>
       <span className={cn('w-1.5 h-1.5 rounded-full', s.dot)} />
       {s.label}
+    </span>
+  )
+}
+
+function SlaBadge() {
+  return (
+    <span
+      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-danger/12 text-danger border border-danger/25 whitespace-nowrap"
+      title={`Sin gestionar hace más de ${SLA_HOURS}h`}
+    >
+      <AlertTriangle className="w-3 h-3" /> Vencida
     </span>
   )
 }
@@ -54,19 +81,43 @@ export default function AdminDashboard() {
   const [estadoFilter, setEstadoFilter] = useState('')
   const [search, setSearch] = useState('')
   const [debounced, setDebounced] = useState('')
+  const [dateRange, setDateRange] = useState<DateRangeValue>({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [selected, setSelected] = useState<ContactRequest | null>(null)
-  const firstLoad = useRef(true)
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+  const [newAvailable, setNewAvailable] = useState(false)
+  const [initialLoadDone, setInitialLoadDone] = useState(false)
+  const latestMarkerRef = useRef<string | null>(null)
 
   useEffect(() => {
-    const t = setTimeout(() => setDebounced(search), 350)
+    const t = setTimeout(() => {
+      setDebounced(search)
+      setPage(1)
+    }, 350)
     return () => clearTimeout(t)
   }, [search])
 
-  useEffect(() => {
+  const onEstadoFilterChange = (value: string) => {
+    setEstadoFilter(value)
     setPage(1)
-  }, [debounced, estadoFilter])
+  }
+
+  const onDateRangeChange = (value: DateRangeValue) => {
+    setDateRange(value)
+    setPage(1)
+  }
+
+  const syncLatestMarker = useCallback(async () => {
+    try {
+      const res = await fetch('/api/admin/requests/latest', { cache: 'no-store' })
+      if (!res.ok) return
+      const data = await res.json()
+      if (data?.ok) latestMarkerRef.current = data.id
+    } catch {
+      // silencioso: el polling es best-effort
+    }
+  }, [])
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -75,6 +126,8 @@ export default function AdminDashboard() {
       const params = new URLSearchParams({ page: String(page), pageSize: String(PAGE_SIZE) })
       if (estadoFilter) params.set('estado', estadoFilter)
       if (debounced.trim()) params.set('search', debounced.trim())
+      if (dateRange.dateFrom) params.set('dateFrom', dateRange.dateFrom)
+      if (dateRange.dateTo) params.set('dateTo', dateRange.dateTo)
 
       const res = await fetch(`/api/admin/requests?${params}`, { cache: 'no-store' })
       if (res.status === 401) {
@@ -86,17 +139,45 @@ export default function AdminDashboard() {
       setItems(data.items)
       setTotal(data.total)
       setStats(data.stats)
+      setSelectedIds(new Set())
+      syncLatestMarker()
     } catch (e) {
       setError((e as Error).message)
     } finally {
       setLoading(false)
-      firstLoad.current = false
+      setInitialLoadDone(true)
     }
-  }, [page, estadoFilter, debounced, router])
+  }, [page, estadoFilter, debounced, dateRange, router, syncLatestMarker])
 
   useEffect(() => {
-    load()
+    // Se agenda como microtarea (en vez de invocar `load` de forma síncrona)
+    // para que las actualizaciones de estado ocurran dentro de un callback,
+    // no directamente en el cuerpo del efecto.
+    queueMicrotask(() => { load() })
   }, [load])
+
+  // Polling en vivo: verifica cada 20s si llegó una solicitud nueva (sin recargar la lista).
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (document.hidden) return
+      try {
+        const res = await fetch('/api/admin/requests/latest', { cache: 'no-store' })
+        if (!res.ok) return
+        const data = await res.json()
+        if (data?.ok && data.id && latestMarkerRef.current && data.id !== latestMarkerRef.current) {
+          setNewAvailable(true)
+        }
+      } catch {
+        // silencioso: el polling es best-effort
+      }
+    }, POLL_INTERVAL_MS)
+    return () => clearInterval(interval)
+  }, [])
+
+  const refreshAll = () => {
+    setNewAvailable(false)
+    load()
+  }
 
   const logout = async () => {
     await fetch('/api/admin/logout', { method: 'POST' })
@@ -126,6 +207,50 @@ export default function AdminDashboard() {
     }
   }
 
+  const bulkEstado = async (estado: Estado) => {
+    const ids = Array.from(selectedIds)
+    const res = await fetch('/api/admin/requests/bulk', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ids, estado }),
+    })
+    if (res.ok) load()
+  }
+
+  const bulkDelete = async () => {
+    const ids = Array.from(selectedIds)
+    const res = await fetch('/api/admin/requests/bulk', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ids }),
+    })
+    if (res.ok) load()
+  }
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  const allSelected = items.length > 0 && items.every((i) => selectedIds.has(i.id))
+  const toggleSelectAll = () => {
+    setSelectedIds(allSelected ? new Set() : new Set(items.map((i) => i.id)))
+  }
+
+  const exportUrl = useMemo(() => {
+    const params = new URLSearchParams()
+    if (estadoFilter) params.set('estado', estadoFilter)
+    if (debounced.trim()) params.set('search', debounced.trim())
+    if (dateRange.dateFrom) params.set('dateFrom', dateRange.dateFrom)
+    if (dateRange.dateTo) params.set('dateTo', dateRange.dateTo)
+    const qs = params.toString()
+    return `/api/admin/requests/export${qs ? `?${qs}` : ''}`
+  }, [estadoFilter, debounced, dateRange])
+
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE))
 
   const kpis = useMemo(() => {
@@ -135,6 +260,7 @@ export default function AdminDashboard() {
       { label: 'Nuevas', value: pe.nuevo ?? 0, icon: Layers, tone: 'text-accent bg-accent/12' },
       { label: 'En proceso', value: pe.en_proceso ?? 0, icon: RefreshCw, tone: 'text-warning bg-warning/12' },
       { label: 'Últimos 7 días', value: stats?.ultimos7dias ?? 0, icon: Calendar, tone: 'text-success bg-success/12' },
+      { label: 'Vencidas (SLA)', value: stats?.vencidas ?? 0, icon: AlertTriangle, tone: 'text-danger bg-danger/12' },
     ]
   }, [stats])
 
@@ -153,8 +279,16 @@ export default function AdminDashboard() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <a
+              href={exportUrl}
+              className="h-9 px-3 rounded-md border border-line bg-surface hover:bg-surface-2 flex items-center gap-2 text-sm font-medium text-subtle transition-colors cursor-pointer"
+              title="Exportar CSV con los filtros actuales"
+            >
+              <Download className="w-4 h-4" />
+              <span className="hidden sm:inline">Exportar</span>
+            </a>
             <button
-              onClick={() => load()}
+              onClick={refreshAll}
               className="h-9 w-9 rounded-md border border-line bg-surface hover:bg-surface-2 flex items-center justify-center text-subtle transition-colors cursor-pointer"
               aria-label="Actualizar"
               title="Actualizar"
@@ -172,9 +306,35 @@ export default function AdminDashboard() {
         </div>
       </header>
 
+      {/* Toast de nuevas solicitudes */}
+      <AnimatePresence>
+        {newAvailable && (
+          <motion.div
+            initial={{ opacity: 0, y: -12, x: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.18 }}
+            className="fixed top-[72px] right-4 z-40"
+          >
+            <button
+              onClick={refreshAll}
+              className="vs-panel-elevated rounded-xl pl-3 pr-4 py-2.5 flex items-center gap-2.5 shadow-[var(--vs-shadow-lg)] hover:border-accent/40 transition-colors cursor-pointer"
+            >
+              <span className="w-8 h-8 rounded-lg bg-accent/12 text-accent flex items-center justify-center shrink-0">
+                <Sparkles className="w-4 h-4" />
+              </span>
+              <span className="text-left">
+                <span className="block text-sm font-semibold text-foreground">Nueva solicitud recibida</span>
+                <span className="block text-xs text-accent font-medium">Actualizar →</span>
+              </span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 lg:py-8">
         {/* KPIs */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-6">
           {kpis.map((k) => (
             <div key={k.label} className="vs-panel rounded-xl p-4 flex items-center gap-3">
               <span className={cn('w-10 h-10 rounded-lg flex items-center justify-center shrink-0', k.tone)}>
@@ -188,8 +348,11 @@ export default function AdminDashboard() {
           ))}
         </div>
 
+        {/* Tendencia */}
+        {stats?.serie30d && stats.serie30d.length > 0 && <TrendChart data={stats.serie30d} />}
+
         {/* Toolbar */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-4">
+        <div className="flex flex-col lg:flex-row gap-3 mb-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-faint" />
             <input
@@ -204,7 +367,7 @@ export default function AdminDashboard() {
             <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-faint pointer-events-none" />
             <select
               value={estadoFilter}
-              onChange={(e) => setEstadoFilter(e.target.value)}
+              onChange={(e) => onEstadoFilterChange(e.target.value)}
               className="w-full h-10 rounded-md bg-surface border border-line pl-9 pr-3 text-sm text-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25 transition-colors cursor-pointer"
             >
               <option value="">Todos los estados</option>
@@ -213,6 +376,7 @@ export default function AdminDashboard() {
               ))}
             </select>
           </div>
+          <DateRangeFilter onChange={onDateRangeChange} />
         </div>
 
         {/* Contenido */}
@@ -221,7 +385,7 @@ export default function AdminDashboard() {
             <p className="text-danger text-sm mb-3">{error}</p>
             <button onClick={() => load()} className="text-sm font-semibold text-accent cursor-pointer">Reintentar</button>
           </div>
-        ) : loading && firstLoad.current ? (
+        ) : loading && !initialLoadDone ? (
           <SkeletonList />
         ) : items.length === 0 ? (
           <div className="vs-panel rounded-xl p-12 flex flex-col items-center text-center">
@@ -230,7 +394,7 @@ export default function AdminDashboard() {
             </span>
             <h3 className="font-semibold text-foreground mb-1">Sin solicitudes</h3>
             <p className="text-sm text-subtle max-w-xs">
-              {debounced || estadoFilter
+              {debounced || estadoFilter || dateRange.dateFrom
                 ? 'No hay resultados con los filtros actuales.'
                 : 'Cuando alguien complete el formulario, aparecerá aquí.'}
             </p>
@@ -239,49 +403,100 @@ export default function AdminDashboard() {
           <>
             {/* Tabla desktop */}
             <div className="vs-panel rounded-xl overflow-hidden hidden md:block">
-              <div className="grid grid-cols-[1.6fr_1.4fr_auto_auto] gap-4 px-5 py-3 border-b border-line bg-surface-2/50">
+              <div className="grid grid-cols-[auto_1.6fr_1.4fr_auto_auto] gap-4 px-5 py-3 border-b border-line bg-surface-2/50 items-center">
+                <input
+                  type="checkbox"
+                  checked={allSelected}
+                  onChange={toggleSelectAll}
+                  className="w-4 h-4 rounded border-line accent-[var(--vs-accent)] cursor-pointer"
+                  aria-label="Seleccionar todas"
+                />
                 {['Contacto', 'Servicio', 'Estado', 'Fecha'].map((h) => (
                   <span key={h} className="text-[11px] font-semibold uppercase tracking-wider text-subtle">{h}</span>
                 ))}
               </div>
-              {items.map((r) => (
-                <button
-                  key={r.id}
-                  onClick={() => setSelected(r)}
-                  className="w-full grid grid-cols-[1.6fr_1.4fr_auto_auto] gap-4 px-5 py-3.5 border-b border-line last:border-0 items-center text-left hover:bg-surface-2/60 transition-colors cursor-pointer"
-                >
-                  <div className="min-w-0">
-                    <p className="font-semibold text-foreground text-sm truncate">{r.nombre}</p>
-                    <p className="text-xs text-faint truncate">{r.email}{r.empresa ? ` · ${r.empresa}` : ''}</p>
+              {items.map((r) => {
+                const overdue = isOverdue(r)
+                return (
+                  <div
+                    key={r.id}
+                    className={cn(
+                      'group w-full grid grid-cols-[auto_1.6fr_1.4fr_auto_auto] gap-4 px-5 py-3.5 border-b border-line last:border-0 items-center transition-colors',
+                      overdue ? 'border-l-2 border-l-danger' : '',
+                      selectedIds.has(r.id) ? 'bg-accent/6' : 'hover:bg-surface-2/60'
+                    )}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.has(r.id)}
+                      onChange={() => toggleSelect(r.id)}
+                      onClick={(e) => e.stopPropagation()}
+                      className="w-4 h-4 rounded border-line accent-[var(--vs-accent)] cursor-pointer"
+                      aria-label={`Seleccionar ${r.nombre}`}
+                    />
+                    <button onClick={() => setSelected(r)} className="min-w-0 text-left cursor-pointer">
+                      <p className="font-semibold text-foreground text-sm truncate">{r.nombre}</p>
+                      <span className="flex items-center gap-1 text-xs text-faint truncate">
+                        <span className="truncate">{r.email}{r.empresa ? ` · ${r.empresa}` : ''}</span>
+                        <CopyButton value={r.email} label="email" className="opacity-0 group-hover:opacity-100" />
+                      </span>
+                    </button>
+                    <button onClick={() => setSelected(r)} className="text-left cursor-pointer">
+                      <span className="text-sm text-subtle truncate">{labelOf(SERVICIOS, r.servicio)}</span>
+                    </button>
+                    <button onClick={() => setSelected(r)} className="flex items-center gap-1.5 cursor-pointer">
+                      <EstadoPill estado={r.estado} />
+                      {overdue && <SlaBadge />}
+                    </button>
+                    <button onClick={() => setSelected(r)} className="text-xs text-faint whitespace-nowrap tabular-nums cursor-pointer text-right">
+                      {formatDate(r.created_at)}
+                    </button>
                   </div>
-                  <span className="text-sm text-subtle truncate">{labelOf(SERVICIOS, r.servicio)}</span>
-                  <EstadoPill estado={r.estado} />
-                  <span className="text-xs text-faint whitespace-nowrap tabular-nums">{formatDate(r.created_at)}</span>
-                </button>
-              ))}
+                )
+              })}
             </div>
 
             {/* Cards móvil */}
             <div className="grid gap-3 md:hidden">
-              {items.map((r) => (
-                <button
-                  key={r.id}
-                  onClick={() => setSelected(r)}
-                  className="vs-panel rounded-xl p-4 text-left hover:border-line-strong transition-colors cursor-pointer"
-                >
-                  <div className="flex items-start justify-between gap-3 mb-2">
-                    <div className="min-w-0">
-                      <p className="font-semibold text-foreground text-sm truncate">{r.nombre}</p>
-                      <p className="text-xs text-faint truncate">{r.email}</p>
+              {items.map((r) => {
+                const overdue = isOverdue(r)
+                return (
+                  <div
+                    key={r.id}
+                    className={cn(
+                      'vs-panel rounded-xl p-4 transition-colors',
+                      overdue && 'border-l-2 border-l-danger',
+                      selectedIds.has(r.id) && 'bg-accent/6'
+                    )}
+                  >
+                    <div className="flex items-start gap-2.5">
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.has(r.id)}
+                        onChange={() => toggleSelect(r.id)}
+                        className="w-4 h-4 mt-1 rounded border-line accent-[var(--vs-accent)] cursor-pointer shrink-0"
+                        aria-label={`Seleccionar ${r.nombre}`}
+                      />
+                      <button onClick={() => setSelected(r)} className="flex-1 min-w-0 text-left cursor-pointer">
+                        <div className="flex items-start justify-between gap-3 mb-2">
+                          <div className="min-w-0">
+                            <p className="font-semibold text-foreground text-sm truncate">{r.nombre}</p>
+                            <p className="text-xs text-faint truncate">{r.email}</p>
+                          </div>
+                          <div className="flex flex-col items-end gap-1 shrink-0">
+                            <EstadoPill estado={r.estado} />
+                            {overdue && <SlaBadge />}
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between gap-2 text-xs text-subtle">
+                          <span className="truncate">{labelOf(SERVICIOS, r.servicio)}</span>
+                          <span className="text-faint whitespace-nowrap tabular-nums">{formatDate(r.created_at)}</span>
+                        </div>
+                      </button>
                     </div>
-                    <EstadoPill estado={r.estado} />
                   </div>
-                  <div className="flex items-center justify-between gap-2 text-xs text-subtle">
-                    <span className="truncate">{labelOf(SERVICIOS, r.servicio)}</span>
-                    <span className="text-faint whitespace-nowrap tabular-nums">{formatDate(r.created_at)}</span>
-                  </div>
-                </button>
-              ))}
+                )
+              })}
             </div>
 
             {/* Paginación */}
@@ -311,6 +526,14 @@ export default function AdminDashboard() {
           </>
         )}
       </main>
+
+      {/* Barra flotante de acciones masivas */}
+      <BulkActionBar
+        count={selectedIds.size}
+        onEstado={bulkEstado}
+        onDelete={bulkDelete}
+        onClear={() => setSelectedIds(new Set())}
+      />
 
       {/* Slide-over detalle */}
       <DetailSlideOver
@@ -349,9 +572,20 @@ function DetailSlideOver({
 }) {
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [working, setWorking] = useState(false)
+  const overdue = item ? isOverdue(item) : false
+
+  // Reinicia la confirmación de borrado cuando cambia la solicitud mostrada.
+  // Se ajusta durante el render (patrón recomendado por React para "derivar"
+  // estado a partir de un cambio de prop) en vez de un efecto, evitando un
+  // ciclo extra de renderizado.
+  const [prevItemId, setPrevItemId] = useState<string | null>(null)
+  const currentItemId = item?.id ?? null
+  if (currentItemId !== prevItemId) {
+    setPrevItemId(currentItemId)
+    setConfirmDelete(false)
+  }
 
   useEffect(() => {
-    setConfirmDelete(false)
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
     if (item) document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
@@ -376,6 +610,7 @@ function DetailSlideOver({
               <div className="flex items-center gap-2 min-w-0">
                 <h2 className="font-bold text-foreground truncate">{item.nombre}</h2>
                 <EstadoPill estado={item.estado} />
+                {overdue && <SlaBadge />}
               </div>
               <button onClick={onClose} className="h-8 w-8 rounded-md hover:bg-surface-2 flex items-center justify-center text-subtle transition-colors cursor-pointer">
                 <X className="w-5 h-5" />
@@ -384,8 +619,28 @@ function DetailSlideOver({
 
             <div className="flex-1 overflow-y-auto p-5 space-y-5">
               <div className="space-y-2.5">
-                <DetailRow icon={Mail} label="Email" value={<a href={`mailto:${item.email}`} className="text-accent hover:underline break-all">{item.email}</a>} />
-                {item.telefono && <DetailRow icon={Phone} label="Teléfono" value={<a href={`tel:${item.telefono}`} className="text-accent hover:underline">{item.telefono}</a>} />}
+                <DetailRow
+                  icon={Mail}
+                  label="Email"
+                  value={
+                    <span className="flex items-center gap-1.5">
+                      <a href={`mailto:${item.email}`} className="text-accent hover:underline break-all">{item.email}</a>
+                      <CopyButton value={item.email} label="email" />
+                    </span>
+                  }
+                />
+                {item.telefono && (
+                  <DetailRow
+                    icon={Phone}
+                    label="Teléfono"
+                    value={
+                      <span className="flex items-center gap-1.5">
+                        <a href={`tel:${item.telefono}`} className="text-accent hover:underline">{item.telefono}</a>
+                        <CopyButton value={item.telefono} label="teléfono" />
+                      </span>
+                    }
+                  />
+                )}
                 {item.empresa && <DetailRow icon={Building2} label="Empresa" value={item.empresa} />}
                 <DetailRow icon={Layers} label="Servicio" value={labelOf(SERVICIOS, item.servicio)} />
                 <DetailRow icon={Inbox} label="Presupuesto" value={labelOf(PRESUPUESTOS, item.presupuesto)} />
@@ -420,6 +675,8 @@ function DetailSlideOver({
                   })}
                 </div>
               </div>
+
+              <NotesPanel key={item.id} contactId={item.id} />
             </div>
 
             <div className="border-t border-line p-4 shrink-0 flex items-center gap-3">
