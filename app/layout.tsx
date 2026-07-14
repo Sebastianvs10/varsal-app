@@ -2,6 +2,12 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { themeInitScript } from '@/lib/theme'
 import BackToTop from '@/components/ui/BackToTop'
+import {
+  organizationJsonLd,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+} from '@/lib/site'
 import './globals.css'
 
 const geistSans = Geist({
@@ -16,41 +22,59 @@ const geistMono = Geist_Mono({
   display: 'swap',
 })
 
+const TITLE = 'VARSAL Systems | Soluciones Tecnológicas Empresariales'
+
 export const metadata: Metadata = {
-  title: 'VARSAL Systems | Soluciones Tecnológicas Empresariales',
-  description:
-    'Transformamos ideas en soluciones digitales escalables. Desarrollo de software empresarial, automatización, SaaS, cloud y consultoría tecnológica.',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: TITLE,
+    template: '%s | VARSAL Systems',
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
   keywords: [
-    'desarrollo software',
-    'sistemas empresariales',
-    'automatización',
-    'SaaS',
-    'cloud',
+    'desarrollo de software a medida',
+    'software empresarial',
+    'aplicaciones web y móviles',
+    'infraestructura cloud',
+    'DevOps',
+    'automatización de procesos',
+    'integraciones',
     'consultoría tecnológica',
+    'transformación digital',
     'Colombia',
     'VARSAL Systems',
   ],
-  authors: [{ name: 'VARSAL Systems' }],
-  creator: 'VARSAL Systems',
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: 'website',
     locale: 'es_CO',
-    url: 'https://varsalsystems.com',
-    title: 'VARSAL Systems | Soluciones Tecnológicas Empresariales',
-    description:
-      'Transformamos ideas en soluciones digitales escalables. Expertos en desarrollo web, software a medida, automatización y arquitectura cloud.',
-    siteName: 'VARSAL Systems',
+    url: SITE_URL,
+    title: TITLE,
+    description: SITE_DESCRIPTION,
+    siteName: SITE_NAME,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'VARSAL Systems | Soluciones Tecnológicas Empresariales',
-    description: 'Transformamos ideas en soluciones digitales escalables.',
+    title: TITLE,
+    description: SITE_DESCRIPTION,
     creator: '@VARSALSystems',
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true },
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
   },
 }
 
@@ -63,6 +87,10 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
+        />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         {children}
