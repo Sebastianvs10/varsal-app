@@ -17,9 +17,9 @@ export default function AvisoLegalPage() {
           content: [
             'Razón social: VARSAL Systems S.A.S.',
             'NIT: En trámite de constitución.',
-            'Domicilio: Bogotá D.C., República de Colombia.',
-            'Correo electrónico: legal@varsalsystems.com',
-            'Teléfono: +57 300 123 4567',
+            'Domicilio: Calle 7 #7-21, Oporapa, Huila, República de Colombia.',
+            'Correo electrónico: varsalsystems@gmail.com',
+            'Teléfono: +57 318 427 3263',
             'Actividad económica: Desarrollo de software, consultoría tecnológica y servicios de TI.',
           ],
         },

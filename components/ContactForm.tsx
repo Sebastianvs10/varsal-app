@@ -44,9 +44,9 @@ export default function ContactForm() {
 
   const validateClient = (): FieldErrors => {
     const e: FieldErrors = {}
-    if (form.nombre.trim().length < 2) e.nombre = 'Ingrese su nombre.'
+    if (form.nombre.trim().length < 2) e.nombre = 'Ingresa tu nombre.'
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) e.email = 'Email no válido.'
-    if (form.mensaje.trim().length < 10) e.mensaje = 'Cuéntenos un poco más.'
+    if (form.mensaje.trim().length < 10) e.mensaje = 'Cuéntanos un poco más.'
     return e
   }
 
@@ -76,7 +76,7 @@ export default function ContactForm() {
       }
 
       if (data?.fields) setErrors(data.fields as FieldErrors)
-      setServerError(data?.error ?? 'No pudimos enviar su solicitud.')
+      setServerError(data?.error ?? 'No pudimos enviar tu solicitud.')
       setStatus('error')
     } catch {
       setServerError('Error de conexión. Revise su red e intente de nuevo.')
@@ -97,7 +97,7 @@ export default function ContactForm() {
         </span>
         <h3 className="text-xl font-bold text-foreground mb-2">¡Solicitud enviada!</h3>
         <p className="text-subtle text-sm max-w-xs mb-6 leading-relaxed">
-          Gracias por escribirnos. Nuestro equipo le contactará muy pronto.
+          Gracias por escribirnos. Te contactamos muy pronto.
         </p>
         <button
           type="button"
@@ -232,7 +232,7 @@ export default function ContactForm() {
 
       <div className="mt-4">
         <label htmlFor="cf-mensaje" className={labelBase}>
-          ¿En qué podemos ayudarle? <span className="text-danger">*</span>
+          ¿En qué podemos ayudarte? <span className="text-danger">*</span>
         </label>
         <textarea
           id="cf-mensaje"
@@ -243,7 +243,7 @@ export default function ContactForm() {
             'focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25 disabled:opacity-60',
             errors.mensaje && 'border-danger focus:border-danger focus:ring-danger/25'
           )}
-          placeholder="Cuéntenos brevemente su proyecto, reto u objetivo…"
+          placeholder="Cuéntanos brevemente tu proyecto, reto u objetivo…"
           value={form.mensaje}
           onChange={(e) => update('mensaje', e.target.value)}
           disabled={busy}
@@ -289,7 +289,7 @@ export default function ContactForm() {
       </button>
 
       <p className="mt-3 text-center text-[11px] text-faint">
-        Sus datos se tratan de forma confidencial. Solo los usamos para contactarle.
+        Tus datos se tratan de forma confidencial. Solo los usamos para contactarte.
       </p>
     </form>
   )

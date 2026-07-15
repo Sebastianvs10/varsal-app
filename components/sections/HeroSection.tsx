@@ -1,22 +1,72 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Code2, Cloud, Bot, Compass } from 'lucide-react'
 import AnimatedCounter from '@/components/ui/AnimatedCounter'
-import Badge from '@/components/ui/Badge'
+import HeroTechBackdrop from '@/components/sections/HeroTechBackdrop'
 
-const stats = [
-  { value: 4, suffix: '', label: 'Áreas de especialidad', isNumber: true },
-  { value: 100, suffix: '%', label: 'Soluciones a la medida', isNumber: true },
-  { value: 0, suffix: '', label: '24/7 monitoreo y soporte', isNumber: false, display: '24/7' },
-  { value: 0, suffix: '', label: 'Humo. Solo resultados', isNumber: false, display: '0' },
+const metrics = [
+  { value: 4, suffix: '', label: 'Áreas de especialidad' },
+  { value: 24, suffix: 'h', label: 'Primera respuesta' },
+  { value: 100, suffix: '%', label: 'A la medida, cero plantillas' },
 ]
 
-const techLogos = ['React', 'Next.js', 'Node.js', 'Java', 'AWS', 'Docker', 'Python', 'TypeScript']
-const techLogosLoop = [...techLogos, ...techLogos]
+const floatCards = [
+  {
+    icon: Code2,
+    label: 'Software a medida',
+    tag: 'Next.js · React Native',
+    accent: 'accent',
+    pos: { top: '2%', left: '0%' },
+    rotate: -4,
+    z: 30,
+    duration: 5.4,
+    delay: 0,
+  },
+  {
+    icon: Cloud,
+    label: 'Cloud & DevOps',
+    tag: 'AWS · Docker · K8s',
+    accent: 'navy',
+    pos: { top: '0%', right: '2%' },
+    rotate: 5,
+    z: 20,
+    duration: 6.2,
+    delay: 0.5,
+  },
+  {
+    icon: Bot,
+    label: 'Automatización',
+    tag: 'Integraciones · RPA',
+    accent: 'accent-2',
+    pos: { bottom: '10%', left: '14%' },
+    rotate: 3,
+    z: 25,
+    duration: 5.8,
+    delay: 1,
+  },
+  {
+    icon: Compass,
+    label: 'Consultoría',
+    tag: 'Arquitectura · Roadmap',
+    accent: 'success',
+    pos: { bottom: '2%', right: '8%' },
+    rotate: -6,
+    z: 15,
+    duration: 5,
+    delay: 0.3,
+  },
+] as const
+
+const accentClasses = {
+  accent: { bg: 'bg-accent/12', border: 'border-accent/20', icon: 'text-accent' },
+  navy: { bg: 'bg-navy/12', border: 'border-navy/20', icon: 'text-navy-2' },
+  'accent-2': { bg: 'bg-accent-2/12', border: 'border-accent-2/20', icon: 'text-accent-2' },
+  success: { bg: 'bg-success/12', border: 'border-success/20', icon: 'text-success' },
+}
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 14 },
   show: (i: number) => ({
     opacity: 1,
     y: 0,
@@ -33,130 +83,149 @@ export default function HeroSection() {
     <section
       id="inicio"
       className="relative overflow-hidden bg-background"
-      style={{ paddingTop: 'clamp(112px, 14vw, 160px)', paddingBottom: 'clamp(56px, 7vw, 96px)' }}
+      style={{ paddingTop: 'clamp(120px, 15vw, 168px)', paddingBottom: 'clamp(64px, 7vw, 100px)' }}
     >
       <div className="mesh-gradient" aria-hidden="true" />
-      <div
-        className="absolute inset-0 grid-texture opacity-60"
-        style={{ maskImage: 'linear-gradient(to bottom, black, transparent 70%)' }}
-      />
+      <HeroTechBackdrop />
 
-      <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: -6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Badge variant="accent" className="mb-6">Empresa de tecnología</Badge>
-        </motion.div>
+      <div className="relative z-10 mx-auto max-w-6xl px-6">
+        <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-14 lg:gap-10 items-center">
+          {/* Columna de texto — izquierda, editorial */}
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2.5 mb-7 font-mono text-xs text-subtle"
+            >
+              <span className="status-dot" />
+              Disponibles para nuevos proyectos
+              <span className="text-faint">·</span>
+              <span className="text-faint">Huila, Colombia</span>
+            </motion.div>
 
-        <motion.h1
-          custom={0}
-          initial="hidden"
-          animate="show"
-          variants={fadeUp}
-          className="font-bold leading-[1.1] mb-6 text-foreground text-center text-balance"
-          style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}
-        >
-          Más que tecnología, soluciones que impulsan su{' '}
-          <span className="text-brand">crecimiento</span>.
-        </motion.h1>
+            <motion.h1
+              custom={0}
+              initial="hidden"
+              animate="show"
+              variants={fadeUp}
+              className="font-bold leading-[1.08] mb-6 text-foreground text-balance"
+              style={{ fontSize: 'clamp(2.5rem, 4.6vw, 3.75rem)' }}
+            >
+              Desarrollamos software empresarial que impulsa<br />
+              el <span className="text-brand">crecimiento</span> de tu negocio.
+            </motion.h1>
 
-        <motion.div
-          custom={1}
-          initial="hidden"
-          animate="show"
-          variants={fadeUp}
-          className="flex justify-center mb-9"
-        >
-          <p
-            className="text-subtle leading-relaxed max-w-xl text-center"
-            style={{ fontSize: 'clamp(1rem, 1.15vw, 1.125rem)' }}
-          >
-            Software a medida, infraestructura cloud y automatización para
-            impulsar el crecimiento de su empresa.
-          </p>
-        </motion.div>
+            <motion.p
+              custom={1}
+              initial="hidden"
+              animate="show"
+              variants={fadeUp}
+              className="text-subtle leading-relaxed max-w-lg mb-9"
+              style={{ fontSize: 'clamp(1rem, 1.1vw, 1.125rem)' }}
+            >
+              Impulsamos la transformación digital de empresas mediante
+              plataformas seguras, escalables y desarrolladas bajo estándares
+              modernos de ingeniería.
+            </motion.p>
 
-        <motion.div
-          custom={2}
-          initial="hidden"
-          animate="show"
-          variants={fadeUp}
-          className="flex flex-wrap items-center justify-center gap-3 mb-16"
-        >
-          <motion.button
-            whileHover={{ y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => scrollTo('#contacto')}
-            className="group flex items-center gap-2 px-5 py-3 rounded-md font-semibold text-white text-sm
-              brand-gradient btn-glow-accent hover:brightness-110
-              transition-all duration-150 cursor-pointer"
-          >
-            Agenda una llamada
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-          </motion.button>
+            <motion.div
+              custom={2}
+              initial="hidden"
+              animate="show"
+              variants={fadeUp}
+              className="flex flex-wrap items-center gap-3 mb-14"
+            >
+              <motion.button
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => scrollTo('#contacto')}
+                className="group flex items-center gap-2 px-5 py-3 rounded-md font-semibold text-white text-sm
+                  brand-gradient btn-glow-accent hover:brightness-110
+                  transition-all duration-150 cursor-pointer"
+              >
+                Agenda una reunión
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </motion.button>
 
-          <button
-            onClick={() => scrollTo('#servicios')}
-            className="px-5 py-3 rounded-md font-semibold text-sm
-              text-foreground border border-line hover:border-line-strong
-              bg-surface hover:bg-surface-2 transition-colors duration-150 cursor-pointer"
-          >
-            Explora los servicios
-          </button>
-        </motion.div>
+              <button
+                onClick={() => scrollTo('#proceso')}
+                className="group px-5 py-3 rounded-md font-semibold text-sm
+                  text-foreground border border-line hover:border-line-strong
+                  bg-surface hover:bg-surface-2 transition-colors duration-150 cursor-pointer"
+              >
+                Conoce nuestro proceso
+                <span className="inline-block ml-1.5 group-hover:translate-x-0.5 transition-transform">→</span>
+              </button>
+            </motion.div>
 
-        {/* Stats — panel agrupado con divisores, no números sueltos */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="vs-panel rounded-xl mb-16 grid grid-cols-2 sm:grid-cols-4 divide-x divide-y sm:divide-y-0 divide-line overflow-hidden"
-        >
-          {stats.map((stat) => (
-            <div key={stat.label} className="px-4 py-6 text-center">
-              <div className="font-bold text-brand tracking-tight tabular-nums" style={{ fontSize: 'clamp(1.5rem, 2.4vw, 2rem)' }}>
-                {stat.isNumber ? (
-                  <AnimatedCounter end={stat.value} suffix={stat.suffix} />
-                ) : (
-                  stat.display
-                )}
-              </div>
-              <p className="text-xs text-faint mt-1.5 leading-snug">{stat.label}</p>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Tech logos — cinta con scroll infinito */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="pt-10 border-t border-line"
-        >
-          <p className="text-center text-[11px] text-faint tracking-[0.2em] uppercase mb-6">
-            Construimos con lo mejor del ecosistema tecnológico
-          </p>
-          <div
-            className="marquee-viewport relative overflow-hidden"
-            style={{ maskImage: 'linear-gradient(to right, transparent, black 12%, black 88%, transparent)' }}
-          >
-            <div className="marquee-track gap-12 pr-12">
-              {techLogosLoop.map((tech, i) => (
-                <span
-                  key={`${tech}-${i}`}
-                  className="flex items-center gap-2 text-[15px] font-semibold text-faint hover:text-foreground transition-colors cursor-default tracking-tight whitespace-nowrap"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent/50" />
-                  {tech}
-                </span>
+            {/* Métricas — fila editorial en línea, no panel encajonado */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-wrap items-center gap-x-8 gap-y-4 pt-8 border-t border-line"
+            >
+              {metrics.map((m) => (
+                <div key={m.label}>
+                  <div className="font-bold text-foreground tracking-tight tabular-nums text-2xl">
+                    <AnimatedCounter end={m.value} suffix={m.suffix} />
+                  </div>
+                  <p className="text-xs text-faint mt-0.5">{m.label}</p>
+                </div>
               ))}
-            </div>
+            </motion.div>
           </div>
-        </motion.div>
+
+          {/* Columna visual — tarjetas flotantes de las 4 especialidades, con leve movimiento */}
+          <div
+            className="relative"
+            style={{ minHeight: 'clamp(320px, 30vw, 420px)' }}
+            aria-hidden="true"
+          >
+            <div
+              className="absolute inset-0 rounded-full opacity-25"
+              style={{
+                background: 'radial-gradient(circle, var(--vs-accent) 0%, transparent 70%)',
+                filter: 'blur(56px)',
+              }}
+            />
+
+            {floatCards.map((card, i) => {
+              const a = accentClasses[card.accent]
+              return (
+                <motion.div
+                  key={card.label}
+                  initial={{ opacity: 0, y: 24, rotate: card.rotate }}
+                  animate={{ opacity: 1, y: 0, rotate: card.rotate }}
+                  transition={{ duration: 0.55, delay: 0.15 + i * 0.1, ease: [0.2, 0.8, 0.2, 1] }}
+                  className="absolute w-[150px] sm:w-[180px] lg:w-[190px]"
+                  style={{ ...card.pos, zIndex: card.z }}
+                >
+                  <motion.div
+                    animate={{ y: [0, -8, 0] }}
+                    transition={{
+                      duration: card.duration,
+                      delay: card.delay,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    }}
+                    className="vs-panel-elevated rounded-xl px-4 py-3.5"
+                  >
+                    <span className={`w-8 h-8 rounded-md ${a.bg} border ${a.border} flex items-center justify-center mb-2.5`}>
+                      <card.icon className={`w-4 h-4 ${a.icon}`} strokeWidth={1.75} />
+                    </span>
+                    <p className="text-[13px] font-semibold text-foreground leading-tight mb-0.5">
+                      {card.label}
+                    </p>
+                    <p className="font-mono text-[10px] text-faint leading-snug">{card.tag}</p>
+                  </motion.div>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
       </div>
     </section>
   )

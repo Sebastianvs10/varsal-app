@@ -1,30 +1,29 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ChevronRight } from 'lucide-react'
 import SectionWrapper from '@/components/ui/SectionWrapper'
-import Badge from '@/components/ui/Badge'
+import SectionEyebrow from '@/components/ui/SectionEyebrow'
 
 const steps = [
   {
     number: '01',
-    title: 'Diagnóstico',
-    desc: 'Escuchamos su negocio y detectamos qué le frena y qué genera más valor. Sin costo y sin compromiso.',
+    title: 'Descubrimiento',
+    desc: 'Analizamos tus procesos, objetivos y desafíos para comprender el contexto del negocio e identificar las oportunidades con mayor impacto.',
   },
   {
     number: '02',
-    title: 'Estrategia',
-    desc: 'Armamos una hoja de ruta priorizada por impacto y esfuerzo, con alcance, tiempos y presupuesto claros.',
+    title: 'Estrategia y Arquitectura',
+    desc: 'Diseñamos la solución tecnológica, definimos la arquitectura, el alcance, el cronograma y un plan de trabajo alineado con las prioridades de tu empresa.',
   },
   {
     number: '03',
-    title: 'Construcción',
-    desc: 'Ejecutamos por fases y entregamos valor en semanas, no en años, con comunicación constante.',
+    title: 'Desarrollo e Implementación',
+    desc: 'Construimos la solución mediante entregas iterativas, con comunicación continua, revisiones periódicas y altos estándares de calidad en cada fase.',
   },
   {
     number: '04',
-    title: 'Evolución',
-    desc: 'Medimos resultados, damos soporte y hacemos crecer la solución con usted. No entregamos y desaparecemos.',
+    title: 'Optimización y Evolución',
+    desc: 'Después del lanzamiento, monitoreamos el desempeño, brindamos soporte y evolucionamos la plataforma para acompañar el crecimiento de tu negocio.',
   },
 ]
 
@@ -32,42 +31,62 @@ export default function ProcessSection() {
   return (
     <SectionWrapper id="proceso" className="bg-background">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-16">
-          <Badge variant="accent" className="mb-4">Cómo trabajamos</Badge>
-          <h2 className="text-4xl lg:text-5xl font-bold mb-5 text-foreground text-balance">
-            Un proceso claro, de la idea al <span className="text-brand">resultado</span>
+        <div className="mb-16 flex flex-col items-center text-center">
+          <SectionEyebrow index="02" label="Cómo trabajamos" />
+          <h2 className="w-full text-4xl lg:text-5xl font-bold mb-5 text-foreground text-balance">
+            Transformamos <span className="text-brand">ideas</span> en soluciones tecnológicas con un proceso probado.
           </h2>
-          <div className="flex justify-center">
-            <p className="text-subtle text-lg max-w-xl text-center leading-relaxed">
-              Un proceso simple y transparente: sabe en todo momento en qué fase
-              está y qué sigue.
-            </p>
+          <p className="max-w-2xl text-subtle text-lg leading-relaxed">
+            En cada etapa conocerás el estado del proyecto, los siguientes pasos
+            y los entregables definidos. Trabajamos con una metodología ágil,
+            comunicación constante y total transparencia desde el primer día.
+          </p>
+        </div>
+
+        {/* Desktop: timeline horizontal conectada */}
+        <div className="hidden lg:block relative">
+          <div className="absolute top-5 left-0 right-0 h-px timeline-line" aria-hidden="true" />
+          <div className="grid grid-cols-4 gap-6">
+            {steps.map((step, i) => (
+              <motion.div
+                key={step.number}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.4 }}
+                className="relative"
+              >
+                <div className="relative z-10 w-10 h-10 rounded-full bg-background border-2 border-accent flex items-center justify-center mb-6">
+                  <span className="font-mono font-bold text-xs text-accent tabular-nums">{step.number}</span>
+                </div>
+                <h3 className="font-bold text-base mb-2 text-foreground">{step.title}</h3>
+                <p className="text-sm text-subtle leading-relaxed">{step.desc}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {steps.map((step, i) => (
-            <motion.div
-              key={step.number}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.4 }}
-              className="relative bg-surface rounded-lg border border-line shadow-[var(--vs-shadow-sm)] p-7"
-            >
-              {i < steps.length - 1 && (
-                <span className="hidden lg:flex absolute top-9 -right-[22px] z-10 w-6 h-6 rounded-full bg-background border border-line items-center justify-center">
-                  <ChevronRight className="w-3.5 h-3.5 text-faint" />
-                </span>
-              )}
-
-              <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent/15 border border-accent/25 text-accent font-bold text-sm tabular-nums mb-4">
-                {step.number}
-              </span>
-              <h3 className="font-bold text-base mb-2 text-foreground">{step.title}</h3>
-              <p className="text-sm text-subtle leading-relaxed">{step.desc}</p>
-            </motion.div>
-          ))}
+        {/* Mobile / tablet: timeline vertical conectada */}
+        <div className="lg:hidden relative pl-9">
+          <div className="absolute top-2 bottom-2 left-[15px] w-px bg-line-strong" aria-hidden="true" />
+          <div className="space-y-9">
+            {steps.map((step, i) => (
+              <motion.div
+                key={step.number}
+                initial={{ opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.4 }}
+                className="relative"
+              >
+                <div className="absolute -left-9 top-0 w-8 h-8 rounded-full bg-background border-2 border-accent flex items-center justify-center">
+                  <span className="font-mono font-bold text-[11px] text-accent tabular-nums">{step.number}</span>
+                </div>
+                <h3 className="font-bold text-base mb-1.5 text-foreground">{step.title}</h3>
+                <p className="text-sm text-subtle leading-relaxed">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </SectionWrapper>

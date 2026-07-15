@@ -3,64 +3,138 @@ import LegalPage from '@/components/LegalPage'
 
 export const metadata: Metadata = {
   title: 'Política de Privacidad | VARSAL Systems',
-  description: 'Cómo recopilamos, usamos y protegemos sus datos personales en VARSAL Systems.',
+  description:
+    'Cómo VARSAL Systems recopila, usa, protege y permite ejercer derechos sobre los datos personales de sus usuarios, conforme a la Ley 1581 de 2012 y el Decreto 1074 de 2015.',
 }
 
 export default function PrivacidadPage() {
   return (
     <LegalPage
       title="Política de Privacidad"
-      subtitle="Información sobre el tratamiento y protección de sus datos personales conforme a la Ley 1581 de 2012."
-      lastUpdated="1 de enero de 2025"
+      subtitle="Cómo recopilamos, usamos y protegemos sus datos personales, conforme a la Ley 1581 de 2012, el Decreto 1074 de 2015 (Título 2, Capítulo 25) y demás normas de Habeas Data en Colombia."
+      lastUpdated="15 de julio de 2026"
+      summary={[
+        'Solo recopilamos los datos que usted nos entrega voluntariamente en el formulario de contacto.',
+        'No vendemos ni compartimos sus datos con terceros para fines publicitarios.',
+        'Puede conocer, actualizar, rectificar o eliminar sus datos en cualquier momento (art. 8, Ley 1581/2012).',
+        'Proveedores certificados (Neon, Vercel, Resend) procesan sus datos como Encargados del Tratamiento.',
+      ]}
       sections={[
         {
-          title: 'Responsable del tratamiento',
-          content: 'VARSAL Systems S.A.S., identificada con NIT [en trámite], con domicilio en Bogotá D.C., Colombia, es la responsable del tratamiento de los datos personales recopilados a través de sus plataformas y servicios. Contacto: privacidad@varsalsystems.com.',
+          id: 'introduccion',
+          title: 'Introducción y marco normativo',
+          content:
+            'Esta Política describe cómo VARSAL Systems S.A.S. ("VARSAL") recopila, usa y protege los datos personales de quienes visitan varsalsystems.com o diligencian nuestro formulario de contacto, en cumplimiento de la Ley 1581 de 2012, su decreto reglamentario compilado en el Decreto Único 1074 de 2015 (Título 2, Capítulo 25) y la Ley 527 de 1999, que reconoce validez jurídica al consentimiento otorgado por medios electrónicos.',
         },
         {
+          id: 'responsable',
+          title: 'Responsable del tratamiento',
+          content:
+            'VARSAL Systems S.A.S., domiciliada en Calle 7 #7-21, Oporapa, Huila, Colombia, es la Responsable del Tratamiento de los datos personales recopilados a través de sus plataformas digitales, conforme al artículo 3 literal e) de la Ley 1581 de 2012.',
+        },
+        {
+          id: 'principios',
+          title: 'Principios que aplicamos',
+          content: [
+            'Legalidad (art. 4, lit. a): el tratamiento se sujeta a la Ley 1581 de 2012 y sus decretos reglamentarios.',
+            'Finalidad (lit. b): los datos se recopilan para propósitos legítimos e informados en esta política.',
+            'Libertad (lit. c): el tratamiento solo se ejerce con consentimiento previo, expreso e informado del titular.',
+            'Veracidad y calidad (lit. d): procuramos información veraz, completa, exacta y actualizada.',
+            'Transparencia (lit. e): garantizamos al titular el derecho a conocer el tratamiento de sus datos.',
+            'Acceso restringido y seguridad (lits. f y g): solo personal autorizado accede a los datos, bajo medidas técnicas razonables.',
+            'Confidencialidad (lit. h): quienes intervienen en el tratamiento están obligados a la reserva de la información.',
+          ],
+        },
+        {
+          id: 'datos-recopilados',
           title: 'Datos que recopilamos',
           content: [
-            'Datos de identificación: nombre, apellidos, número de identificación.',
-            'Datos de contacto: correo electrónico, número de teléfono, dirección.',
-            'Datos profesionales: cargo, empresa, sector económico.',
-            'Datos de navegación: dirección IP, tipo de navegador, páginas visitadas, tiempo de sesión.',
-            'Datos técnicos: logs de acceso, identificadores de dispositivo, cookies.',
-            'Datos de proyecto: requerimientos, especificaciones técnicas, información del negocio compartida.',
+            'Identificación y contacto: nombre, correo electrónico y teléfono, entregados voluntariamente en el formulario.',
+            'Datos de la empresa: razón social y presupuesto estimado, cuando el titular decide compartirlos.',
+            'Datos del proyecto: servicio de interés y mensaje enviado.',
+            'Datos técnicos mínimos: IP y fecha/hora de envío, únicamente con fines de seguridad y prevención de spam.',
           ],
+          callout: {
+            type: 'info',
+            title: 'Lo que no recopilamos',
+            text: 'No usamos cookies de rastreo publicitario ni analítica de terceros. No recopilamos datos sensibles (salud, origen étnico, convicciones políticas o religiosas, biométricos) y el sitio no está dirigido a menores de edad.',
+          },
         },
         {
-          title: 'Finalidades del tratamiento',
+          id: 'recoleccion-finalidades',
+          title: 'Cómo y para qué usamos sus datos',
+          content:
+            'Recopilamos sus datos de forma directa: al diligenciar el formulario de contacto, escribirnos por correo o comunicarse telefónicamente. Los usamos para responder solicitudes de información o cotización, gestionar la relación contractual, enviar comunicaciones sobre su proyecto, prevenir el uso indebido del formulario y cumplir obligaciones legales, contables y fiscales aplicables en Colombia.',
+        },
+        {
+          id: 'base-legal',
+          title: 'Base legal y autorización',
+          content:
+            'El tratamiento se fundamenta en el consentimiento libre, previo, expreso e informado que usted otorga al enviar el formulario (art. 9, Ley 1581 de 2012), consentimiento que, conforme a la Ley 527 de 1999, tiene plena validez por haberse manifestado mediante un mensaje de datos. Cuando exista una relación contractual, el tratamiento también se sustenta en su ejecución y en el cumplimiento de obligaciones legales de VARSAL.',
+        },
+        {
+          id: 'encargados',
+          title: 'Encargados del tratamiento y proveedores',
+          content:
+            'VARSAL utiliza proveedores de infraestructura que actúan como Encargados del Tratamiento bajo sus instrucciones (art. 3, lit. d, Ley 1581 de 2012):',
+          table: {
+            headers: ['Proveedor', 'Función', 'Datos que procesa'],
+            rows: [
+              ['Vercel Inc.', 'Alojamiento (hosting) del sitio web', 'Datos técnicos de navegación y solicitudes HTTP'],
+              ['Neon (Postgres serverless)', 'Almacenamiento de la base de datos', 'Datos enviados a través del formulario de contacto'],
+              ['Resend', 'Envío de correos de notificación y confirmación', 'Nombre y correo electrónico del remitente del formulario'],
+            ],
+          },
+        },
+        {
+          id: 'transferencias',
+          title: 'Transferencia internacional de datos',
+          content:
+            'Algunos proveedores (Vercel, Neon, Resend) pueden procesar o almacenar datos fuera de Colombia. Verificamos que ofrezcan garantías de seguridad adecuadas, conforme a los criterios de la Superintendencia de Industria y Comercio (SIC) para transferencias internacionales bajo el artículo 26 de la Ley 1581 de 2012.',
+        },
+        {
+          id: 'conservacion-seguridad',
+          title: 'Conservación y seguridad de los datos',
           content: [
-            'Gestión de la relación contractual y prestación de servicios tecnológicos.',
-            'Comunicación comercial y envío de propuestas personalizadas (con consentimiento).',
-            'Envío de newsletter y contenido de valor (con consentimiento previo).',
-            'Mejora de nuestros productos, servicios y plataformas.',
-            'Cumplimiento de obligaciones legales y fiscales aplicables en Colombia.',
-            'Análisis estadístico y de comportamiento para optimizar la experiencia de usuario.',
+            'Los datos del formulario se conservan mientras sea necesario para atender la solicitud y un plazo razonable de seguimiento comercial, salvo eliminación anticipada a petición del titular.',
+            'Los datos de relaciones contractuales se conservan según los plazos del Código de Comercio y la normativa tributaria.',
+            'Aplicamos cifrado en tránsito (HTTPS/TLS), acceso restringido mediante panel administrativo autenticado y límites técnicos contra envíos automatizados.',
           ],
         },
         {
-          title: 'Base legal del tratamiento',
-          content: 'El tratamiento de sus datos se fundamenta en: (i) la ejecución del contrato de prestación de servicios; (ii) el consentimiento expreso del titular para comunicaciones comerciales; (iii) el interés legítimo de VARSAL en mejorar sus servicios; y (iv) el cumplimiento de obligaciones legales conforme a la Ley 1581 de 2012 y el Decreto 1377 de 2013.',
-        },
-        {
-          title: 'Derechos del titular',
+          id: 'derechos-titular',
+          title: 'Sus derechos y cómo ejercerlos',
           content: [
-            'Conocer, actualizar y rectificar sus datos personales.',
-            'Solicitar prueba del consentimiento otorgado.',
-            'Ser informado sobre el uso de sus datos.',
-            'Revocar el consentimiento y solicitar la supresión de datos (salvo obligaciones legales).',
-            'Acceder gratuitamente a sus datos personales una vez al mes.',
-            'Presentar quejas ante la Superintendencia de Industria y Comercio (SIC).',
+            'Conocer, actualizar y rectificar sus datos personales (art. 8, lit. a).',
+            'Solicitar prueba de la autorización otorgada (lit. b).',
+            'Ser informado sobre el uso dado a sus datos (lit. c).',
+            'Revocar la autorización y/o solicitar la supresión de sus datos, cuando no exista deber legal o contractual que lo impida (lit. d).',
+            'Acceder gratuitamente a sus datos personales (lit. e).',
+            'Presentar quejas ante la Superintendencia de Industria y Comercio (lit. f) por infracciones a la ley de protección de datos.',
           ],
+          callout: {
+            type: 'info',
+            title: 'Procedimiento',
+            text: 'Escriba al correo indicado en la sección de contacto especificando su nombre, el derecho a ejercer y su solicitud. Respondemos en los plazos legales del art. 14: 10 días hábiles para consultas y 15 días hábiles para reclamos.',
+          },
         },
         {
-          title: 'Conservación de datos',
-          content: 'Los datos personales se conservarán durante el tiempo necesario para cumplir con las finalidades del tratamiento y las obligaciones legales aplicables. Los datos contractuales se conservarán por un mínimo de 10 años conforme a las disposiciones del Código de Comercio colombiano.',
+          id: 'cookies-referencia',
+          title: 'Cookies y tecnologías similares',
+          content:
+            'Usamos almacenamiento local para recordar su preferencia de tema (claro/oscuro) y una cookie técnica exclusivamente al autenticarse en el panel administrativo. El detalle completo está en nuestra Política de Cookies.',
         },
         {
-          title: 'Transferencias internacionales',
-          content: 'Algunos de nuestros proveedores de infraestructura (AWS, Google Cloud) pueden procesar datos fuera de Colombia. En todos los casos, garantizamos que dichas transferencias cuentan con las salvaguardas adecuadas y cumplen con la normativa colombiana de protección de datos.',
+          id: 'cambios-politica',
+          title: 'Cambios a esta política',
+          content:
+            'Esta Política puede actualizarse por cambios normativos o en nuestras prácticas de tratamiento. Publicaremos cualquier cambio en esta página indicando la fecha de última actualización.',
+        },
+        {
+          id: 'contacto',
+          title: 'Contacto',
+          content:
+            'Para ejercer sus derechos o resolver dudas sobre el tratamiento de sus datos personales, puede comunicarse a través de los canales indicados a continuación.',
         },
       ]}
     />

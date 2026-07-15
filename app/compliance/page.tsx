@@ -60,7 +60,7 @@ export default function CompliancePage() {
         },
         {
           title: 'Contacto de Compliance',
-          content: 'Para consultas relacionadas con nuestro programa de cumplimiento normativo, puede contactar a nuestro equipo legal en: compliance@varsalsystems.com. Respondemos en un plazo máximo de 5 días hábiles.',
+          content: 'Para consultas relacionadas con nuestro programa de cumplimiento normativo, puede contactar a nuestro equipo legal en: varsalsystems@gmail.com. Respondemos en un plazo máximo de 5 días hábiles.',
         },
       ]}
     />

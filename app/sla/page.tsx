@@ -37,7 +37,7 @@ export default function SlaPage() {
           title: 'Canales de soporte incluidos',
           content: [
             'Sistema de tickets en línea con seguimiento en tiempo real.',
-            'Correo electrónico de soporte: soporte@varsalsystems.com',
+            'Correo electrónico de soporte: varsalsystems@gmail.com',
             'WhatsApp Business para incidentes P1 y P2 (planes Business y Enterprise).',
             'Videoconferencia para resolución de incidentes complejos.',
             'Llamada telefónica directa para Plan Enterprise.',

@@ -26,8 +26,9 @@ export default function BackToTop() {
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           aria-label="Volver arriba"
           title="Volver arriba"
-          className="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-surface border border-line
-            shadow-[var(--vs-shadow-md)] flex items-center justify-center text-subtle
+          className="fixed right-4 sm:right-6 z-40 w-11 h-11 rounded-full bg-surface border border-line
+            shadow-(--vs-shadow-md) flex items-center justify-center text-subtle
+            bottom-[calc(4.5rem+env(safe-area-inset-bottom))] lg:bottom-6
             hover:text-accent hover:border-accent/30 transition-colors duration-150 cursor-pointer"
         >
           <ArrowUp className="w-[18px] h-[18px]" strokeWidth={2} />

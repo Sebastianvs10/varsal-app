@@ -42,7 +42,7 @@ export default function DatosPage() {
         },
         {
           title: 'Procedimiento para ejercer derechos',
-          content: 'Para ejercer sus derechos de acceso, rectificación, cancelación u oposición, envíe una solicitud a privacidad@varsalsystems.com indicando: (i) nombre completo e identificación, (ii) derecho que desea ejercer, (iii) datos sobre los que solicita el ejercicio, y (iv) documentación de soporte si aplica. Responderemos en un plazo máximo de 10 días hábiles.',
+          content: 'Para ejercer sus derechos de acceso, rectificación, cancelación u oposición, envíe una solicitud a varsalsystems@gmail.com indicando: (i) nombre completo e identificación, (ii) derecho que desea ejercer, (iii) datos sobre los que solicita el ejercicio, y (iv) documentación de soporte si aplica. Responderemos en un plazo máximo de 10 días hábiles.',
         },
         {
           title: 'Vigencia de la política',

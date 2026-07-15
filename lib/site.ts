@@ -12,9 +12,21 @@ export const SITE_NAME = 'VARSAL Systems'
 
 export const SITE_DESCRIPTION =
   'Software a medida, infraestructura cloud, automatización y consultoría tecnológica. ' +
-  'Llevamos su empresa a un nuevo nivel de eficiencia con soluciones digitales escalables.'
+  'Construimos el software que tu empresa necesita para operar sin fricción.'
 
-export const SITE_EMAIL = 'contacto@varsalsystems.com'
+export const SITE_EMAIL = 'varsalsystems@gmail.com'
+
+/** Teléfono de contacto — formato de despliegue y formato E.164 para enlaces `tel:`. */
+export const SITE_PHONE = '+57 318 427 3263'
+export const SITE_PHONE_TEL = '+573184273263'
+
+/** Domicilio de la empresa. */
+export const SITE_ADDRESS = {
+  street: 'Calle 7 #7-21',
+  city: 'Oporapa',
+  region: 'Huila',
+  country: 'Colombia',
+} as const
 
 /** Rutas públicas indexables para el sitemap (sin /admin ni /api). */
 export const PUBLIC_ROUTES = [
@@ -54,14 +66,18 @@ export function organizationJsonLd() {
         image: `${SITE_URL}/logo-varsal.png`,
         description: SITE_DESCRIPTION,
         email: SITE_EMAIL,
+        telephone: SITE_PHONE_TEL,
         address: {
           '@type': 'PostalAddress',
+          streetAddress: SITE_ADDRESS.street,
+          addressLocality: SITE_ADDRESS.city,
+          addressRegion: SITE_ADDRESS.region,
           addressCountry: 'CO',
-          addressLocality: 'Bogotá',
         },
         contactPoint: {
           '@type': 'ContactPoint',
           email: SITE_EMAIL,
+          telephone: SITE_PHONE_TEL,
           contactType: 'customer support',
           areaServed: 'CO',
           availableLanguage: ['es'],

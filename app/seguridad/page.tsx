@@ -60,7 +60,7 @@ export default function SeguridadPage() {
         },
         {
           title: 'Reporte de vulnerabilidades',
-          content: 'Si descubre una vulnerabilidad en nuestros sistemas, le agradecemos reportarla de forma responsable a seguridad@varsalsystems.com. No llevaremos a cabo acciones legales contra investigadores que actúen de buena fe y sigan un proceso de divulgación responsable. Respondemos a todos los reportes en un plazo máximo de 5 días hábiles.',
+          content: 'Si descubre una vulnerabilidad en nuestros sistemas, le agradecemos reportarla de forma responsable a varsalsystems@gmail.com. No llevaremos a cabo acciones legales contra investigadores que actúen de buena fe y sigan un proceso de divulgación responsable. Respondemos a todos los reportes en un plazo máximo de 5 días hábiles.',
         },
       ]}
     />

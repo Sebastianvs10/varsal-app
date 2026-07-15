@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, X, CalendarDays } from 'lucide-react'
+import { Menu, X, CalendarDays, Home, Layers, Workflow, Users } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 
@@ -15,6 +15,14 @@ const navItems = [
   { label: 'Nosotros', href: '#nosotros' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contacto', href: '#contacto' },
+]
+
+/** Accesos rápidos de la barra de navegación inferior fija (móvil). */
+const quickNavItems = [
+  { label: 'Inicio', href: '#inicio', icon: Home },
+  { label: 'Servicios', href: '#servicios', icon: Layers },
+  { label: 'Proceso', href: '#proceso', icon: Workflow },
+  { label: 'Nosotros', href: '#nosotros', icon: Users },
 ]
 
 const sectionIds = navItems.filter((i) => i.href.startsWith('#')).map((i) => i.href.slice(1))
@@ -73,6 +81,31 @@ function NavLink({ item, active, pillId, onNavigate, size = 'default' }: NavLink
     <Link href={item.href} className={base}>
       {content}
     </Link>
+  )
+}
+
+interface BottomNavItemProps {
+  item: (typeof quickNavItems)[number]
+  active: boolean
+  onNavigate: (href: string) => void
+}
+
+function BottomNavItem({ item, active, onNavigate }: BottomNavItemProps) {
+  return (
+    <button
+      onClick={() => onNavigate(item.href)}
+      className="flex flex-col items-center justify-center gap-1 h-full cursor-pointer"
+      aria-label={item.label}
+      aria-current={active ? 'page' : undefined}
+    >
+      <item.icon
+        className={cn('w-[19px] h-[19px] transition-colors duration-150', active ? 'text-accent' : 'text-faint')}
+        strokeWidth={active ? 2 : 1.75}
+      />
+      <span className={cn('text-[10px] font-medium transition-colors duration-150', active ? 'text-accent' : 'text-faint')}>
+        {item.label}
+      </span>
+    </button>
   )
 }
 
@@ -245,20 +278,25 @@ export default function Navbar() {
               aria-hidden="true"
             />
             <motion.div
-              initial={{ opacity: 0, y: -12 }}
+              initial={{ opacity: 0, y: '100%' }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.2, ease: [0.2, 0, 0, 1] }}
-              style={{ top: scrolled ? 62 : 76 }}
-              className="fixed left-0 right-0 z-40 bg-surface border-b border-line shadow-[var(--vs-shadow-md)] lg:hidden"
+              exit={{ opacity: 0, y: '100%' }}
+              transition={{ duration: 0.25, ease: [0.2, 0, 0, 1] }}
+              style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+              className="fixed left-0 right-0 bottom-0 z-45 bg-surface border-t border-line rounded-t-2xl shadow-(--vs-shadow-lg) lg:hidden"
             >
-              <nav className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1">
+              {/* Handle visual de bottom sheet */}
+              <div className="flex justify-center pt-3 pb-1" aria-hidden="true">
+                <span className="w-10 h-1 rounded-full bg-line-strong" />
+              </div>
+
+              <nav className="max-w-7xl mx-auto px-6 pb-6 pt-2 flex flex-col gap-1">
                 {navItems.map((item, i) => (
                   <motion.div
                     key={item.label}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.04, duration: 0.2 }}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.03, duration: 0.2 }}
                   >
                     {item.href.startsWith('#') ? (
                       <button
@@ -283,20 +321,57 @@ export default function Navbar() {
                     )}
                   </motion.div>
                 ))}
-                <div className="pt-2 border-t border-line mt-2">
-                  <button
+
+                <div className="pt-4 mt-2 border-t border-line flex justify-center">
+                  <motion.button
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: navItems.length * 0.03, duration: 0.2 }}
+                    whileTap={{ scale: 0.97 }}
                     onClick={() => handleNav('#contacto')}
-                    className="btn-shine w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold text-white brand-gradient btn-glow-accent transition-all cursor-pointer"
+                    className="btn-shine flex items-center gap-2 px-7 py-3 rounded-full text-sm font-semibold text-white
+                      brand-gradient btn-glow-accent transition-all cursor-pointer"
                   >
                     <CalendarDays className="w-4 h-4" strokeWidth={2} />
                     Agenda una reunión
-                  </button>
+                  </motion.button>
                 </div>
               </nav>
             </motion.div>
           </>
         )}
       </AnimatePresence>
+
+      {/* Barra de navegación inferior persistente (móvil) */}
+      <nav
+        aria-label="Navegación rápida"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+        className="fixed left-0 right-0 bottom-0 z-40 lg:hidden bg-surface border-t border-line"
+      >
+        <div className="relative grid grid-cols-5 h-16">
+          {quickNavItems.slice(0, 2).map((item) => (
+            <BottomNavItem key={item.label} item={item} active={isActive(item.href)} onNavigate={handleNav} />
+          ))}
+
+          {/* Acción central — Agenda una reunión */}
+          <div className="relative flex items-center justify-center">
+            <motion.button
+              whileTap={{ scale: 0.94 }}
+              onClick={() => handleNav('#contacto')}
+              aria-label="Agenda una reunión"
+              className="absolute -top-6 w-14 h-14 rounded-full brand-gradient btn-glow-accent
+                ring-4 ring-surface flex items-center justify-center text-white cursor-pointer"
+            >
+              <CalendarDays className="w-[20px] h-[20px]" strokeWidth={2} />
+            </motion.button>
+            <span className="absolute bottom-1.5 text-[10px] font-semibold text-accent">Agendar</span>
+          </div>
+
+          {quickNavItems.slice(2, 4).map((item) => (
+            <BottomNavItem key={item.label} item={item} active={isActive(item.href)} onNavigate={handleNav} />
+          ))}
+        </div>
+      </nav>
     </>
   )
 }
