@@ -39,10 +39,26 @@ export function organizationJsonLd() {
         '@type': 'Organization',
         '@id': `${SITE_URL}/#organization`,
         name: SITE_NAME,
+        legalName: 'VARSAL Systems S.A.S.',
+        alternateName: 'VARSAL',
         url: SITE_URL,
-        logo: `${SITE_URL}/logo-varsal.png`,
+        // Logo cuadrado (mín. 112x112 recomendado por Google) — el wordmark
+        // rectangular se expone aparte en `image` para no distorsionar el
+        // ícono de marca en el panel de resultados de búsqueda.
+        logo: {
+          '@type': 'ImageObject',
+          url: `${SITE_URL}/icon.png`,
+          width: 512,
+          height: 512,
+        },
+        image: `${SITE_URL}/logo-varsal.png`,
         description: SITE_DESCRIPTION,
         email: SITE_EMAIL,
+        address: {
+          '@type': 'PostalAddress',
+          addressCountry: 'CO',
+          addressLocality: 'Bogotá',
+        },
         contactPoint: {
           '@type': 'ContactPoint',
           email: SITE_EMAIL,
