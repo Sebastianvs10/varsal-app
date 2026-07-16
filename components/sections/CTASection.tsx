@@ -29,6 +29,17 @@ const perks = [
 export default function CTASection() {
   return (
     <section id="contacto" className="relative overflow-hidden navy-gradient py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
+      {/* Foto de fondo. Fallback: degradado navy. */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/images/cta.png')" }}
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0"
+        style={{ background: 'linear-gradient(160deg, color-mix(in oklab, var(--vs-navy) 85%, transparent) 0%, color-mix(in oklab, var(--vs-navy-2) 92%, transparent) 100%)' }}
+        aria-hidden="true"
+      />
       <div className="absolute inset-0 grid-texture opacity-[0.08]" />
       <div
         className="absolute inset-0"
@@ -37,7 +48,7 @@ export default function CTASection() {
 
       <div className="relative z-10 max-w-6xl mx-auto">
         <div className="mb-12 flex flex-col items-center text-center">
-          <SectionEyebrow index="04" label="Empecemos" tone="inverted" />
+          <SectionEyebrow index="05" label="Empecemos" tone="inverted" />
 
           <h2 className="w-full text-3xl lg:text-4xl font-bold leading-tight mb-4 text-white text-balance">
             Convirtamos tu idea en una solución tecnológica.

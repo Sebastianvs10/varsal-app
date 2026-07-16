@@ -32,7 +32,7 @@ export default function ProcessSection() {
     <SectionWrapper id="proceso" className="bg-background">
       <div className="max-w-5xl mx-auto">
         <div className="mb-16 flex flex-col items-center text-center">
-          <SectionEyebrow index="02" label="Cómo trabajamos" />
+          <SectionEyebrow index="03" label="Cómo trabajamos" />
           <h2 className="w-full text-4xl lg:text-5xl font-bold mb-5 text-foreground text-balance">
             Transformamos <span className="text-brand">ideas</span> en soluciones tecnológicas con un proceso probado.
           </h2>

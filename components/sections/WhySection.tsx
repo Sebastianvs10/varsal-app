@@ -40,7 +40,7 @@ export default function WhySection() {
     <SectionWrapper id="nosotros" className="bg-bg-alt">
       <div className="max-w-5xl mx-auto">
         <div className="mb-10 flex flex-col items-center text-center">
-          <SectionEyebrow index="03" label="¿Por qué VARSAL Systems?" />
+          <SectionEyebrow index="04" label="¿Por qué VARSAL Systems?" />
           <h2 className="w-full text-4xl lg:text-5xl font-bold mb-4 text-foreground text-balance">
             Más que un proveedor, somos tu <span className="text-brand">aliado tecnológico</span>.
           </h2>
@@ -78,8 +78,19 @@ export default function WhySection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="relative overflow-hidden navy-gradient rounded-xl p-6 lg:p-7 shadow-[var(--vs-shadow-lg)]"
+            className="relative overflow-hidden navy-gradient rounded-xl p-6 lg:p-7 shadow-(--vs-shadow-lg)"
           >
+            {/* Foto del equipo de fondo. Fallback: degradado navy. */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: "url('/images/nosotros.png')" }}
+              aria-hidden="true"
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(160deg, color-mix(in oklab, var(--vs-navy) 82%, transparent) 0%, color-mix(in oklab, var(--vs-navy-2) 88%, transparent) 100%)' }}
+              aria-hidden="true"
+            />
             <div className="absolute inset-0 grid-texture opacity-[0.06]" />
             <div
               className="absolute inset-0"

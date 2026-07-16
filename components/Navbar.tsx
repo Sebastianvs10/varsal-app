@@ -4,13 +4,14 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, X, CalendarDays, Home, Layers, Workflow, Users } from 'lucide-react'
+import { Menu, X, CalendarDays, Home, Layers, Boxes, Users } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 
 const navItems = [
   { label: 'Inicio', href: '#inicio' },
   { label: 'Servicios', href: '#servicios' },
+  { label: 'Productos', href: '#productos' },
   { label: 'Proceso', href: '#proceso' },
   { label: 'Nosotros', href: '#nosotros' },
   { label: 'Blog', href: '/blog' },
@@ -21,13 +22,13 @@ const navItems = [
 const quickNavItems = [
   { label: 'Inicio', href: '#inicio', icon: Home },
   { label: 'Servicios', href: '#servicios', icon: Layers },
-  { label: 'Proceso', href: '#proceso', icon: Workflow },
+  { label: 'Productos', href: '#productos', icon: Boxes },
   { label: 'Nosotros', href: '#nosotros', icon: Users },
 ]
 
 const sectionIds = navItems.filter((i) => i.href.startsWith('#')).map((i) => i.href.slice(1))
 
-function VarsalLogo() {
+function VarsalLogo({ onDark = false }: { onDark?: boolean }) {
   return (
     <Link href="/" className="flex items-center shrink-0 group" aria-label="VARSAL Systems — Inicio">
       <Image
@@ -36,7 +37,12 @@ function VarsalLogo() {
         width={977}
         height={354}
         priority
-        className="h-9 lg:h-10 w-auto drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)] transition-transform duration-200 group-hover:scale-[1.03]"
+        className={cn(
+          'h-9 lg:h-10 w-auto transition-all duration-300 group-hover:scale-[1.03]',
+          onDark
+            ? 'brightness-0 invert drop-shadow-[0_1px_3px_rgba(0,0,0,0.35)]'
+            : 'drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]'
+        )}
       />
     </Link>
   )
@@ -48,13 +54,16 @@ interface NavLinkProps {
   pillId: string
   onNavigate: (href: string) => void
   size?: 'default' | 'compact'
+  onDark?: boolean
 }
 
-function NavLink({ item, active, pillId, onNavigate, size = 'default' }: NavLinkProps) {
+function NavLink({ item, active, pillId, onNavigate, size = 'default', onDark = false }: NavLinkProps) {
   const base = cn(
     'relative rounded-lg font-medium transition-colors duration-150 cursor-pointer',
     size === 'compact' ? 'px-3 py-2 text-[14px]' : 'px-4 py-2 text-[15px]',
-    active ? 'text-accent' : 'text-subtle hover:text-foreground'
+    active
+      ? onDark ? 'text-white' : 'text-accent'
+      : onDark ? 'text-white/70 hover:text-white' : 'text-subtle hover:text-foreground'
   )
 
   const content = (
@@ -62,7 +71,10 @@ function NavLink({ item, active, pillId, onNavigate, size = 'default' }: NavLink
       {active && (
         <motion.span
           layoutId={pillId}
-          className="absolute inset-0 rounded-lg bg-accent/12 border border-accent/20"
+          className={cn(
+            'absolute inset-0 rounded-lg border',
+            onDark ? 'bg-white/15 border-white/25' : 'bg-accent/12 border-accent/20'
+          )}
           transition={{ type: 'spring', stiffness: 380, damping: 32 }}
         />
       )}
@@ -151,6 +163,9 @@ export default function Navbar() {
 
   const isActive = (href: string) => href.startsWith('#') && href.slice(1) === activeSection
 
+  // Sobre el hero (foto oscura) y sin scroll: nav en modo claro para legibilidad.
+  const onDark = !scrolled && !mobileOpen
+
   return (
     <>
       <motion.header
@@ -162,7 +177,7 @@ export default function Navbar() {
           mobileOpen
             ? 'bg-surface border-b border-line'
             : scrolled
-              ? 'glass-header border-b border-line shadow-[var(--vs-shadow-sm)]'
+              ? 'glass-header border-b border-line shadow-(--vs-shadow-sm)'
               : 'bg-transparent border-b border-transparent'
         )}
       >
@@ -173,7 +188,7 @@ export default function Navbar() {
               scrolled ? 'h-[62px]' : 'h-[76px]'
             )}
           >
-            <VarsalLogo />
+            <VarsalLogo onDark={onDark} />
 
             {/* Desktop Nav */}
             <nav className="hidden xl:flex items-center gap-1">
@@ -184,6 +199,7 @@ export default function Navbar() {
                   active={isActive(item.href)}
                   pillId="nav-pill-desktop"
                   onNavigate={handleNav}
+                  onDark={onDark}
                 />
               ))}
             </nav>
@@ -198,13 +214,18 @@ export default function Navbar() {
                   pillId="nav-pill-compact"
                   onNavigate={handleNav}
                   size="compact"
+                  onDark={onDark}
                 />
               ))}
             </nav>
 
             {/* CTA */}
             <div className="hidden lg:flex items-center gap-3 shrink-0">
-              <ThemeToggle />
+              <ThemeToggle
+                className={cn(
+                  onDark && 'border-white/25 text-white/85 hover:bg-white/10 hover:text-white'
+                )}
+              />
               <motion.button
                 whileHover={{ y: -1 }}
                 whileTap={{ scale: 0.97 }}
@@ -220,10 +241,19 @@ export default function Navbar() {
 
             {/* Mobile toggle */}
             <div className="lg:hidden flex items-center gap-1.5">
-              <ThemeToggle />
+              <ThemeToggle
+                className={cn(
+                  onDark && 'border-white/25 text-white/85 hover:bg-white/10 hover:text-white'
+                )}
+              />
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="p-2 rounded-lg text-subtle hover:text-foreground hover:bg-surface-2 transition-colors"
+                className={cn(
+                  'p-2 rounded-lg transition-colors',
+                  onDark
+                    ? 'text-white/85 hover:text-white hover:bg-white/10'
+                    : 'text-subtle hover:text-foreground hover:bg-surface-2'
+                )}
                 aria-label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
               >
                 <AnimatePresence mode="wait" initial={false}>

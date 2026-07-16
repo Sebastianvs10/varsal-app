@@ -63,16 +63,33 @@ export default function ServicesSection() {
   return (
     <SectionWrapper id="servicios" className="bg-bg-alt">
       <div className="max-w-5xl mx-auto">
-        <div className="mb-12 flex flex-col items-center text-center">
-          <SectionEyebrow index="01" label="Qué hacemos" />
-          <h2 className="w-full text-4xl lg:text-5xl font-bold mb-5 text-foreground text-balance">
-            Tecnología estratégica para construir, escalar y optimizar{' '}
-            <span className="text-brand">tu empresa</span>.
-          </h2>
-          <p className="max-w-2xl text-subtle text-lg leading-relaxed">
-            Reunimos desarrollo de software, arquitectura cloud, automatización
-            y consultoría tecnológica en un solo equipo de ingeniería.
-          </p>
+        <div className="mb-12 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+            <SectionEyebrow index="01" label="Qué hacemos" />
+            <h2 className="w-full text-4xl lg:text-5xl font-bold mb-5 text-foreground text-balance">
+              Tecnología estratégica para construir, escalar y optimizar{' '}
+              <span className="text-brand">tu empresa</span>.
+            </h2>
+            <p className="max-w-2xl text-subtle text-lg leading-relaxed">
+              Reunimos desarrollo de software, arquitectura cloud, automatización
+              y consultoría tecnológica en un solo equipo de ingeniería.
+            </p>
+          </div>
+
+          {/* Foto editorial del equipo. Fallback: degradado navy. */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="photo-frame photo-duotone rounded-2xl border border-line shadow-(--vs-shadow-lg) aspect-4/3"
+            aria-hidden="true"
+          >
+            <div
+              className="photo-media"
+              style={{ backgroundImage: "url('/images/servicios.png')" }}
+            />
+          </motion.div>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">

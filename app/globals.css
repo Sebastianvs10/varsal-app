@@ -222,6 +222,45 @@ h2, h3 { font-weight: 650; }
   background: linear-gradient(160deg, var(--vs-navy) 0%, var(--vs-navy-2) 100%);
 }
 
+/* ── Fotografía editorial ─────────────────────────────────────────────
+   Marco reutilizable para fotos de personas. La capa base es el gradiente
+   navy (fallback si la imagen aún no existe), encima va la foto y sobre
+   ella un velo/duotono navy para integrarla con la identidad de marca.  */
+.photo-frame {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--vs-navy) 0%, var(--vs-navy-2) 100%);
+  isolation: isolate;
+}
+.photo-media {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+/* Duotono/velo: multiplica un matiz navy sobre la foto para unificarla.  */
+.photo-duotone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--vs-navy) 25%, transparent) 0%, color-mix(in oklab, var(--vs-navy) 78%, transparent) 100%),
+    color-mix(in oklab, var(--vs-accent) 18%, transparent);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+/* Velo lateral para layouts de foto al lado del texto (legibilidad).    */
+.photo-scrim-left::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, color-mix(in oklab, var(--vs-navy) 55%, transparent) 0%, transparent 55%);
+  pointer-events: none;
+}
+
 /* Resplandor de marca detrás de bloques hero/CTA — un solo matiz, muy controlado */
 .brand-glow {
   position: relative;
