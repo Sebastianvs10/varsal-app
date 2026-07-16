@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Lock, Loader2, AlertCircle, Eye, EyeOff, ShieldCheck } from 'lucide-react'
+import { Lock, Loader2, AlertCircle, Eye, EyeOff, ShieldCheck, ArrowLeft } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export default function LoginForm() {
@@ -143,6 +143,15 @@ export default function LoginForm() {
               {busy ? 'Verificando…' : 'Entrar al panel'}
             </button>
           </form>
+
+          <Link
+            href="/"
+            className="mt-3 w-full h-11 rounded-lg font-semibold text-accent text-sm border border-accent/30
+              flex items-center justify-center gap-2 transition-colors hover:bg-accent/8 cursor-pointer"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Ir a inicio
+          </Link>
 
           {/* Señal de confianza */}
           <div className="flex items-center justify-center gap-1.5 mt-5 text-[11px] text-faint">

@@ -403,7 +403,7 @@ export default function AdminDashboard() {
           <>
             {/* Tabla desktop */}
             <div className="vs-panel rounded-xl overflow-hidden hidden md:block">
-              <div className="grid grid-cols-[auto_1.6fr_1.4fr_auto_auto] gap-4 px-5 py-3 border-b border-line bg-surface-2/50 items-center">
+              <div className="grid grid-cols-[20px_1.3fr_0.9fr_195px_175px] gap-4 px-5 py-3 border-b border-line bg-surface-2/50 items-center">
                 <input
                   type="checkbox"
                   checked={allSelected}
@@ -411,9 +411,10 @@ export default function AdminDashboard() {
                   className="w-4 h-4 rounded border-line accent-[var(--vs-accent)] cursor-pointer"
                   aria-label="Seleccionar todas"
                 />
-                {['Contacto', 'Servicio', 'Estado', 'Fecha'].map((h) => (
-                  <span key={h} className="text-[11px] font-semibold uppercase tracking-wider text-subtle">{h}</span>
-                ))}
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-subtle">Contacto</span>
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-subtle">Servicio</span>
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-subtle">Estado</span>
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-subtle text-right">Fecha</span>
               </div>
               {items.map((r) => {
                 const overdue = isOverdue(r)
@@ -421,7 +422,7 @@ export default function AdminDashboard() {
                   <div
                     key={r.id}
                     className={cn(
-                      'group w-full grid grid-cols-[auto_1.6fr_1.4fr_auto_auto] gap-4 px-5 py-3.5 border-b border-line last:border-0 items-center transition-colors',
+                      'group w-full grid grid-cols-[20px_1.3fr_0.9fr_195px_175px] gap-4 px-5 py-3.5 border-b border-line last:border-0 items-center transition-colors',
                       overdue ? 'border-l-2 border-l-danger' : '',
                       selectedIds.has(r.id) ? 'bg-accent/6' : 'hover:bg-surface-2/60'
                     )}
@@ -434,21 +435,32 @@ export default function AdminDashboard() {
                       className="w-4 h-4 rounded border-line accent-[var(--vs-accent)] cursor-pointer"
                       aria-label={`Seleccionar ${r.nombre}`}
                     />
-                    <button onClick={() => setSelected(r)} className="min-w-0 text-left cursor-pointer">
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setSelected(r)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          setSelected(r)
+                        }
+                      }}
+                      className="min-w-0 text-left cursor-pointer"
+                    >
                       <p className="font-semibold text-foreground text-sm truncate">{r.nombre}</p>
                       <span className="flex items-center gap-1 text-xs text-faint truncate">
                         <span className="truncate">{r.email}{r.empresa ? ` · ${r.empresa}` : ''}</span>
                         <CopyButton value={r.email} label="email" className="opacity-0 group-hover:opacity-100" />
                       </span>
+                    </div>
+                    <button onClick={() => setSelected(r)} className="min-w-0 text-left cursor-pointer">
+                      <span className="text-sm text-subtle truncate block">{labelOf(SERVICIOS, r.servicio)}</span>
                     </button>
-                    <button onClick={() => setSelected(r)} className="text-left cursor-pointer">
-                      <span className="text-sm text-subtle truncate">{labelOf(SERVICIOS, r.servicio)}</span>
-                    </button>
-                    <button onClick={() => setSelected(r)} className="flex items-center gap-1.5 cursor-pointer">
+                    <button onClick={() => setSelected(r)} className="flex flex-wrap items-center gap-1.5 cursor-pointer">
                       <EstadoPill estado={r.estado} />
                       {overdue && <SlaBadge />}
                     </button>
-                    <button onClick={() => setSelected(r)} className="text-xs text-faint whitespace-nowrap tabular-nums cursor-pointer text-right">
+                    <button onClick={() => setSelected(r)} className="w-full text-xs text-faint whitespace-nowrap tabular-nums cursor-pointer text-right">
                       {formatDate(r.created_at)}
                     </button>
                   </div>

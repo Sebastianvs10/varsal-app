@@ -2,14 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { ArrowRight, Code2, Cloud, Bot, Compass } from 'lucide-react'
-import AnimatedCounter from '@/components/ui/AnimatedCounter'
 import HeroTechBackdrop from '@/components/sections/HeroTechBackdrop'
-
-const metrics = [
-  { value: 4, suffix: '', label: 'Áreas de especialidad' },
-  { value: 24, suffix: 'h', label: 'Primera respuesta' },
-  { value: 100, suffix: '%', label: 'A la medida, cero plantillas' },
-]
 
 const floatCards = [
   {
@@ -92,18 +85,6 @@ export default function HeroSection() {
         <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-14 lg:gap-10 items-center">
           {/* Columna de texto — izquierda, editorial */}
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2.5 mb-7 font-mono text-xs text-subtle"
-            >
-              <span className="status-dot" />
-              Disponibles para nuevos proyectos
-              <span className="text-faint">·</span>
-              <span className="text-faint">Huila, Colombia</span>
-            </motion.div>
-
             <motion.h1
               custom={0}
               initial="hidden"
@@ -134,7 +115,7 @@ export default function HeroSection() {
               initial="hidden"
               animate="show"
               variants={fadeUp}
-              className="flex flex-wrap items-center gap-3 mb-14"
+              className="flex flex-wrap items-center gap-3"
             >
               <motion.button
                 whileHover={{ y: -2 }}
@@ -157,24 +138,6 @@ export default function HeroSection() {
                 Conoce nuestro proceso
                 <span className="inline-block ml-1.5 group-hover:translate-x-0.5 transition-transform">→</span>
               </button>
-            </motion.div>
-
-            {/* Métricas — fila editorial en línea, no panel encajonado */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-wrap items-center gap-x-8 gap-y-4 pt-8 border-t border-line"
-            >
-              {metrics.map((m) => (
-                <div key={m.label}>
-                  <div className="font-bold text-foreground tracking-tight tabular-nums text-2xl">
-                    <AnimatedCounter end={m.value} suffix={m.suffix} />
-                  </div>
-                  <p className="text-xs text-faint mt-0.5">{m.label}</p>
-                </div>
-              ))}
             </motion.div>
           </div>
 
