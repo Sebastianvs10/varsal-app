@@ -121,7 +121,7 @@ function BottomNavItem({ item, active, onNavigate }: BottomNavItemProps) {
   )
 }
 
-export default function Navbar() {
+export default function Navbar({ overHeroDark = false }: { overHeroDark?: boolean }) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('inicio')
@@ -164,7 +164,8 @@ export default function Navbar() {
   const isActive = (href: string) => href.startsWith('#') && href.slice(1) === activeSection
 
   // Sobre el hero (foto oscura) y sin scroll: nav en modo claro para legibilidad.
-  const onDark = !scrolled && !mobileOpen
+  // Solo aplica en páginas con hero oscuro (home); en /blog y legales el tope es claro.
+  const onDark = overHeroDark && !scrolled && !mobileOpen
 
   return (
     <>

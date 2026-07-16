@@ -10,7 +10,7 @@ import CTASection from '@/components/sections/CTASection'
 export default function Home() {
   return (
     <>
-      <Navbar />
+      <Navbar overHeroDark />
       <main>
         <HeroSection />
         <ServicesSection />
