@@ -61,26 +61,27 @@ export default function CTASection() {
         </div>
 
         <div className="grid lg:grid-cols-[0.5fr_1fr] gap-6 lg:gap-8 items-stretch">
-          {/* Columna de beneficios */}
+          {/* Columna de beneficios — claymorphism sobre fondo navy */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="relative rounded-xl border border-white/10 bg-white/4 p-6 lg:p-7 shadow-[var(--vs-shadow-lg)] flex items-center"
+            whileHover={{ y: -3 }}
+            className="clay-card-on-dark p-6 lg:p-7 flex items-center"
           >
-            <ul className="space-y-5">
+            <ul className="space-y-6 w-full">
               {perks.map((p) => (
-                <li key={p.title} className="flex items-start gap-3">
-                  <span className="mt-0.5 w-9 h-9 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center shrink-0">
-                    <p.icon className="w-[18px] h-[18px] text-white" strokeWidth={1.75} />
+                <li key={p.title} className="flex items-start gap-3.5">
+                  <span className="clay-tile-on-dark mt-0.5 w-11 h-11 flex items-center justify-center shrink-0">
+                    <p.icon className="w-[19px] h-[19px] text-white" strokeWidth={1.9} />
                   </span>
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-white/45 mb-0.5">
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-white/50 mb-0.5">
                       {p.category}
                     </p>
-                    <p className="text-white font-semibold text-sm mb-1">{p.title}</p>
-                    <p className="text-white/60 text-sm leading-relaxed">{p.desc}</p>
+                    <p className="text-white font-bold text-[15px] mb-1 tracking-tight">{p.title}</p>
+                    <p className="text-white/65 text-sm leading-relaxed">{p.desc}</p>
                   </div>
                 </li>
               ))}
