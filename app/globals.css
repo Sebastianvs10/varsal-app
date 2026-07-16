@@ -261,6 +261,95 @@ h2, h3 { font-weight: 650; }
   pointer-events: none;
 }
 
+/* ── Claymorphism ─────────────────────────────────────────────────────
+   Superficies con COLOR PROPIO (no el del fondo), esquinas grandes y
+   la receta de sombra de arcilla: 2 inset (luz arriba, oscuro abajo) +
+   1 drop suave. El matiz se pasa por elemento con la variable --clay-hue
+   para conservar los colores de marca de cada tarjeta.                  */
+.clay-card {
+  --clay-hue: var(--vs-accent);
+  position: relative;
+  border-radius: 26px;
+  background: color-mix(in oklab, var(--clay-hue) 12%, var(--vs-surface));
+  box-shadow:
+    0 24px 40px -14px color-mix(in oklab, var(--clay-hue) 42%, transparent),
+    inset 0 -8px 16px color-mix(in oklab, var(--clay-hue) 20%, transparent),
+    inset 0 8px 16px color-mix(in oklab, #ffffff 60%, transparent);
+  transition: box-shadow 0.24s var(--vs-ease-standard, ease), transform 0.24s var(--vs-ease-standard, ease);
+}
+.clay-card:hover {
+  box-shadow:
+    0 30px 50px -14px color-mix(in oklab, var(--clay-hue) 50%, transparent),
+    inset 0 -12px 22px color-mix(in oklab, var(--clay-hue) 26%, transparent),
+    inset 0 10px 18px color-mix(in oklab, #ffffff 64%, transparent);
+}
+[data-theme='dark'] .clay-card {
+  background: color-mix(in oklab, var(--clay-hue) 22%, var(--vs-surface));
+  box-shadow:
+    0 24px 40px -14px color-mix(in oklab, #000000 55%, transparent),
+    inset 0 -8px 16px color-mix(in oklab, #000000 34%, transparent),
+    inset 0 8px 16px color-mix(in oklab, var(--clay-hue) 34%, transparent);
+}
+[data-theme='dark'] .clay-card:hover {
+  box-shadow:
+    0 30px 52px -14px color-mix(in oklab, #000000 60%, transparent),
+    inset 0 -12px 22px color-mix(in oklab, #000000 40%, transparent),
+    inset 0 10px 18px color-mix(in oklab, var(--clay-hue) 42%, transparent);
+}
+
+/* Ficha de ícono — color más saturado, "flotando" sobre la tarjeta. */
+.clay-tile {
+  --clay-hue: var(--vs-accent);
+  border-radius: 18px;
+  background: color-mix(in oklab, var(--clay-hue) 32%, var(--vs-surface));
+  box-shadow:
+    0 8px 16px -6px color-mix(in oklab, var(--clay-hue) 50%, transparent),
+    inset 0 -4px 8px color-mix(in oklab, var(--clay-hue) 30%, transparent),
+    inset 0 4px 8px color-mix(in oklab, #ffffff 70%, transparent);
+}
+[data-theme='dark'] .clay-tile {
+  background: color-mix(in oklab, var(--clay-hue) 40%, var(--vs-surface));
+  box-shadow:
+    0 8px 16px -6px color-mix(in oklab, #000000 50%, transparent),
+    inset 0 -4px 8px color-mix(in oklab, #000000 30%, transparent),
+    inset 0 4px 8px color-mix(in oklab, var(--clay-hue) 45%, transparent);
+}
+
+/* Botón de arcilla — chunky, con estados que PROFUNDIZAN los inset. */
+.clay-btn {
+  --clay-hue: var(--vs-accent);
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--clay-hue) 16%, var(--vs-surface));
+  box-shadow:
+    0 8px 16px -6px color-mix(in oklab, var(--clay-hue) 40%, transparent),
+    inset 0 -4px 8px color-mix(in oklab, var(--clay-hue) 22%, transparent),
+    inset 0 4px 8px color-mix(in oklab, #ffffff 65%, transparent);
+  transition: box-shadow 0.15s ease, transform 0.1s ease;
+}
+.clay-btn:hover {
+  box-shadow:
+    0 10px 20px -6px color-mix(in oklab, var(--clay-hue) 48%, transparent),
+    inset 0 -6px 12px color-mix(in oklab, var(--clay-hue) 30%, transparent),
+    inset 0 5px 10px color-mix(in oklab, #ffffff 70%, transparent);
+}
+.clay-btn:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 -3px 8px color-mix(in oklab, var(--clay-hue) 30%, transparent),
+    inset 0 7px 13px color-mix(in oklab, var(--clay-hue) 36%, transparent);
+}
+.clay-btn:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--clay-hue) 72%, transparent);
+  outline-offset: 2px;
+}
+[data-theme='dark'] .clay-btn {
+  background: color-mix(in oklab, var(--clay-hue) 26%, var(--vs-surface));
+  box-shadow:
+    0 8px 16px -6px color-mix(in oklab, #000000 45%, transparent),
+    inset 0 -4px 8px color-mix(in oklab, #000000 30%, transparent),
+    inset 0 4px 8px color-mix(in oklab, var(--clay-hue) 40%, transparent);
+}
+
 /* Resplandor de marca detrás de bloques hero/CTA — un solo matiz, muy controlado */
 .brand-glow {
   position: relative;

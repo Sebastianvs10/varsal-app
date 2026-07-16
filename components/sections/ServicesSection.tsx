@@ -1,9 +1,11 @@
 'use client'
 
+import type { CSSProperties } from 'react'
 import { motion } from 'framer-motion'
 import { Code2, Cloud, Bot, Compass, ArrowRight } from 'lucide-react'
 import SectionWrapper from '@/components/ui/SectionWrapper'
 import SectionEyebrow from '@/components/ui/SectionEyebrow'
+import { cn } from '@/lib/utils'
 
 const services = [
   {
@@ -92,9 +94,10 @@ export default function ServicesSection() {
           </motion.div>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((svc, i) => {
             const a = accentClasses[svc.accent]
+            const hue = { '--clay-hue': `var(${a.cssVar})` } as CSSProperties
             return (
               <motion.div
                 key={svc.title}
@@ -102,45 +105,32 @@ export default function ServicesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.4 }}
-                whileHover={{ y: -3 }}
-                className={`group relative bg-surface rounded-xl p-7 border border-line shadow-[var(--vs-shadow-sm)] hover:border-line-strong hover:shadow-[var(--vs-shadow-md)] transition-all duration-200 overflow-hidden ${
-                  svc.featured ? 'lg:col-span-2' : ''
-                }`}
+                whileHover={{ y: -4 }}
+                style={hue}
+                className={cn('group clay-card p-7', svc.featured && 'lg:col-span-2')}
               >
-                <span
-                  className={`absolute top-0 left-0 h-[3px] w-full ${a.bar} origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out`}
-                />
-
                 <div className="flex items-start justify-between mb-5">
                   <span
-                    className={`relative w-12 h-12 rounded-2xl border ${a.border} flex items-center justify-center shadow-[var(--vs-shadow-sm)] transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:scale-[1.04]`}
-                    style={{
-                      background: `linear-gradient(155deg, color-mix(in oklab, var(${a.cssVar}) 20%, var(--vs-surface)) 0%, color-mix(in oklab, var(${a.cssVar}) 6%, var(--vs-surface)) 100%)`,
-                    }}
+                    style={hue}
+                    className="clay-tile w-14 h-14 flex items-center justify-center transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:scale-[1.05]"
                   >
-                    <span
-                      className="pointer-events-none absolute inset-0 rounded-2xl"
-                      style={{
-                        boxShadow: `inset 0 1px 0 color-mix(in oklab, var(${a.cssVar}) 30%, transparent)`,
-                      }}
-                    />
-                    <svc.icon className={`w-[21px] h-[21px] ${a.icon} relative z-10`} strokeWidth={1.6} />
+                    <svc.icon className={cn('w-[24px] h-[24px] relative z-10', a.icon)} strokeWidth={1.9} />
                   </span>
                   <span className="index-number text-3xl leading-none select-none">{svc.number}</span>
                 </div>
 
-                <p className={`font-mono text-[11px] uppercase tracking-wide mb-1.5 ${a.icon}`}>{svc.category}</p>
-                <h3 className="font-bold text-lg mb-2 text-foreground">{svc.title}</h3>
-                <p className="text-sm text-subtle mb-5 leading-relaxed max-w-md">{svc.desc}</p>
+                <p className={cn('font-mono text-[11px] uppercase tracking-wide mb-1.5', a.icon)}>{svc.category}</p>
+                <h3 className="font-bold text-xl mb-2 text-foreground tracking-tight">{svc.title}</h3>
+                <p className="text-sm text-subtle mb-6 leading-relaxed max-w-md">{svc.desc}</p>
 
-                <div className="flex items-center justify-between gap-3">
+                <div className="flex items-end justify-between gap-3">
                   <div>
                     <p className="text-[10px] font-semibold uppercase tracking-wide text-faint mb-1.5">{svc.tagsLabel}</p>
                     <div className="flex flex-wrap gap-1.5">
                       {svc.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="font-mono text-[10px] uppercase tracking-wide text-faint bg-surface-2 border border-line rounded-full px-2 py-0.5"
+                          className="font-mono text-[10px] uppercase tracking-wide text-subtle bg-surface-2 border border-line rounded-full px-2 py-0.5"
                         >
                           {tag}
                         </span>
@@ -150,7 +140,8 @@ export default function ServicesSection() {
 
                   <button
                     onClick={() => document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' })}
-                    className={`flex items-center gap-1 text-xs font-semibold transition-colors cursor-pointer shrink-0 ${a.link}`}
+                    style={{ ...hue, color: `color-mix(in oklab, var(${a.cssVar}) 58%, var(--vs-ink))` }}
+                    className="clay-btn inline-flex items-center gap-1.5 px-4 py-2.5 font-semibold text-sm shrink-0 cursor-pointer"
                     aria-label={`Consultar sobre ${svc.title}`}
                   >
                     Consultar
