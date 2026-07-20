@@ -28,10 +28,19 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: TITLE,
-    template: '%s | VARSAL Systems',
+    template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
+  // Favicon / iconos explícitos para Google Search (mín. 48×48, preferible 512).
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '48x48', type: 'image/x-icon' },
+      { url: '/icon.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
+    shortcut: '/favicon.ico',
+  },
   keywords: [
     'desarrollo de software a medida',
     'software empresarial',
@@ -43,6 +52,12 @@ export const metadata: Metadata = {
     'consultoría tecnológica',
     'transformación digital',
     'Colombia',
+    'Desarrollo web',
+    'Desarrollo de software',
+    'Desarrollo de aplicaciones',
+    'Desarrollo de software empresarial',
+    'Desarrollo de software a medida',
+    'Desarrollo de software empresarial',
     'VARSAL Systems',
   ],
   authors: [{ name: SITE_NAME, url: SITE_URL }],

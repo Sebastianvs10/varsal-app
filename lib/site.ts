@@ -1,13 +1,14 @@
 /* Configuración central del sitio (SEO, URLs, datos de organización) */
 /* Autor: Ing. J Sebastian Vargas S */
 
-/** URL pública canónica. Se puede sobreescribir con APP_URL en el entorno. */
+/** URL pública canónica. Debe coincidir con la URL final (www) sin redirecciones. */
 export const SITE_URL = (
   process.env.APP_URL ||
   process.env.NEXT_PUBLIC_SITE_URL ||
-  'https://varsalsystems.com'
+  'https://www.varsalsystems.com'
 ).replace(/\/+$/, '')
 
+/** Nombre de marca que Google muestra junto al favicon en resultados. */
 export const SITE_NAME = 'VARSAL Systems'
 
 export const SITE_DESCRIPTION =
@@ -44,6 +45,8 @@ export const PUBLIC_ROUTES = [
 
 /** Datos estructurados JSON-LD (Organization + WebSite) para buscadores. */
 export function organizationJsonLd() {
+  const logoUrl = `${SITE_URL}/icon.png`
+
   return {
     '@context': 'https://schema.org',
     '@graph': [
@@ -52,18 +55,22 @@ export function organizationJsonLd() {
         '@id': `${SITE_URL}/#organization`,
         name: SITE_NAME,
         legalName: 'VARSAL Systems S.A.S.',
-        alternateName: 'VARSAL',
+        alternateName: ['VARSAL Systems', 'VARSAL'],
         url: SITE_URL,
-        // Logo cuadrado (mín. 112x112 recomendado por Google) — el wordmark
-        // rectangular se expone aparte en `image` para no distorsionar el
-        // ícono de marca en el panel de resultados de búsqueda.
+        // Logo cuadrado ≥112×112, URL directa (sin redirect www↔apex).
         logo: {
           '@type': 'ImageObject',
-          url: `${SITE_URL}/icon.png`,
+          '@id': `${SITE_URL}/#logo`,
+          url: logoUrl,
+          contentUrl: logoUrl,
           width: 512,
           height: 512,
+          caption: SITE_NAME,
         },
-        image: `${SITE_URL}/logo-varsal.png`,
+        image: {
+          '@type': 'ImageObject',
+          url: `${SITE_URL}/logo-varsal.png`,
+        },
         description: SITE_DESCRIPTION,
         email: SITE_EMAIL,
         telephone: SITE_PHONE_TEL,
@@ -88,6 +95,7 @@ export function organizationJsonLd() {
         '@id': `${SITE_URL}/#website`,
         url: SITE_URL,
         name: SITE_NAME,
+        alternateName: ['VARSAL Systems', 'VARSAL'],
         description: SITE_DESCRIPTION,
         publisher: { '@id': `${SITE_URL}/#organization` },
         inLanguage: 'es-CO',
