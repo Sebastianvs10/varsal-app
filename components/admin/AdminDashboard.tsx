@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Search, RefreshCw, LogOut, Inbox, X, Trash2, Mail, Phone,
   Building2, Calendar, Loader2, Filter, ChevronLeft, ChevronRight, Layers,
-  AlertTriangle, Download, Sparkles,
+  AlertTriangle, Download, Sparkles, Globe, CheckCircle2,
 } from 'lucide-react'
 import {
   ESTADOS, PRESUPUESTOS, SERVICIOS, SLA_HOURS, labelOf,
@@ -88,6 +88,8 @@ export default function AdminDashboard() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [newAvailable, setNewAvailable] = useState(false)
   const [initialLoadDone, setInitialLoadDone] = useState(false)
+  const [reindexing, setReindexing] = useState(false)
+  const [reindexToast, setReindexToast] = useState<{ ok: boolean; message: string } | null>(null)
   const latestMarkerRef = useRef<string | null>(null)
 
   useEffect(() => {
@@ -177,6 +179,22 @@ export default function AdminDashboard() {
   const refreshAll = () => {
     setNewAvailable(false)
     load()
+  }
+
+  const reindex = async () => {
+    setReindexing(true)
+    setReindexToast(null)
+    try {
+      const res = await fetch('/api/admin/reindex', { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok || !data.ok) throw new Error(data?.error ?? 'IndexNow rechazó la solicitud.')
+      setReindexToast({ ok: true, message: `${data.submitted} URLs enviadas a Bing/Yandex.` })
+    } catch (e) {
+      setReindexToast({ ok: false, message: (e as Error).message })
+    } finally {
+      setReindexing(false)
+      setTimeout(() => setReindexToast(null), 6000)
+    }
   }
 
   const logout = async () => {
@@ -288,6 +306,15 @@ export default function AdminDashboard() {
               <span className="hidden sm:inline">Exportar</span>
             </a>
             <button
+              onClick={reindex}
+              disabled={reindexing}
+              className="h-9 px-3 clay-btn-ghost hidden sm:flex items-center gap-2 text-sm font-medium text-subtle transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+              title="Solicitar reindexación en Bing/Yandex (IndexNow)"
+            >
+              <Globe className={cn('w-4 h-4', reindexing && 'animate-spin')} />
+              <span className="hidden lg:inline">Reindexar</span>
+            </button>
+            <button
               onClick={refreshAll}
               className="h-9 w-9 clay-btn-ghost flex items-center justify-center text-subtle transition-colors cursor-pointer"
               aria-label="Actualizar"
@@ -328,6 +355,41 @@ export default function AdminDashboard() {
                 <span className="block text-xs text-accent font-medium">Actualizar →</span>
               </span>
             </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Toast de resultado — reindexación IndexNow */}
+      <AnimatePresence>
+        {reindexToast && (
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 24, transition: { duration: 0.12 } }}
+            transition={{ duration: 0.18 }}
+            className="fixed bottom-6 right-4 sm:right-6 z-50"
+          >
+            <div
+              className={cn(
+                'vs-panel-elevated rounded-xl pl-3 pr-4 py-2.5 flex items-center gap-2.5 shadow-(--vs-shadow-lg)',
+                reindexToast.ok ? '' : 'border-danger/40'
+              )}
+            >
+              <span
+                className={cn(
+                  'w-8 h-8 rounded-lg flex items-center justify-center shrink-0',
+                  reindexToast.ok ? 'bg-success/12 text-success' : 'bg-danger/12 text-danger'
+                )}
+              >
+                {reindexToast.ok ? <CheckCircle2 className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
+              </span>
+              <span className="text-left">
+                <span className="block text-sm font-semibold text-foreground">
+                  {reindexToast.ok ? 'Reindexación solicitada' : 'Error al reindexar'}
+                </span>
+                <span className="block text-xs text-subtle">{reindexToast.message}</span>
+              </span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
