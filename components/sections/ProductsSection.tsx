@@ -86,7 +86,7 @@ export default function ProductsSection() {
                 alt="SESA — Software de gestión clínica y facturación en salud"
                 width={512}
                 height={171}
-                className="h-20 g:h-24 w-auto mb-5"
+                className="h-20 lg:h-24 w-auto mb-5"
               />
 
               <p className="text-white/70 text-sm leading-relaxed mb-7 max-w-xs">

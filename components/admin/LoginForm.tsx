@@ -68,6 +68,7 @@ export default function LoginForm() {
                   alt="VARSAL Systems"
                   width={512}
                   height={512}
+                  priority
                   className="w-full h-full object-contain"
                 />
               </span>

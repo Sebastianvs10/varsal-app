@@ -3,6 +3,7 @@
 
 'use client'
 
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowRight, Code2, Cloud, Bot, Compass } from 'lucide-react'
 
@@ -37,12 +38,18 @@ export default function HeroSection() {
         paddingBottom: 'clamp(44px, 5vw, 72px)',
       }}
     >
-      {/* Fondo — foto del equipo. Fallback: navy sólido. */}
+      {/* Fondo — foto del equipo. Fallback: navy sólido mientras carga. */}
       <div className="absolute inset-0 bg-navy" aria-hidden="true" />
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/cta.png')" }}
+      <Image
+        src="/images/cta.png"
+        alt=""
         aria-hidden="true"
+        fill
+        priority
+        fetchPriority="high"
+        sizes="100vw"
+        quality={80}
+        className="object-cover object-center"
       />
 
       {/* Velo navy — fuerte a la izquierda (legibilidad del texto), abierto a la derecha */}

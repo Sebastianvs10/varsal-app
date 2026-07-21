@@ -73,6 +73,9 @@ export const metadata: Metadata = {
     title: TITLE,
     description: SITE_DESCRIPTION,
     siteName: SITE_NAME,
+    // La imagen se genera dinámicamente vía app/opengraph-image.tsx (1200×630,
+    // convención de archivo de Next.js) — no declarar aquí para evitar un
+    // og:image duplicado/conflictivo.
   },
   twitter: {
     card: 'summary_large_image',
