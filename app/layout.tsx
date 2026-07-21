@@ -91,6 +91,20 @@ export const metadata: Metadata = {
       'max-video-preview': -1,
     },
   },
+  // Verificación de propiedad para motores de búsqueda adicionales a Google
+  // (que ya está verificado vía public/googleddd09d383ab55ebb.html).
+  // Bing/Edge y Yandex requieren su propio código: se define en variables de
+  // entorno para no hardcodear valores y se omite si no está configurado.
+  verification: {
+    other: {
+      ...(process.env.BING_SITE_VERIFICATION
+        ? { 'msvalidate.01': process.env.BING_SITE_VERIFICATION }
+        : {}),
+      ...(process.env.YANDEX_SITE_VERIFICATION
+        ? { 'yandex-verification': process.env.YANDEX_SITE_VERIFICATION }
+        : {}),
+    },
+  },
 }
 
 export default function RootLayout({

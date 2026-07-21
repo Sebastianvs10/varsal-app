@@ -394,24 +394,29 @@ h2, h3 { font-weight: 650; }
   color: #ffffff;
   background: linear-gradient(135deg, var(--vs-accent) 0%, var(--vs-accent-light) 100%);
   box-shadow:
-    0 10px 22px -9px color-mix(in oklab, var(--clay-hue) 55%, transparent),
-    inset 0 -4px 9px color-mix(in oklab, #000000 18%, transparent),
-    inset 0 4px 8px color-mix(in oklab, #ffffff 35%, transparent);
+    0 14px 28px -8px color-mix(in oklab, var(--clay-hue) 70%, transparent),
+    0 2px 5px color-mix(in oklab, #000000 20%, transparent),
+    inset 0 -6px 12px color-mix(in oklab, #000000 32%, transparent),
+    inset 0 2px 0 color-mix(in oklab, #ffffff 55%, transparent),
+    inset 0 6px 11px color-mix(in oklab, #ffffff 45%, transparent);
   transition: box-shadow 0.15s ease, transform 0.1s ease, filter 0.15s ease;
 }
 .clay-btn-primary:hover:not(:disabled) {
-  filter: brightness(1.05);
+  filter: brightness(1.06);
   box-shadow:
-    0 12px 26px -9px color-mix(in oklab, var(--clay-hue) 62%, transparent),
-    inset 0 -5px 11px color-mix(in oklab, #000000 22%, transparent),
-    inset 0 5px 10px color-mix(in oklab, #ffffff 40%, transparent);
+    0 16px 32px -8px color-mix(in oklab, var(--clay-hue) 78%, transparent),
+    0 3px 6px color-mix(in oklab, #000000 24%, transparent),
+    inset 0 -7px 14px color-mix(in oklab, #000000 38%, transparent),
+    inset 0 2px 0 color-mix(in oklab, #ffffff 62%, transparent),
+    inset 0 7px 13px color-mix(in oklab, #ffffff 52%, transparent);
 }
 .clay-btn-primary:active:not(:disabled) {
   transform: translateY(1px);
-  filter: brightness(0.98);
+  filter: brightness(0.97);
   box-shadow:
-    inset 0 -3px 7px color-mix(in oklab, #000000 24%, transparent),
-    inset 0 6px 12px color-mix(in oklab, #000000 16%, transparent);
+    0 4px 10px -4px color-mix(in oklab, var(--clay-hue) 55%, transparent),
+    inset 0 -3px 8px color-mix(in oklab, #000000 30%, transparent),
+    inset 0 8px 16px color-mix(in oklab, #000000 26%, transparent);
 }
 .clay-btn-primary:focus-visible {
   outline: 2px solid color-mix(in oklab, var(--clay-hue) 72%, transparent);
@@ -435,19 +440,21 @@ h2, h3 { font-weight: 650; }
   --clay-hue: var(--vs-accent);
   position: relative;
   border-radius: 12px;
-  background: color-mix(in oklab, var(--clay-hue) 6%, var(--vs-surface));
+  background: color-mix(in oklab, var(--clay-hue) 9%, var(--vs-surface));
   box-shadow:
-    0 3px 8px -3px color-mix(in oklab, var(--clay-hue) 25%, transparent),
-    inset 0 -2px 5px color-mix(in oklab, var(--clay-hue) 10%, transparent),
-    inset 0 2px 5px color-mix(in oklab, #ffffff 55%, transparent);
+    0 4px 10px -3px color-mix(in oklab, var(--clay-hue) 35%, transparent),
+    inset 0 -3px 6px color-mix(in oklab, var(--clay-hue) 16%, transparent),
+    inset 0 2px 0 color-mix(in oklab, #ffffff 55%, transparent),
+    inset 0 3px 6px color-mix(in oklab, #ffffff 65%, transparent);
   transition: box-shadow 0.15s ease, transform 0.1s ease, background 0.15s ease, color 0.15s ease;
 }
 .clay-btn-ghost:hover:not(:disabled) {
-  background: color-mix(in oklab, var(--clay-hue) 12%, var(--vs-surface));
+  background: color-mix(in oklab, var(--clay-hue) 16%, var(--vs-surface));
   box-shadow:
-    0 5px 12px -3px color-mix(in oklab, var(--clay-hue) 32%, transparent),
-    inset 0 -3px 7px color-mix(in oklab, var(--clay-hue) 16%, transparent),
-    inset 0 3px 6px color-mix(in oklab, #ffffff 60%, transparent);
+    0 6px 14px -3px color-mix(in oklab, var(--clay-hue) 42%, transparent),
+    inset 0 -4px 8px color-mix(in oklab, var(--clay-hue) 22%, transparent),
+    inset 0 2px 0 color-mix(in oklab, #ffffff 62%, transparent),
+    inset 0 4px 7px color-mix(in oklab, #ffffff 70%, transparent);
 }
 .clay-btn-ghost:active:not(:disabled) {
   transform: translateY(1px);
@@ -464,18 +471,20 @@ h2, h3 { font-weight: 650; }
   cursor: not-allowed;
 }
 [data-theme='dark'] .clay-btn-ghost {
-  background: color-mix(in oklab, var(--clay-hue) 16%, var(--vs-surface));
+  background: color-mix(in oklab, var(--clay-hue) 20%, var(--vs-surface));
   box-shadow:
-    0 3px 10px -3px color-mix(in oklab, #000000 42%, transparent),
-    inset 0 -2px 6px color-mix(in oklab, #000000 30%, transparent),
-    inset 0 2px 6px color-mix(in oklab, var(--clay-hue) 30%, transparent);
+    0 4px 12px -3px color-mix(in oklab, #000000 50%, transparent),
+    inset 0 -3px 7px color-mix(in oklab, #000000 38%, transparent),
+    inset 0 2px 0 color-mix(in oklab, #ffffff 10%, transparent),
+    inset 0 3px 7px color-mix(in oklab, var(--clay-hue) 38%, transparent);
 }
 [data-theme='dark'] .clay-btn-ghost:hover:not(:disabled) {
-  background: color-mix(in oklab, var(--clay-hue) 24%, var(--vs-surface));
+  background: color-mix(in oklab, var(--clay-hue) 30%, var(--vs-surface));
   box-shadow:
-    0 5px 14px -3px color-mix(in oklab, #000000 48%, transparent),
-    inset 0 -3px 8px color-mix(in oklab, #000000 36%, transparent),
-    inset 0 3px 7px color-mix(in oklab, var(--clay-hue) 38%, transparent);
+    0 6px 16px -3px color-mix(in oklab, #000000 55%, transparent),
+    inset 0 -4px 9px color-mix(in oklab, #000000 44%, transparent),
+    inset 0 2px 0 color-mix(in oklab, #ffffff 14%, transparent),
+    inset 0 4px 8px color-mix(in oklab, var(--clay-hue) 46%, transparent);
 }
 
 /* Sobre fondos navy/oscuros (hero, CTA) — botón secundario tipo "glass clay". */
@@ -484,25 +493,27 @@ h2, h3 { font-weight: 650; }
   position: relative;
   border-radius: 14px;
   color: #ffffff;
-  background: color-mix(in oklab, #ffffff 10%, var(--vs-navy));
+  background: color-mix(in oklab, #ffffff 14%, var(--vs-navy));
   box-shadow:
-    0 10px 22px -10px color-mix(in oklab, #000000 55%, transparent),
-    inset 0 -4px 9px color-mix(in oklab, #000000 35%, transparent),
-    inset 0 4px 9px color-mix(in oklab, #ffffff 16%, transparent);
+    0 12px 24px -10px color-mix(in oklab, #000000 60%, transparent),
+    inset 0 -6px 12px color-mix(in oklab, #000000 45%, transparent),
+    inset 0 2px 0 color-mix(in oklab, #ffffff 30%, transparent),
+    inset 0 6px 12px color-mix(in oklab, #ffffff 26%, transparent);
   transition: box-shadow 0.15s ease, transform 0.1s ease, background 0.15s ease;
 }
 .clay-btn-on-dark:hover {
-  background: color-mix(in oklab, #ffffff 16%, var(--vs-navy));
+  background: color-mix(in oklab, #ffffff 20%, var(--vs-navy));
   box-shadow:
-    0 12px 26px -10px color-mix(in oklab, #000000 60%, transparent),
-    inset 0 -5px 11px color-mix(in oklab, #000000 40%, transparent),
-    inset 0 5px 10px color-mix(in oklab, #ffffff 20%, transparent);
+    0 14px 28px -10px color-mix(in oklab, #000000 65%, transparent),
+    inset 0 -7px 14px color-mix(in oklab, #000000 50%, transparent),
+    inset 0 2px 0 color-mix(in oklab, #ffffff 36%, transparent),
+    inset 0 7px 14px color-mix(in oklab, #ffffff 32%, transparent);
 }
 .clay-btn-on-dark:active {
   transform: translateY(1px);
   box-shadow:
-    inset 0 -3px 8px color-mix(in oklab, #000000 45%, transparent),
-    inset 0 6px 12px color-mix(in oklab, #000000 30%, transparent);
+    inset 0 -3px 8px color-mix(in oklab, #000000 55%, transparent),
+    inset 0 8px 16px color-mix(in oklab, #000000 40%, transparent);
 }
 .clay-btn-on-dark:focus-visible {
   outline: 2px solid rgba(255, 255, 255, 0.7);
