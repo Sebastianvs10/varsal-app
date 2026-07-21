@@ -3,7 +3,7 @@
 
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -281,7 +281,7 @@ export default function AdminDashboard() {
           <div className="flex items-center gap-2">
             <a
               href={exportUrl}
-              className="h-9 px-3 rounded-md border border-line bg-surface hover:bg-surface-2 flex items-center gap-2 text-sm font-medium text-subtle transition-colors cursor-pointer"
+              className="h-9 px-3 clay-btn-ghost flex items-center gap-2 text-sm font-medium text-subtle transition-colors cursor-pointer"
               title="Exportar CSV con los filtros actuales"
             >
               <Download className="w-4 h-4" />
@@ -289,7 +289,7 @@ export default function AdminDashboard() {
             </a>
             <button
               onClick={refreshAll}
-              className="h-9 w-9 rounded-md border border-line bg-surface hover:bg-surface-2 flex items-center justify-center text-subtle transition-colors cursor-pointer"
+              className="h-9 w-9 clay-btn-ghost flex items-center justify-center text-subtle transition-colors cursor-pointer"
               aria-label="Actualizar"
               title="Actualizar"
             >
@@ -297,7 +297,7 @@ export default function AdminDashboard() {
             </button>
             <button
               onClick={logout}
-              className="h-9 px-3 rounded-md border border-line bg-surface hover:bg-surface-2 flex items-center gap-2 text-sm font-medium text-subtle transition-colors cursor-pointer"
+              className="h-9 px-3 clay-btn-ghost flex items-center gap-2 text-sm font-medium text-subtle transition-colors cursor-pointer"
             >
               <LogOut className="w-4 h-4" />
               <span className="hidden sm:inline">Salir</span>
@@ -521,14 +521,14 @@ export default function AdminDashboard() {
                   <button
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                     disabled={page <= 1}
-                    className="h-9 w-9 rounded-md border border-line bg-surface flex items-center justify-center text-subtle disabled:opacity-40 hover:bg-surface-2 transition-colors cursor-pointer disabled:cursor-not-allowed"
+                    className="h-9 w-9 clay-btn-ghost flex items-center justify-center text-subtle disabled:opacity-40 transition-colors cursor-pointer disabled:cursor-not-allowed"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                     disabled={page >= totalPages}
-                    className="h-9 w-9 rounded-md border border-line bg-surface flex items-center justify-center text-subtle disabled:opacity-40 hover:bg-surface-2 transition-colors cursor-pointer disabled:cursor-not-allowed"
+                    className="h-9 w-9 clay-btn-ghost flex items-center justify-center text-subtle disabled:opacity-40 transition-colors cursor-pointer disabled:cursor-not-allowed"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -624,7 +624,7 @@ function DetailSlideOver({
                 <EstadoPill estado={item.estado} />
                 {overdue && <SlaBadge />}
               </div>
-              <button onClick={onClose} className="h-8 w-8 rounded-md hover:bg-surface-2 flex items-center justify-center text-subtle transition-colors cursor-pointer">
+              <button onClick={onClose} className="h-8 w-8 clay-btn-ghost flex items-center justify-center text-subtle transition-colors cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -677,7 +677,7 @@ function DetailSlideOver({
                         key={e.value}
                         onClick={() => onEstado(item.id, e.value)}
                         className={cn(
-                          'px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer',
+                          'clay-pill px-3 py-1.5 text-xs font-semibold border cursor-pointer',
                           active ? s.pill : 'border-line text-subtle hover:bg-surface-2'
                         )}
                       >
@@ -694,7 +694,7 @@ function DetailSlideOver({
             <div className="border-t border-line p-4 shrink-0 flex items-center gap-3">
               <a
                 href={`mailto:${item.email}`}
-                className="flex-1 h-11 rounded-md brand-gradient text-white font-semibold text-sm flex items-center justify-center gap-2 hover:brightness-110 transition-all"
+                className="flex-1 h-11 clay-btn-primary font-semibold text-sm flex items-center justify-center gap-2 transition-all"
               >
                 <Mail className="w-4 h-4" /> Responder
               </a>
@@ -702,7 +702,7 @@ function DetailSlideOver({
                 <button
                   onClick={async () => { setWorking(true); await onDelete(item.id) }}
                   disabled={working}
-                  className="h-11 px-4 rounded-md bg-danger text-white font-semibold text-sm flex items-center gap-2 hover:brightness-110 transition-all cursor-pointer disabled:opacity-60"
+                  className="h-11 px-4 clay-btn-primary clay-btn-danger font-semibold text-sm flex items-center gap-2 transition-all cursor-pointer disabled:cursor-not-allowed"
                 >
                   {working ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                   Confirmar
@@ -710,7 +710,8 @@ function DetailSlideOver({
               ) : (
                 <button
                   onClick={() => setConfirmDelete(true)}
-                  className="h-11 w-11 rounded-md border border-line text-danger hover:bg-danger/10 flex items-center justify-center transition-colors cursor-pointer"
+                  style={{ '--clay-hue': 'var(--vs-danger)' } as CSSProperties}
+                  className="h-11 w-11 clay-btn-ghost text-danger flex items-center justify-center transition-colors cursor-pointer"
                   aria-label="Eliminar solicitud"
                   title="Eliminar"
                 >

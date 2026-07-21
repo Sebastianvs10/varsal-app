@@ -85,7 +85,7 @@ function CopyAnchorButton({ id }: { id: string }) {
     <button
       type="button"
       onClick={copy}
-      className="inline-flex items-center justify-center w-7 h-7 rounded-md text-faint hover:text-accent hover:bg-accent/10 transition-colors cursor-pointer shrink-0 opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+      className="clay-btn-ghost inline-flex items-center justify-center w-7 h-7 text-faint hover:text-accent transition-colors cursor-pointer shrink-0 opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
       aria-label="Copiar enlace a esta sección"
       title="Copiar enlace a esta sección"
     >
@@ -277,7 +277,7 @@ export default function LegalPage({
             <div className="lg:hidden">
               <button
                 onClick={() => setTocOpen((v) => !v)}
-                className="w-full flex items-center justify-between gap-2 px-4 h-11 rounded-lg vs-panel text-sm font-medium text-foreground cursor-pointer"
+                className="w-full flex items-center justify-between gap-2 px-4 h-11 clay-btn-ghost text-sm font-medium text-foreground cursor-pointer"
                 aria-expanded={tocOpen}
               >
                 <span className="flex items-center gap-2">

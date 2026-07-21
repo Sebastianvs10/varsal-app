@@ -270,9 +270,9 @@ export default function ContactForm() {
         type="submit"
         disabled={busy}
         className={cn(
-          'group mt-5 w-full h-12 rounded-md font-semibold text-white text-sm',
-          'brand-gradient btn-glow-accent flex items-center justify-center gap-2',
-          'transition-all duration-150 hover:brightness-110 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer'
+          'group btn-shine mt-5 w-full h-12 font-semibold text-sm clay-btn-primary',
+          'flex items-center justify-center gap-2',
+          'transition-all duration-150 disabled:cursor-not-allowed cursor-pointer'
         )}
       >
         {busy ? (

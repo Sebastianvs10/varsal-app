@@ -35,7 +35,7 @@ export default function CopyButton({
       type="button"
       onClick={copy}
       className={cn(
-        'inline-flex items-center justify-center w-6 h-6 rounded-md text-faint hover:text-accent hover:bg-accent/10 transition-colors cursor-pointer shrink-0',
+        'clay-btn-ghost inline-flex items-center justify-center w-6 h-6 text-faint hover:text-accent transition-colors cursor-pointer shrink-0',
         className
       )}
       aria-label={label ? `Copiar ${label}` : 'Copiar'}

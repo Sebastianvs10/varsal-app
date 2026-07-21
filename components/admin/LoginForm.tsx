@@ -134,9 +134,9 @@ export default function LoginForm() {
               type="submit"
               disabled={busy || !password}
               className={cn(
-                'group mt-6 w-full h-12 rounded-lg font-semibold text-white text-sm brand-gradient btn-glow-accent btn-shine',
-                'flex items-center justify-center gap-2 transition-all hover:brightness-110',
-                'disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer'
+                'group btn-shine mt-6 w-full h-12 font-semibold text-sm clay-btn-primary',
+                'flex items-center justify-center gap-2 transition-all',
+                'disabled:cursor-not-allowed cursor-pointer'
               )}
             >
               {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Lock className="w-4 h-4" />}
@@ -146,8 +146,8 @@ export default function LoginForm() {
 
           <Link
             href="/"
-            className="mt-3 w-full h-11 rounded-lg font-semibold text-accent text-sm border border-accent/30
-              flex items-center justify-center gap-2 transition-colors hover:bg-accent/8 cursor-pointer"
+            className="mt-3 w-full h-11 font-semibold text-accent text-sm clay-btn-ghost
+              flex items-center justify-center gap-2 transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
             Ir a inicio

@@ -378,8 +378,8 @@ function ArticleModal({ post, onClose }: { post: Post; onClose: () => void }) {
           <button
             ref={closeRef}
             onClick={onClose}
-            className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-subtle
-              hover:text-foreground hover:bg-surface-2 transition-colors cursor-pointer"
+            className="shrink-0 w-9 h-9 clay-btn-ghost flex items-center justify-center text-subtle
+              hover:text-foreground transition-colors cursor-pointer"
             aria-label="Cerrar artículo"
           >
             <X className="w-5 h-5" />
@@ -426,8 +426,8 @@ function ArticleModal({ post, onClose }: { post: Post; onClose: () => void }) {
           <Link
             href="/#contacto"
             onClick={onClose}
-            className="btn-shine group inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold
-              text-white brand-gradient btn-glow-accent hover:brightness-110 transition-all duration-150 cursor-pointer"
+            className="btn-shine group inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold
+              clay-btn-primary transition-all duration-150 cursor-pointer"
           >
             <CalendarDays className="w-4 h-4" strokeWidth={2} />
             Agenda una reunión
@@ -485,7 +485,7 @@ export default function BlogView() {
                 key={cat}
                 onClick={() => setActiveCat(cat)}
                 className={cn(
-                  'px-4 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer',
+                  'clay-pill px-4 py-1.5 text-sm font-medium cursor-pointer',
                   active
                     ? 'bg-navy text-white border border-navy'
                     : 'bg-surface border border-line text-subtle hover:text-foreground hover:border-line-strong'

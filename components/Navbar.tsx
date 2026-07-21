@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter, usePathname } from 'next/navigation'
 import { Menu, X, CalendarDays, Home, Layers, Boxes, Users } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import ThemeToggle from '@/components/ui/ThemeToggle'
@@ -126,6 +127,9 @@ export default function Navbar({ overHeroDark = false }: { overHeroDark?: boolea
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('inicio')
   const { scrollYProgress } = useScroll()
+  const router = useRouter()
+  const pathname = usePathname()
+  const isHome = pathname === '/'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16)
@@ -134,7 +138,13 @@ export default function Navbar({ overHeroDark = false }: { overHeroDark?: boolea
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Fuera del home (blog, legales) ninguna sección de anclas está "activa".
   useEffect(() => {
+    if (!isHome) queueMicrotask(() => setActiveSection(''))
+  }, [isHome])
+
+  useEffect(() => {
+    if (!isHome) return
     const sections = sectionIds
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null)
@@ -152,12 +162,28 @@ export default function Navbar({ overHeroDark = false }: { overHeroDark?: boolea
 
     sections.forEach((el) => observer.observe(el))
     return () => observer.disconnect()
-  }, [])
+  }, [isHome])
+
+  // Si llegamos al home con un hash en la URL (ej. tras navegar desde /blog),
+  // hacemos scroll a la sección una vez el contenido está montado.
+  useEffect(() => {
+    if (!isHome) return
+    const hash = window.location.hash
+    if (!hash) return
+    const id = hash.slice(1)
+    const t = setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
+    return () => clearTimeout(t)
+  }, [isHome])
 
   const handleNav = (href: string) => {
     setMobileOpen(false)
-    if (href.startsWith('#')) {
+    if (!href.startsWith('#')) return
+    if (isHome) {
       document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      router.push(`/${href}`)
     }
   }
 
@@ -222,18 +248,13 @@ export default function Navbar({ overHeroDark = false }: { overHeroDark?: boolea
 
             {/* CTA */}
             <div className="hidden lg:flex items-center gap-3 shrink-0">
-              <ThemeToggle
-                className={cn(
-                  onDark && 'border-white/25 text-white/85 hover:bg-white/10 hover:text-white'
-                )}
-              />
+              <ThemeToggle onDark={onDark} />
               <motion.button
                 whileHover={{ y: -1 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => handleNav('#contacto')}
-                className="btn-shine group flex items-center gap-2 px-5 py-2.5 rounded-lg text-[14px] font-semibold
-                  text-white brand-gradient btn-glow-accent hover:brightness-110
-                  transition-all duration-150 cursor-pointer whitespace-nowrap"
+                className="btn-shine group flex items-center gap-2 px-5 py-2.5 clay-btn-primary text-[14px] font-semibold
+                  cursor-pointer whitespace-nowrap"
               >
                 <CalendarDays className="w-4 h-4" strokeWidth={2} />
                 Agenda una reunión
@@ -242,18 +263,14 @@ export default function Navbar({ overHeroDark = false }: { overHeroDark?: boolea
 
             {/* Mobile toggle */}
             <div className="lg:hidden flex items-center gap-1.5">
-              <ThemeToggle
-                className={cn(
-                  onDark && 'border-white/25 text-white/85 hover:bg-white/10 hover:text-white'
-                )}
-              />
+              <ThemeToggle onDark={onDark} />
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className={cn(
-                  'p-2 rounded-lg transition-colors',
+                  'p-2 transition-colors',
                   onDark
-                    ? 'text-white/85 hover:text-white hover:bg-white/10'
-                    : 'text-subtle hover:text-foreground hover:bg-surface-2'
+                    ? 'rounded-lg text-white/85 hover:text-white hover:bg-white/10'
+                    : 'clay-btn-ghost text-subtle hover:text-foreground'
                 )}
                 aria-label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
               >
@@ -360,8 +377,8 @@ export default function Navbar({ overHeroDark = false }: { overHeroDark?: boolea
                     transition={{ delay: navItems.length * 0.03, duration: 0.2 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={() => handleNav('#contacto')}
-                    className="btn-shine flex items-center gap-2 px-7 py-3 rounded-full text-sm font-semibold text-white
-                      brand-gradient btn-glow-accent transition-all cursor-pointer"
+                    className="btn-shine flex items-center gap-2 px-7 py-3 text-sm font-semibold
+                      clay-btn-primary clay-btn-pill transition-all cursor-pointer"
                   >
                     <CalendarDays className="w-4 h-4" strokeWidth={2} />
                     Agenda una reunión
@@ -390,8 +407,8 @@ export default function Navbar({ overHeroDark = false }: { overHeroDark?: boolea
               whileTap={{ scale: 0.94 }}
               onClick={() => handleNav('#contacto')}
               aria-label="Agenda una reunión"
-              className="absolute -top-6 w-14 h-14 rounded-full brand-gradient btn-glow-accent
-                ring-4 ring-surface flex items-center justify-center text-white cursor-pointer"
+              className="absolute -top-6 w-14 h-14 clay-btn-primary clay-btn-circle
+                ring-4 ring-surface flex items-center justify-center cursor-pointer"
             >
               <CalendarDays className="w-[20px] h-[20px]" strokeWidth={2} />
             </motion.button>

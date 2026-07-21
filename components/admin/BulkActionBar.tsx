@@ -3,7 +3,7 @@
 
 'use client'
 
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Loader2, Trash2, X } from 'lucide-react'
 import { ESTADOS, type Estado } from '@/lib/catalog'
@@ -70,7 +70,7 @@ export default function BulkActionBar({
                     onClick={() => runEstado(e.value)}
                     disabled={busy !== null}
                     className={cn(
-                      'px-2.5 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5',
+                      'clay-pill px-2.5 py-1.5 text-xs font-semibold border cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5',
                       s.pill
                     )}
                     title={`Marcar como ${e.label}`}
@@ -87,7 +87,7 @@ export default function BulkActionBar({
                 <button
                   onClick={runDelete}
                   disabled={busy !== null}
-                  className="h-9 px-3 rounded-md bg-danger text-white text-xs font-semibold flex items-center gap-1.5 hover:brightness-110 transition-all cursor-pointer disabled:opacity-60"
+                  className="h-9 px-3 clay-btn-primary clay-btn-danger text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer disabled:cursor-not-allowed"
                 >
                   {busy === 'delete' ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
                   Confirmar
@@ -96,7 +96,8 @@ export default function BulkActionBar({
                 <button
                   onClick={() => setConfirmDelete(true)}
                   disabled={busy !== null}
-                  className="h-9 w-9 rounded-md border border-line text-danger hover:bg-danger/10 flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50"
+                  style={{ '--clay-hue': 'var(--vs-danger)' } as CSSProperties}
+                  className="h-9 w-9 clay-btn-ghost text-danger flex items-center justify-center transition-colors cursor-pointer disabled:opacity-50"
                   aria-label="Eliminar seleccionadas"
                   title="Eliminar seleccionadas"
                 >
@@ -105,7 +106,7 @@ export default function BulkActionBar({
               )}
               <button
                 onClick={onClear}
-                className="h-9 w-9 rounded-md hover:bg-surface-2 flex items-center justify-center text-subtle transition-colors cursor-pointer"
+                className="h-9 w-9 clay-btn-ghost flex items-center justify-center text-subtle transition-colors cursor-pointer"
                 aria-label="Deseleccionar todo"
                 title="Deseleccionar todo"
               >

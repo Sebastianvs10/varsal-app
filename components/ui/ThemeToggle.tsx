@@ -7,9 +7,11 @@ import { cn } from '@/lib/utils'
 
 interface ThemeToggleProps {
   className?: string
+  /** Sobre hero oscuro (foto) sin scroll: usar vidrio translúcido en vez de clay. */
+  onDark?: boolean
 }
 
-export default function ThemeToggle({ className }: ThemeToggleProps) {
+export default function ThemeToggle({ className, onDark = false }: ThemeToggleProps) {
   const [theme, setTheme] = useState<Theme>('light')
   const [mounted, setMounted] = useState(false)
 
@@ -41,9 +43,10 @@ export default function ThemeToggle({ className }: ThemeToggleProps) {
       aria-label={theme === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
       title={theme === 'dark' ? 'Tema claro' : 'Tema oscuro'}
       className={cn(
-        'inline-flex items-center justify-center w-9 h-9 rounded-md border border-line',
-        'text-subtle hover:text-foreground hover:bg-surface-2',
-        'transition-colors duration-150 cursor-pointer',
+        'inline-flex items-center justify-center w-9 h-9 transition-colors duration-150 cursor-pointer',
+        onDark
+          ? 'rounded-md border border-white/25 text-white/85 hover:bg-white/10 hover:text-white'
+          : 'clay-btn-ghost text-subtle hover:text-foreground',
         className
       )}
     >

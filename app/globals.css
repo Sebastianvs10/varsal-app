@@ -379,6 +379,183 @@ h2, h3 { font-weight: 650; }
     inset 0 4px 10px color-mix(in oklab, #ffffff 22%, transparent);
 }
 
+/* ── Sistema de botones claymorphism (intensidad sutil) ──────────────────
+   Aplica a TODOS los botones/CTAs del sitio. Cada variante conserva el
+   color semántico existente (accent/danger/success/navy/blanco) via
+   --clay-hue o el propio background; solo añade la receta de sombra
+   (2 insets + 1 drop) y esquinas grandes. Ver .clay-btn arriba (secundario/
+   outline, ya en uso en Servicios) para el estilo base equivalente.       */
+
+/* Primario — CTAs sólidos ("Agenda una reunión", "Enviar solicitud"...). */
+.clay-btn-primary {
+  --clay-hue: var(--vs-accent);
+  position: relative;
+  border-radius: 14px;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--vs-accent) 0%, var(--vs-accent-light) 100%);
+  box-shadow:
+    0 10px 22px -9px color-mix(in oklab, var(--clay-hue) 55%, transparent),
+    inset 0 -4px 9px color-mix(in oklab, #000000 18%, transparent),
+    inset 0 4px 8px color-mix(in oklab, #ffffff 35%, transparent);
+  transition: box-shadow 0.15s ease, transform 0.1s ease, filter 0.15s ease;
+}
+.clay-btn-primary:hover:not(:disabled) {
+  filter: brightness(1.05);
+  box-shadow:
+    0 12px 26px -9px color-mix(in oklab, var(--clay-hue) 62%, transparent),
+    inset 0 -5px 11px color-mix(in oklab, #000000 22%, transparent),
+    inset 0 5px 10px color-mix(in oklab, #ffffff 40%, transparent);
+}
+.clay-btn-primary:active:not(:disabled) {
+  transform: translateY(1px);
+  filter: brightness(0.98);
+  box-shadow:
+    inset 0 -3px 7px color-mix(in oklab, #000000 24%, transparent),
+    inset 0 6px 12px color-mix(in oklab, #000000 16%, transparent);
+}
+.clay-btn-primary:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--clay-hue) 72%, transparent);
+  outline-offset: 2px;
+}
+.clay-btn-primary:disabled {
+  opacity: 0.65;
+  filter: none;
+  cursor: not-allowed;
+}
+/* Variante de acento — cambiar solo el matiz para conservar el color semántico
+   (ej. peligro en confirmaciones destructivas), reutilizando la misma receta. */
+.clay-btn-danger {
+  --clay-hue: var(--vs-danger);
+  background: var(--vs-danger);
+}
+
+/* Ghost — botones utilitarios/icon-only (theme toggle, cerrar, paginación,
+   exportar, copiar). Sombra e inset mucho más ligeros para no saturar UI densa. */
+.clay-btn-ghost {
+  --clay-hue: var(--vs-accent);
+  position: relative;
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--clay-hue) 6%, var(--vs-surface));
+  box-shadow:
+    0 3px 8px -3px color-mix(in oklab, var(--clay-hue) 25%, transparent),
+    inset 0 -2px 5px color-mix(in oklab, var(--clay-hue) 10%, transparent),
+    inset 0 2px 5px color-mix(in oklab, #ffffff 55%, transparent);
+  transition: box-shadow 0.15s ease, transform 0.1s ease, background 0.15s ease, color 0.15s ease;
+}
+.clay-btn-ghost:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--clay-hue) 12%, var(--vs-surface));
+  box-shadow:
+    0 5px 12px -3px color-mix(in oklab, var(--clay-hue) 32%, transparent),
+    inset 0 -3px 7px color-mix(in oklab, var(--clay-hue) 16%, transparent),
+    inset 0 3px 6px color-mix(in oklab, #ffffff 60%, transparent);
+}
+.clay-btn-ghost:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 -2px 5px color-mix(in oklab, var(--clay-hue) 20%, transparent),
+    inset 0 4px 8px color-mix(in oklab, var(--clay-hue) 14%, transparent);
+}
+.clay-btn-ghost:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--clay-hue) 60%, transparent);
+  outline-offset: 2px;
+}
+.clay-btn-ghost:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+[data-theme='dark'] .clay-btn-ghost {
+  background: color-mix(in oklab, var(--clay-hue) 16%, var(--vs-surface));
+  box-shadow:
+    0 3px 10px -3px color-mix(in oklab, #000000 42%, transparent),
+    inset 0 -2px 6px color-mix(in oklab, #000000 30%, transparent),
+    inset 0 2px 6px color-mix(in oklab, var(--clay-hue) 30%, transparent);
+}
+[data-theme='dark'] .clay-btn-ghost:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--clay-hue) 24%, var(--vs-surface));
+  box-shadow:
+    0 5px 14px -3px color-mix(in oklab, #000000 48%, transparent),
+    inset 0 -3px 8px color-mix(in oklab, #000000 36%, transparent),
+    inset 0 3px 7px color-mix(in oklab, var(--clay-hue) 38%, transparent);
+}
+
+/* Sobre fondos navy/oscuros (hero, CTA) — botón secundario tipo "glass clay". */
+.clay-btn-on-dark {
+  --clay-hue: var(--vs-navy-2);
+  position: relative;
+  border-radius: 14px;
+  color: #ffffff;
+  background: color-mix(in oklab, #ffffff 10%, var(--vs-navy));
+  box-shadow:
+    0 10px 22px -10px color-mix(in oklab, #000000 55%, transparent),
+    inset 0 -4px 9px color-mix(in oklab, #000000 35%, transparent),
+    inset 0 4px 9px color-mix(in oklab, #ffffff 16%, transparent);
+  transition: box-shadow 0.15s ease, transform 0.1s ease, background 0.15s ease;
+}
+.clay-btn-on-dark:hover {
+  background: color-mix(in oklab, #ffffff 16%, var(--vs-navy));
+  box-shadow:
+    0 12px 26px -10px color-mix(in oklab, #000000 60%, transparent),
+    inset 0 -5px 11px color-mix(in oklab, #000000 40%, transparent),
+    inset 0 5px 10px color-mix(in oklab, #ffffff 20%, transparent);
+}
+.clay-btn-on-dark:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 -3px 8px color-mix(in oklab, #000000 45%, transparent),
+    inset 0 6px 12px color-mix(in oklab, #000000 30%, transparent);
+}
+.clay-btn-on-dark:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 2px;
+}
+
+/* Pill — chips/toggles de estado y filtros (conservan su color de fondo
+   semántico; el inset blanco/negro crea la profundidad de arcilla sobre
+   cualquier matiz sin necesitar --clay-hue por elemento). */
+.clay-pill {
+  position: relative;
+  border-radius: 999px;
+  box-shadow:
+    0 3px 8px -2px rgba(0, 0, 0, 0.16),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.10),
+    inset 0 2px 4px rgba(255, 255, 255, 0.55);
+  transition: box-shadow 0.15s ease, transform 0.1s ease;
+}
+.clay-pill:hover:not(:disabled) {
+  box-shadow:
+    0 4px 10px -2px rgba(0, 0, 0, 0.20),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.14),
+    inset 0 3px 6px rgba(255, 255, 255, 0.6);
+}
+.clay-pill:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.clay-pill:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--vs-accent) 65%, transparent);
+  outline-offset: 2px;
+}
+[data-theme='dark'] .clay-pill {
+  box-shadow:
+    0 3px 10px -2px rgba(0, 0, 0, 0.45),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.35),
+    inset 0 2px 5px rgba(255, 255, 255, 0.12);
+}
+[data-theme='dark'] .clay-pill:hover:not(:disabled) {
+  box-shadow:
+    0 4px 12px -2px rgba(0, 0, 0, 0.5),
+    inset 0 -3px 7px rgba(0, 0, 0, 0.4),
+    inset 0 3px 7px rgba(255, 255, 255, 0.16);
+}
+
+/* Modificador — botón circular (FABs: volver arriba, acción central móvil). */
+.clay-btn-circle {
+  border-radius: 50%;
+}
+/* Modificador — mantener forma píldora sobre cualquier variante clay-btn-*. */
+.clay-btn-pill {
+  border-radius: 999px;
+}
+
 /* Resplandor de marca detrás de bloques hero/CTA — un solo matiz, muy controlado */
 .brand-glow {
   position: relative;

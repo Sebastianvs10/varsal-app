@@ -3,6 +3,7 @@
 
 'use client'
 
+import type { CSSProperties } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowUpRight, Building2, FileCheck2, ShieldCheck } from 'lucide-react'
@@ -97,7 +98,8 @@ export default function ProductsSection() {
                 href="https://appsesa.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 bg-white text-navy font-semibold text-sm rounded-lg px-5 h-11 transition-all hover:brightness-95 shadow-(--vs-shadow-md) cursor-pointer"
+                style={{ '--clay-hue': 'var(--vs-navy-2)' } as CSSProperties}
+                className="group inline-flex items-center gap-2 clay-btn text-navy font-semibold text-sm px-5 h-11 transition-all cursor-pointer"
                 aria-label="Visitar SESA — abre en una pestaña nueva"
               >
                 Visitar SESA

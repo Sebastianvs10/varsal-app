@@ -113,9 +113,8 @@ export default function HeroSection() {
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => scrollTo('#contacto')}
-              className="group flex items-center gap-2 px-5 py-3 rounded-md font-semibold text-white text-sm
-                brand-gradient btn-glow-accent hover:brightness-110
-                transition-all duration-150 cursor-pointer"
+              className="group btn-shine flex items-center gap-2 px-5 py-3 font-semibold text-sm
+                clay-btn-primary cursor-pointer"
             >
               Agenda una reunión
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -123,9 +122,7 @@ export default function HeroSection() {
 
             <button
               onClick={() => scrollTo('#proceso')}
-              className="group px-5 py-3 rounded-md font-semibold text-sm
-                text-white border border-white/25 hover:border-white/50
-                bg-white/5 hover:bg-white/10 backdrop-blur-sm transition-colors duration-150 cursor-pointer"
+              className="group px-5 py-3 font-semibold text-sm clay-btn-on-dark cursor-pointer"
             >
               Conoce nuestro proceso
               <span className="inline-block ml-1.5 group-hover:translate-x-0.5 transition-transform">→</span>

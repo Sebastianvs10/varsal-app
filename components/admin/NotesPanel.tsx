@@ -3,7 +3,7 @@
 
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 import { Loader2, Send, StickyNote, Trash2 } from 'lucide-react'
 import type { ContactNote } from '@/lib/catalog'
 
@@ -88,7 +88,7 @@ export default function NotesPanel({ contactId }: { contactId: string }) {
         <button
           type="submit"
           disabled={saving || texto.trim().length < 2}
-          className="h-9 w-9 shrink-0 rounded-lg brand-gradient text-white flex items-center justify-center hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          className="h-9 w-9 shrink-0 clay-btn-primary flex items-center justify-center transition-all disabled:cursor-not-allowed cursor-pointer"
           aria-label="Agregar nota"
           title="Agregar nota"
         >
@@ -114,7 +114,8 @@ export default function NotesPanel({ contactId }: { contactId: string }) {
                 <p className="text-sm text-foreground whitespace-pre-wrap leading-snug">{n.texto}</p>
                 <button
                   onClick={() => removeNote(n.id)}
-                  className="opacity-0 group-hover:opacity-100 shrink-0 text-faint hover:text-danger transition-all cursor-pointer"
+                  style={{ '--clay-hue': 'var(--vs-danger)' } as CSSProperties}
+                  className="opacity-0 group-hover:opacity-100 shrink-0 w-6 h-6 flex items-center justify-center clay-btn-ghost text-faint hover:text-danger transition-all cursor-pointer"
                   aria-label="Eliminar nota"
                   title="Eliminar nota"
                 >
