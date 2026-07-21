@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Mail, Phone, MapPin } from 'lucide-react'
 import { SITE_EMAIL, SITE_PHONE, SITE_PHONE_TEL, SITE_ADDRESS } from '@/lib/site'
+import CookiePreferencesLink from '@/components/cookies/CookiePreferencesLink'
 
 const contactItems = [
   { icon: Mail, value: SITE_EMAIL, href: `mailto:${SITE_EMAIL}` },
@@ -101,6 +102,7 @@ export default function Footer() {
                 {link.label}
               </Link>
             ))}
+            <CookiePreferencesLink />
           </div>
         </div>
       </div>

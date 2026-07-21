@@ -3,9 +3,14 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUp } from 'lucide-react'
+import { useCookieConsent } from '@/lib/useCookieConsent'
 
 export default function BackToTop() {
   const [visible, setVisible] = useState(false)
+  const { consent, hydrated } = useCookieConsent()
+  // Mientras el aviso de cookies está esperando respuesta, este botón se
+  // oculta para no chocar visualmente con la barra inferior.
+  const cookieBarShowing = hydrated && !consent
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 480)
@@ -15,7 +20,7 @@ export default function BackToTop() {
 
   return (
     <AnimatePresence>
-      {visible && (
+      {visible && !cookieBarShowing && (
         <motion.button
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}

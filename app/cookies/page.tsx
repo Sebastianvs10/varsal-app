@@ -12,12 +12,12 @@ export default function CookiesPage() {
     <LegalPage
       title="Política de Cookies"
       subtitle="Qué cookies y tecnologías de almacenamiento local utiliza realmente este sitio, para qué sirven y cómo controlarlas, conforme a la Ley 1581 de 2012."
-      lastUpdated="15 de julio de 2026"
+      lastUpdated="21 de julio de 2026"
       summary={[
-        'Este sitio no utiliza cookies de analítica ni de publicidad de terceros.',
+        'Al llegar al sitio puede aceptar, rechazar o personalizar categorías de cookies desde el aviso inferior.',
+        'Este sitio no utiliza hoy cookies de analítica ni de publicidad de terceros.',
         'Solo usamos almacenamiento técnico esencial: preferencia de tema y sesión de administración.',
-        'Ninguna cookie de este sitio identifica ni rastrea a los visitantes públicos.',
-        'Si en el futuro se añaden herramientas de analítica, solicitaremos su consentimiento previo.',
+        'Puede cambiar su elección cuando quiera desde "Preferencias de cookies" en el pie de página.',
       ]}
       sections={[
         {
@@ -31,6 +31,15 @@ export default function CookiesPage() {
           title: 'Transparencia sobre lo que realmente usamos',
           content:
             'A diferencia de políticas genéricas que enumeran cookies de analítica o marketing que en la práctica no se usan, aquí encontrará únicamente las tecnologías activas en varsalsystems.com, verificadas directamente en nuestro código fuente. Actualmente el sitio no integra Google Analytics, Google Tag Manager, píxeles publicitarios ni herramientas de grabación de sesión de ningún proveedor.',
+        },
+        {
+          id: 'panel-preferencias',
+          title: 'Aviso y panel de preferencias',
+          content: [
+            'Al ingresar por primera vez verá un aviso en la parte inferior del sitio con tres opciones: "Aceptar todo", "Rechazar" (solo cookies necesarias) y "Personalizar".',
+            'Al elegir "Personalizar" se abre un panel con tres categorías: Necesarias (siempre activas), Analíticas y Marketing. Las dos últimas están desactivadas por defecto y hoy no tienen ningún efecto porque no usamos herramientas de ese tipo — quedan listas para cuando, en el futuro, se incorpore alguna.',
+            'Su elección se guarda únicamente en su navegador (almacenamiento local, clave "varsal-cookie-consent") y puede modificarla en cualquier momento desde el enlace "Preferencias de cookies" en el pie de página de cualquier sección del sitio.',
+          ],
         },
         {
           id: 'inventario',
@@ -47,6 +56,13 @@ export default function CookiesPage() {
                 'No requerido — no identifica al usuario.',
               ],
               [
+                'varsal-cookie-consent',
+                'Almacenamiento local (no es cookie)',
+                'Recordar las categorías de cookies que aceptó o rechazó en el panel de preferencias.',
+                'Persistente, hasta borrar datos del navegador o cambiar su elección.',
+                'No requerido — registra su propia decisión, no le identifica.',
+              ],
+              [
                 'varsal_admin_session',
                 'Cookie propia, técnica y esencial',
                 'Mantener la sesión iniciada en el panel administrativo (/admin) de forma segura.',
@@ -60,11 +76,11 @@ export default function CookiesPage() {
           id: 'terceros',
           title: 'Cookies de terceros',
           content:
-            'Este sitio no incorpora scripts de analítica, marketing o publicidad de terceros. Por lo tanto, no se instalan cookies de terceros en su navegador al visitar varsalsystems.com.',
+            'Este sitio no incorpora scripts de analítica, marketing o publicidad de terceros. Por lo tanto, no se instalan cookies de terceros en su navegador al visitar varsalsystems.com, incluso si usted aceptó las categorías "Analíticas" o "Marketing" en el panel de preferencias.',
           callout: {
             type: 'warning',
             title: 'Si esto cambia',
-            text: 'Si en el futuro incorporamos herramientas de analítica o marketing, actualizaremos esta política con el detalle de cada cookie (proveedor, finalidad y duración) y solicitaremos su consentimiento previo mediante un aviso visible en el sitio, antes de activarlas.',
+            text: 'Si en el futuro incorporamos herramientas de analítica o marketing, actualizaremos esta política con el detalle de cada cookie (proveedor, finalidad y duración) y esas herramientas solo se activarán para quienes hayan dado su consentimiento explícito en el panel de preferencias.',
           },
         },
         {
@@ -77,6 +93,7 @@ export default function CookiesPage() {
           id: 'gestionar-cookies',
           title: 'Cómo gestionar o eliminar cookies',
           content: [
+            'Desde este sitio: use el enlace "Preferencias de cookies" en el pie de página para reabrir el panel y cambiar su elección en cualquier momento.',
             'Chrome: Configuración > Privacidad y seguridad > Cookies y otros datos de sitios.',
             'Firefox: Opciones > Privacidad y seguridad > Cookies y datos del sitio.',
             'Safari: Preferencias > Privacidad > Gestionar datos del sitio web.',

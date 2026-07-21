@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { themeInitScript } from '@/lib/theme'
 import BackToTop from '@/components/ui/BackToTop'
+import CookieConsent from '@/components/cookies/CookieConsent'
 import {
   organizationJsonLd,
   SITE_DESCRIPTION,
@@ -128,6 +129,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans pb-16 lg:pb-0">
         {children}
         <BackToTop />
+        <CookieConsent />
       </body>
     </html>
   )
